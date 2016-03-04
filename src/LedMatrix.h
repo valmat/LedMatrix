@@ -69,13 +69,13 @@ public:
      * state	If true the led is switched on, 
      *		if false it is switched off
      */
-    void setLed(Row<_size> row, Col<_size> col, boolean state);
+    void setLed(Row row, Col col, boolean state);
     
-    void on(Row<_size> row, Col<_size> col)
+    void on(Row row, Col col)
     {
         setLed(row, col, true);
     }
-    void off(Row<_size> row, Col<_size> col)
+    void off(Row row, Col col)
     {
         setLed(row, col, false);
     }
@@ -87,7 +87,7 @@ public:
      * value	each bit set to 1 will light up the
      *		corresponding Led.
      */
-    void setRow(Row<_size> row, uint8_t value);
+    void setRow(Row row, uint8_t value);
 
     /* 
      * Set all 8 Led's in a column to a new state
@@ -96,18 +96,17 @@ public:
      * value	each bit set to 1 will light up the
      *		corresponding Led.
      */
-    void setCol(Col<_size> col, uint8_t value);
+    void setCol(Col col, uint8_t value);
 
-    /*
-    void set(Row<_size> row, uint8_t value)
+    void set(Row row, uint8_t value)
     {
         setRow(row, value);
     }
-    void set(Col<_size> col, uint8_t value)
+    void set(Col col, uint8_t value)
     {
         setCol(col, value);
     }
-    */
+
 
 
 private:

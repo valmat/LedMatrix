@@ -1,21 +1,21 @@
 #pragma once
 
 
-template<uint8_t maxRows>
-class Row {
+template<uint8_t maxRows, bool isRow>
+class RowCol {
 public:
     // Constructor
-    Row(uint8_t nom) : 
+    RowCol(uint8_t nom) : 
         // If out of matrix range
         _valid(nom >= 0 && nom < maxRows), 
         _nom(_valid ? nom : 0) 
     {}
 
     // Copy constructor
-    Row( const Row& ) = default;
+    RowCol( const RowCol& ) = default;
 
     // Move constructor
-    Row ( Row && ) = default;
+    RowCol ( RowCol && ) = default;
 
     bool isValid() const
     {
@@ -33,6 +33,6 @@ private:
 };
 
 
-template<uint8_t maxRows>
-using Col = Row<maxRows>;
+using Row = RowCol<8, true>;
+using Col = RowCol<8, false>;
 

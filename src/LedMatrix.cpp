@@ -69,7 +69,7 @@ void LedMatrix::clear() {
     }
 }
 
-void LedMatrix::setLed(Row<_size> row, Col<_size> col, boolean state) {
+void LedMatrix::setLed(Row row, Col col, boolean state) {
     uint8_t offset =_index * 8 + row;
     uint8_t val    = B10000000 >> col;
 
@@ -82,14 +82,14 @@ void LedMatrix::setLed(Row<_size> row, Col<_size> col, boolean state) {
     spiTransfer(row+1, status[offset]);
 }
 
-void LedMatrix::setRow(Row<_size> row, uint8_t value) {
+void LedMatrix::setRow(Row row, uint8_t value) {
     
     uint8_t offset =_index * 8;
     status[offset+row]=value;
     spiTransfer(row+1,status[offset+row]);
 }
 
-void LedMatrix::setCol(Col<_size> col, uint8_t value) {
+void LedMatrix::setCol(Col col, uint8_t value) {
     uint8_t val;
     for(int row=0; row < _size; row++) {
         val=value >> (_size - 1 - row);
