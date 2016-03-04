@@ -9,7 +9,7 @@
  pin 10 is connected to LOAD 
  We have only a single MAX72XX.
  */
-LedMatrix lc(12,11,10,2);
+LedMatrix lc(12,11,10);
 
 /* we always wait a bit between updates of the display */
 unsigned long delaytime=100;
@@ -19,11 +19,11 @@ void setup() {
    The MAX72XX is in power-saving mode on startup,
    we have to do a wakeup call
    */
-  lc.shutdown(0,false);
+  lc.shutdown(false);
   /* Set the brightness to a medium values */
-  lc.setIntensity(0,8);
+  lc.setIntensity(8);
   /* and clear the display */
-  lc.clearDisplay(0);
+  lc.clearDisplay();
 }
 
 /*
@@ -42,53 +42,53 @@ void writeArduinoOnMatrix() {
   uint8_t o[5]={B00011100,B00100010,B00100010,B00100010,B00011100};
 
   /* now display them one by one with a small delay */
-  lc.setRow(0, 0, a[0]);
-  lc.setRow(0, 1, a[1]);
-  lc.setRow(0, 2, a[2]);
-  lc.setRow(0, 3, a[3]);
-  lc.setRow(0, 4, a[4]);
+  lc.setRow(0, a[0]);
+  lc.setRow(1, a[1]);
+  lc.setRow(2, a[2]);
+  lc.setRow(3, a[3]);
+  lc.setRow(4, a[4]);
   delay(delaytime);
-  lc.setRow(0, 0, r[0]);
-  lc.setRow(0, 1, r[1]);
-  lc.setRow(0, 2, r[2]);
-  lc.setRow(0, 3, r[3]);
-  lc.setRow(0, 4, r[4]);
+  lc.setRow(0, r[0]);
+  lc.setRow(1, r[1]);
+  lc.setRow(2, r[2]);
+  lc.setRow(3, r[3]);
+  lc.setRow(4, r[4]);
   delay(delaytime);
-  lc.setRow(0, 0, d[0]);
-  lc.setRow(0, 1, d[1]);
-  lc.setRow(0, 2, d[2]);
-  lc.setRow(0, 3, d[3]);
-  lc.setRow(0, 4, d[4]);
+  lc.setRow(0, d[0]);
+  lc.setRow(1, d[1]);
+  lc.setRow(2, d[2]);
+  lc.setRow(3, d[3]);
+  lc.setRow(4, d[4]);
   delay(delaytime);
-  lc.setRow(0, 0, u[0]);
-  lc.setRow(0, 1, u[1]);
-  lc.setRow(0, 2, u[2]);
-  lc.setRow(0, 3, u[3]);
-  lc.setRow(0, 4, u[4]);
+  lc.setRow(0, u[0]);
+  lc.setRow(1, u[1]);
+  lc.setRow(2, u[2]);
+  lc.setRow(3, u[3]);
+  lc.setRow(4, u[4]);
   delay(delaytime);
-  lc.setRow(0, 0, i[0]);
-  lc.setRow(0, 1, i[1]);
-  lc.setRow(0, 2, i[2]);
-  lc.setRow(0, 3, i[3]);
-  lc.setRow(0, 4, i[4]);
+  lc.setRow(0, i[0]);
+  lc.setRow(1, i[1]);
+  lc.setRow(2, i[2]);
+  lc.setRow(3, i[3]);
+  lc.setRow(4, i[4]);
   delay(delaytime);
-  lc.setRow(0, 0, n[0]);
-  lc.setRow(0, 1, n[1]);
-  lc.setRow(0, 2, n[2]);
-  lc.setRow(0, 3, n[3]);
-  lc.setRow(0, 4, n[4]);
+  lc.setRow(0, n[0]);
+  lc.setRow(1, n[1]);
+  lc.setRow(2, n[2]);
+  lc.setRow(3, n[3]);
+  lc.setRow(4, n[4]);
   delay(delaytime);
-  lc.setRow(0, 0, o[0]);
-  lc.setRow(0, 1, o[1]);
-  lc.setRow(0, 2, o[2]);
-  lc.setRow(0, 3, o[3]);
-  lc.setRow(0, 4, o[4]);
+  lc.setRow(0, o[0]);
+  lc.setRow(1, o[1]);
+  lc.setRow(2, o[2]);
+  lc.setRow(3, o[3]);
+  lc.setRow(4, o[4]);
   delay(delaytime);
-  lc.setRow(0, 0, 0);
-  lc.setRow(0, 1, 0);
-  lc.setRow(0, 2, 0);
-  lc.setRow(0, 3, 0);
-  lc.setRow(0, 4, 0);
+  lc.setRow(0, 0);
+  lc.setRow(1, 0);
+  lc.setRow(2, 0);
+  lc.setRow(3, 0);
+  lc.setRow(4, 0);
   delay(delaytime);
 }
 
@@ -101,14 +101,14 @@ void writeArduinoOnMatrix() {
 void rows() {
   for(int row=0; row<8; row++) {
     delay(delaytime);
-    lc.setRow(0, row, B10100000);
+    lc.setRow(row, B10100000);
     delay(delaytime);
-    lc.setRow(0, row, 0);
+    lc.setRow(row, 0);
     for(int i=0;i<row;i++) {
       delay(delaytime);
-      lc.setRow(0, row, B10100000);
+      lc.setRow(row, B10100000);
       delay(delaytime);
-      lc.setRow(0, row, 0);
+      lc.setRow(row, 0);
     }
   }
 }
@@ -122,14 +122,14 @@ void rows() {
 void columns() {
   for(int col=0;col<8;col++) {
     delay(delaytime);
-    lc.setColumn(0,col,B10100000);
+    lc.setColumn(col,B10100000);
     delay(delaytime);
-    lc.setColumn(0,col,0);
+    lc.setColumn(col,0);
     for(int i=0;i<col;i++) {
       delay(delaytime);
-      lc.setColumn(0,col,B10100000);
+      lc.setColumn(col,B10100000);
       delay(delaytime);
-      lc.setColumn(0,col,0);
+      lc.setColumn(col,0);
     }
   }
 }
@@ -143,12 +143,12 @@ void single() {
   for(int row=0;row<8;row++) {
     for(int col=0;col<8;col++) {
       delay(delaytime);
-      lc.setLed(0,row,col,true);
+      lc.setLed(row,col,true);
       delay(delaytime);
       for(int i=0;i<col;i++) {
-        lc.setLed(0,row,col,false);
+        lc.setLed(row,col,false);
         delay(delaytime);
-        lc.setLed(0,row,col,true);
+        lc.setLed(row,col,true);
         delay(delaytime);
       }
     }

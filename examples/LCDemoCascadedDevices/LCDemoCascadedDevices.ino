@@ -10,7 +10,7 @@
  ***** Please set the number of devices you have *****
  But the maximum default of 8 MAX72XX wil also work.
  */
-LedMatrix lc(12, 11, 10, 2);
+LedMatrixes lc(12, 11, 10, 2);
 
 /* we always wait a bit between updates of the display */
 unsigned long delaytime=500;
