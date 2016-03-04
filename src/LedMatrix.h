@@ -8,6 +8,7 @@
 
 #include <Pino.h>
 #include "RowCol.h"
+#include "initializer_list.h"
 
 class LedMatrix {
 private:
@@ -58,7 +59,7 @@ public:
      */
     void setIntensity(int intensity);
 
-    // Switch all Leds on the display off. 
+    // Switch all Leds on the display to off. 
     void clear();
 
     /* 
@@ -69,15 +70,15 @@ public:
      * state	If true the led is switched on, 
      *		if false it is switched off
      */
-    void setLed(Row row, Col col, boolean state);
+    void set(Row row, Col col, bool state);
     
     void on(Row row, Col col)
     {
-        setLed(row, col, true);
+        set(row, col, true);
     }
     void off(Row row, Col col)
     {
-        setLed(row, col, false);
+        set(row, col, false);
     }
 
     /* 
@@ -105,6 +106,14 @@ public:
     void set(Col col, uint8_t value)
     {
         setCol(col, value);
+    }
+
+    void set(std::initializer_list<uint8_t> disp)
+    {
+        uint8_t rowNom = 0;
+        for (auto &rowVal : disp) {
+            setRow(rowNom++, rowVal);
+        }
     }
 
 

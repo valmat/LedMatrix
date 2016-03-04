@@ -69,7 +69,7 @@ void LedMatrix::clear() {
     }
 }
 
-void LedMatrix::setLed(Row row, Col col, boolean state) {
+void LedMatrix::set(Row row, Col col, bool state) {
     uint8_t offset =_index * 8 + row;
     uint8_t val    = B10000000 >> col;
 
@@ -94,7 +94,7 @@ void LedMatrix::setCol(Col col, uint8_t value) {
     for(int row=0; row < _size; row++) {
         val=value >> (_size - 1 - row);
         val=val & 0x01;
-        setLed(row, col, val);
+        set(row, col, val);
     }
 }
 
