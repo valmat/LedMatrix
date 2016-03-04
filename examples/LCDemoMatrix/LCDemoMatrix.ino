@@ -19,11 +19,11 @@ void setup() {
    The MAX72XX is in power-saving mode on startup,
    we have to do a wakeup call
    */
-  lc.shutdown(false);
+  lc.wakeup();
   /* Set the brightness to a medium values */
   lc.setIntensity(8);
   /* and clear the display */
-  lc.clearDisplay();
+  lc.clear();
 }
 
 /*
@@ -47,49 +47,49 @@ void writeArduinoOnMatrix() {
   lc.setRow(2, a[2]);
   lc.setRow(3, a[3]);
   lc.setRow(4, a[4]);
-  delay(delaytime);
+  delay(5*delaytime);
   lc.setRow(0, r[0]);
   lc.setRow(1, r[1]);
   lc.setRow(2, r[2]);
   lc.setRow(3, r[3]);
   lc.setRow(4, r[4]);
-  delay(delaytime);
+  delay(5*delaytime);
   lc.setRow(0, d[0]);
   lc.setRow(1, d[1]);
   lc.setRow(2, d[2]);
   lc.setRow(3, d[3]);
   lc.setRow(4, d[4]);
-  delay(delaytime);
+  delay(5*delaytime);
   lc.setRow(0, u[0]);
   lc.setRow(1, u[1]);
   lc.setRow(2, u[2]);
   lc.setRow(3, u[3]);
   lc.setRow(4, u[4]);
-  delay(delaytime);
+  delay(5*delaytime);
   lc.setRow(0, i[0]);
   lc.setRow(1, i[1]);
   lc.setRow(2, i[2]);
   lc.setRow(3, i[3]);
   lc.setRow(4, i[4]);
-  delay(delaytime);
+  delay(5*delaytime);
   lc.setRow(0, n[0]);
   lc.setRow(1, n[1]);
   lc.setRow(2, n[2]);
   lc.setRow(3, n[3]);
   lc.setRow(4, n[4]);
-  delay(delaytime);
+  delay(5*delaytime);
   lc.setRow(0, o[0]);
   lc.setRow(1, o[1]);
   lc.setRow(2, o[2]);
   lc.setRow(3, o[3]);
   lc.setRow(4, o[4]);
-  delay(delaytime);
+  delay(5*delaytime);
   lc.setRow(0, 0);
   lc.setRow(1, 0);
   lc.setRow(2, 0);
   lc.setRow(3, 0);
   lc.setRow(4, 0);
-  delay(delaytime);
+  delay(5*delaytime);
 }
 
 /*
@@ -122,14 +122,14 @@ void rows() {
 void columns() {
   for(int col=0;col<8;col++) {
     delay(delaytime);
-    lc.setColumn(col,B10100000);
+    lc.setCol(col,B10100000);
     delay(delaytime);
-    lc.setColumn(col,0);
+    lc.setCol(col,0);
     for(int i=0;i<col;i++) {
       delay(delaytime);
-      lc.setColumn(col,B10100000);
+      lc.setCol(col,B10100000);
       delay(delaytime);
-      lc.setColumn(col,0);
+      lc.setCol(col,0);
     }
   }
 }

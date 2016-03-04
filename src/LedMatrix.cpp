@@ -20,6 +20,7 @@
 #define OP_SHUTDOWN    12
 #define OP_DISPLAYTEST 15
 
+
 LedMatrix::LedMatrix(Pino data, Pino clk, Pino cs) :
     _mosi(data, Pino::Mode::out),
     _clk(clk, Pino::Mode::out),
@@ -35,17 +36,20 @@ LedMatrix::LedMatrix(Pino data, Pino clk, Pino cs) :
     setScanLimit(7);
     //decode is done in source
     spiTransfer(OP_DECODEMODE, 0);
-    clearDisplay();
+    clear();
     //we go into shutdown-mode on startup
-    shutdown(true);
+    shutdown();
 }
 
-void LedMatrix::shutdown(bool b) {
-    if(b)
-        spiTransfer(OP_SHUTDOWN,0);
-    else
-        spiTransfer(OP_SHUTDOWN,1);
+void LedMatrix::shutdown() {
+    spiTransfer(OP_SHUTDOWN,0);
 }
+
+void LedMatrix::wakeup() {
+    spiTransfer(OP_SHUTDOWN,1);
+}
+
+
 
 void LedMatrix::setScanLimit(int limit) {
     if(limit>=0 && limit<8)
@@ -54,65 +58,53 @@ void LedMatrix::setScanLimit(int limit) {
 
 void LedMatrix::setIntensity(int intensity) {
     if(intensity>=0 && intensity<16)	
-        spiTransfer(OP_INTENSITY,intensity);
+        spiTransfer(OP_INTENSITY, intensity);
 }
 
-void LedMatrix::clearDisplay() {
-    int offset;
-
-    offset=_index*8;
-    for(int i=0; i<8; i++) {
-        status[offset+i]=0;
-        spiTransfer(i+1,status[offset+i]);
+void LedMatrix::clear() {
+    uint8_t offset =_index * 8;
+    for(int i = 0; i < 8; i++) {
+        status[offset+i] = 0;
+        spiTransfer(i+1, status[offset+i]);
     }
 }
 
-void LedMatrix::setLed(int row, int column, boolean state) {
-    int offset;
-    uint8_t val=0x00;
+void LedMatrix::setLed(Row<_size> row, Col<_size> col, boolean state) {
+    uint8_t offset =_index * 8 + row;
+    uint8_t val    = B10000000 >> col;
 
-    // If out of matrix range
-    if(row < 0 || row >= _matrixSize || column < 0 || column > _matrixSize)
-        return;
-    offset=_index*8;
-    val=B10000000 >> column;
     if(state)
-        status[offset+row]=status[offset+row]|val;
+        status[offset] = status[offset]|val;
     else {
-        val=~val;
-        status[offset+row]=status[offset+row]&val;
+        val = ~val;
+        status[offset] = status[offset]&val;
     }
-    spiTransfer(row+1,status[offset+row]);
+    spiTransfer(row+1, status[offset]);
 }
 
-void LedMatrix::setRow(int row, uint8_t value) {
-    int offset;
-    if(row < 0 || row >= _matrixSize)
-        return;
-    offset=_index*8;
+void LedMatrix::setRow(Row<_size> row, uint8_t value) {
+    
+    uint8_t offset =_index * 8;
     status[offset+row]=value;
     spiTransfer(row+1,status[offset+row]);
 }
 
-void LedMatrix::setColumn(int col, uint8_t value) {
+void LedMatrix::setCol(Col<_size> col, uint8_t value) {
     uint8_t val;
-
-    if(col < 0 || col >= _matrixSize) 
-        return;
-    for(int row=0; row < _matrixSize; row++) {
-        val=value >> (7-row);
+    for(int row=0; row < _size; row++) {
+        val=value >> (_size - 1 - row);
         val=val & 0x01;
-        setLed(row,col,val);
+        setLed(row, col, val);
     }
 }
 
 void LedMatrix::setDigit(int digit, uint8_t value, boolean dp) {
-    int offset;
+    uint8_t offset =_index * 8;
     uint8_t v;
 
     if(digit<0 || digit>7 || value>15)
         return;
-    offset=_index*8;
+
     v=pgm_read_byte_near(charTable + value); 
     if(dp)
         v|=B10000000;
@@ -121,16 +113,16 @@ void LedMatrix::setDigit(int digit, uint8_t value, boolean dp) {
 }
 
 void LedMatrix::setChar(int digit, char value, boolean dp) {
-    int offset;
+    uint8_t offset =_index * 8;
     uint8_t index,v;
 
     if(digit<0 || digit>7)
         return;
-    offset=_index*8;
+    
     index=(uint8_t)value;
-    if(index >127) {
+    if(index > 127) {
         //no defined beyond index 127, so we use the space char
-        index=32;
+        index = 32;
     }
     v=pgm_read_byte_near(charTable + index); 
     if(dp)
@@ -144,7 +136,7 @@ void LedMatrix::spiTransfer(volatile uint8_t opcode, volatile uint8_t data) {
     // temporary
     int _numDevices = 1;
 
-    int offset=_index*2;
+    int offset=_index * 2;
     int maxbytes=_numDevices*2;
 
     for(int i=0; i<maxbytes; i++)
