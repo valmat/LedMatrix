@@ -21,7 +21,8 @@ void setup() {
    */
   lc.wakeup();
   /* Set the brightness to a medium values */
-  lc.setIntensity(8);
+  //lc.setIntensity(8);
+  lc.setIntensity(1);
   /* and clear the display */
   lc.clear();
 }
@@ -37,40 +38,39 @@ void writeArduinoOnMatrix() {
 
   /* now display them one by one with a small delay */
   // A
-  lc.set({B01111110,B10001000,B10001000,B10001000,B01111110});
+  lc.set({B01110000, B10001000, B10001000, B10001000, B11111000, B10001000, B10001000, B10001000});
   delay(5*delaytime);
 
   // r
-  lc.set({B00111110,B00010000,B00100000,B00100000,B00010000});
-  delay(5*delaytime);
+  lc.set({B00000000, B00000000, B00000000, B10110000, B11001000, B10000000, B10000000, B10000000});
+  delay(10*delaytime);
 
   // d
-  lc.set({B00011100,B00100010,B00100010,B00010010,B11111110});
-  delay(5*delaytime);
+  lc.set({B00000000, B00001000, B00001000, B01101000, B10011000, B10001000, B10011000, B01101000});
+  delay(10*delaytime);
 
   //u
-  lc.set({B00111100,B00000010,B00000010,B00000100,B00111110});
-  delay(5*delaytime);
+  lc.set({B00000000, B00000000, B00000000, B10001000, B10001000, B10001000, B10011000, B01101000});
+  delay(10*delaytime);
 
   // i
-  lc.set({B00000000,B00100010,B10111110,B00000010,B00000000});
-  delay(5*delaytime);
+  lc.set({B00000000, B00100000, B00000000, B01100000, B00100000, B00100000, B00100000, B01110000});
+  delay(10*delaytime);
   
   //n
-  lc.set({B00111110,B00010000,B00100000,B00100000,B00011110});
-  delay(5*delaytime);
-
-  //n
-  lc.set({B00111110, B00010000, B00100000, B00100000, B00011110,});
-  delay(5*delaytime);
+  lc.set({B00000000, B00000000, B00000000, B10110000, B11001000, B10001000, B10001000, B10001000});
+  delay(10*delaytime);
 
   // o
-  uint8_t o[] = {B00011100, B00100010, B00100010, B00100010, B00011100};
+  uint8_t o[] = {B00000000, B00000000, B00000000, B01110000, B10001000, B10001000, B10001000, B01110000};
   lc.setRow(0, o[0]);
   lc.setRow(1, o[1]);
   lc.setRow(2, o[2]);
   lc.setRow(3, o[3]);
   lc.setRow(4, o[4]);
+  lc.setRow(5, o[5]);
+  lc.setRow(6, o[6]);
+  lc.setRow(7, o[7]);
   delay(5*delaytime);
 
   lc.clear();
