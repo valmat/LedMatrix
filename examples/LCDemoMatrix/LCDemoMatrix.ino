@@ -1,5 +1,7 @@
 //We always have to include the library
 #include "LedMatrix.h"
+#include "randomMovement.h"
+
 
 /*
  Now we need a LedMatrix to work with.
@@ -11,8 +13,10 @@
  */
 LedMatrix lc(12,11,10);
 
+randomMovement randMov(lc, A4);
+
 /* we always wait a bit between updates of the display */
-unsigned long delaytime=100;
+unsigned long delaytime=300;
 
 void setup() {
   /*
@@ -39,27 +43,28 @@ void writeArduinoOnMatrix() {
   /* now display them one by one with a small delay */
   // A
   lc.set({B01110000, B10001000, B10001000, B10001000, B11111000, B10001000, B10001000, B10001000});
-  delay(5*delaytime);
+  //lc.set({B00000000, B01100110, B10011001, B10000001, B01000010, B00100100, B00011000, B00000000});
+  delay(3*delaytime);
 
   // r
   lc.set({B00000000, B00000000, B00000000, B10110000, B11001000, B10000000, B10000000, B10000000});
-  delay(10*delaytime);
+  delay(3*delaytime);
 
   // d
   lc.set({B00000000, B00001000, B00001000, B01101000, B10011000, B10001000, B10011000, B01101000});
-  delay(10*delaytime);
+  delay(3*delaytime);
 
   //u
   lc.set({B00000000, B00000000, B00000000, B10001000, B10001000, B10001000, B10011000, B01101000});
-  delay(10*delaytime);
+  delay(3*delaytime);
 
   // i
   lc.set({B00000000, B00100000, B00000000, B01100000, B00100000, B00100000, B00100000, B01110000});
-  delay(10*delaytime);
+  delay(3*delaytime);
   
   //n
   lc.set({B00000000, B00000000, B00000000, B10110000, B11001000, B10001000, B10001000, B10001000});
-  delay(10*delaytime);
+  delay(3*delaytime);
 
   // o
   uint8_t o[] = {B00000000, B00000000, B00000000, B01110000, B10001000, B10001000, B10001000, B01110000};
@@ -71,10 +76,10 @@ void writeArduinoOnMatrix() {
   lc.setRow(5, o[5]);
   lc.setRow(6, o[6]);
   lc.setRow(7, o[7]);
-  delay(5*delaytime);
+  delay(3*delaytime);
 
   lc.clear();
-  delay(10*delaytime);
+  delay(3*delaytime);
 }
 
 /*
@@ -125,27 +130,33 @@ void columns() {
  row number 4 (index==3) will blink 4 times etc.
  */
 void single() {
-  for(int row=0;row<8;row++) {
-    for(int col=0;col<8;col++) {
+  for(int row=0; row<8; row++) {
+    for(int col=0; col<8; col++) {
       delay(delaytime);
-      lc.set(row,col,true);
+      lc.on(row, col);
       delay(delaytime);
-      for(int i=0;i<col;i++) {
-        lc.set(row,col,false);
+      for(int i=0; i<3; i++) {
+        lc.off(row, col);
         delay(delaytime);
-        lc.set(row,col,true);
+        lc.on(row, col);
         delay(delaytime);
       }
     }
   }
 }
 
+
+
+
 void loop() { 
-  writeArduinoOnMatrix();
+  //writeArduinoOnMatrix();
+  //rows();
+  //columns();
+  //single();
+
+  randMov.off();
+  randMov.move();
+  randMov.on();
+  delay(150);
   
-  /*
-  rows();
-  columns();
-  single();
-  */
 }
