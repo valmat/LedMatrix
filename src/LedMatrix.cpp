@@ -98,39 +98,6 @@ void LedMatrix::setCol(Col<_size> col, uint8_t value) {
     }
 }
 
-void LedMatrix::setDigit(int digit, uint8_t value, boolean dp) {
-    uint8_t offset =_index * 8;
-    uint8_t v;
-
-    if(digit<0 || digit>7 || value>15)
-        return;
-
-    v=pgm_read_byte_near(charTable + value); 
-    if(dp)
-        v|=B10000000;
-    status[offset+digit]=v;
-    spiTransfer(digit+1,v);
-}
-
-void LedMatrix::setChar(int digit, char value, boolean dp) {
-    uint8_t offset =_index * 8;
-    uint8_t index,v;
-
-    if(digit<0 || digit>7)
-        return;
-    
-    index=(uint8_t)value;
-    if(index > 127) {
-        //no defined beyond index 127, so we use the space char
-        index = 32;
-    }
-    v=pgm_read_byte_near(charTable + index); 
-    if(dp)
-        v|=B10000000;
-    status[offset+digit]=v;
-    spiTransfer(digit+1,v);
-}
-
 void LedMatrix::spiTransfer(volatile uint8_t opcode, volatile uint8_t data) {
     //Create an array with the data to shift out
     // temporary
