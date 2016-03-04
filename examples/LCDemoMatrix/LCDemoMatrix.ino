@@ -2,14 +2,14 @@
 #include "LedMatrix.h"
 
 /*
- Now we need a LidMatrix to work with.
+ Now we need a LedMatrix to work with.
  ***** These pin numbers will probably not work with your hardware *****
  pin 12 is connected to the DataIn 
  pin 11 is connected to the CLK 
  pin 10 is connected to LOAD 
  We have only a single MAX72XX.
  */
-LidMatrix lc(12,11,10,2);
+LedMatrix lc(12,11,10,2);
 
 /* we always wait a bit between updates of the display */
 unsigned long delaytime=100;

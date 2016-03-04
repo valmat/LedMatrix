@@ -1,6 +1,6 @@
 /*
  *
- * LidMatrix - is is my fork of LedContr1ol lylbrary
+ * LedMatrix - is is my fork of LedContr1ol lylbrary
  *
  */
 
@@ -9,7 +9,7 @@
 #include <Pino.h>
 
 
-class LidMatrix {
+class LedMatrix {
 public:
     /* 
      * Create a new controler 
@@ -19,12 +19,12 @@ public:
      * csPin		pin for selecting the device 
      * numDevices	maximum number of devices that can be controled
      */
-    LidMatrix(Pino data, Pino clk, Pino cs, int numDevices=1);
+    LedMatrix(Pino data, Pino clk, Pino cs, int numDevices=1);
 
     /*
-     * Gets the number of devices attached to this LidMatrix.
+     * Gets the number of devices attached to this LedMatrix.
      * Returns :
-     * int	the number of devices on this LidMatrix
+     * int	the number of devices on this LedMatrix
      */
     int getDeviceCount();
 
@@ -117,13 +117,18 @@ public:
      */
     void setChar(int addr, int digit, char value, boolean dp);
 private :
+    // Size of matrix (the length of the row and column of a square matrix)
+    constexpr static uint8_t _matrixSize = 8;
+    // The maximum number of matrices
+    constexpr static uint8_t _matrixLimit = 8;
+
     /* The array for shifting the data to the devices */
-    uint8_t spidata[16];
+    uint8_t spidata[2 * _matrixLimit];
     /* Send out a single command to the device */
     void spiTransfer(int addr, uint8_t opcode, uint8_t data);
 
     /* We keep track of the led-status for all 8 devices in this array */
-    uint8_t status[64];
+    uint8_t status[_matrixSize * _matrixSize];
     /* Data is shifted out of this pin*/
     Pino _mosi;
     /* The clock is signaled on this pin */

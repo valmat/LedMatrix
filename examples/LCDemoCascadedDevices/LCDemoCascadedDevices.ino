@@ -1,8 +1,8 @@
 //We always have to include the library
-#include "LedControl.h"
+#include "LedMatrix.h"
 
 /*
- Now we need a LedControl to work with.
+ Now we need a LedMatrix to work with.
  ***** These pin numbers will probably not work with your hardware *****
  pin 12 is connected to the DataIn 
  pin 11 is connected to the CLK 
@@ -10,7 +10,7 @@
  ***** Please set the number of devices you have *****
  But the maximum default of 8 MAX72XX wil also work.
  */
-LedControl lc=LedControl(12,11,10,8);
+LedMatrix lc(12, 11, 10, 2);
 
 /* we always wait a bit between updates of the display */
 unsigned long delaytime=500;
@@ -21,7 +21,7 @@ unsigned long delaytime=500;
  individually.
  */
 void setup() {
-  //we have already set the number of devices when we created the LedControl
+  //we have already set the number of devices when we created the LedMatrix
   int devices=lc.getDeviceCount();
   //we have to init all devices in a loop
   for(int address=0;address<devices;address++) {
