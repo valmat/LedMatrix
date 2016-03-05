@@ -10,7 +10,7 @@
  ***** Please set the number of devices you have *****
  But the maximum default of 8 MAX72XX wil also work.
  */
-MatrixCascade<2> lc(12, 11, 10);
+MatrixCascade<3> lc(12, 11, 10);
 
 /* we always wait a bit between updates of the display */
 unsigned long delaytime=50;

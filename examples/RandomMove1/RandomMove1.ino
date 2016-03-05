@@ -11,9 +11,9 @@
  pin 10 is connected to LOAD 
  We have only a single MAX72XX.
  */
-MatrixCascade<2> lc(12, 11, 10);
+MatrixCascade<3> lc(12, 11, 10);
 
-randomMovement<2> randMov(lc, A4);
+randomMovement<3> randMov(lc, A4);
 
 void setup() {
     Serial.begin(9600);
@@ -48,7 +48,7 @@ void loop() {
     randMov.off();
     randMov.move();
     randMov.on();
-    delay(150);
+    delay(30);
 
     Serial.print( "loop: " );
     Serial.println( lc[1].getIndex() );

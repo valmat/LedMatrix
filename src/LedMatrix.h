@@ -35,19 +35,6 @@ public:
     // Copy & Move assigment
     LedMatrix& operator=(const LedMatrix&) = default;
     LedMatrix& operator=(LedMatrix &&) = default;
-    /*
-    LedMatrix& operator=(const LedMatrix& rhs)
-    {
-        ind = that.ind;
-        return *this;
-    }
-    LedMatrix& operator=(LedMatrix && rhs)
-    {
-        ind = that.ind;
-        return *this;
-    }
-    */
-    
 
     // Set the shutdown (power saving) mode for the device
     void shutdown();
@@ -118,14 +105,11 @@ public:
             setRow(rowNom++, rowVal);
         }
     }
-
     
     uint8_t getIndex()
     {
         return _index;
     }
-
-
 private:
 
     // Private empty constructor
