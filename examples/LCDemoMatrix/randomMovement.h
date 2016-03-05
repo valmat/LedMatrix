@@ -5,7 +5,7 @@
 class randomMovement {
 public:
     // Constructor
-    randomMovement(const LedMatrix &m, uint8_t randPin) : _m(m)
+    randomMovement(LedMatrix &m, uint8_t randPin) : _m(m)
     {
         randomSeed(analogRead(randPin) + millis());
         _x = random(max+1);
@@ -17,15 +17,15 @@ public:
     randomMovement( const randomMovement& ) = default;
     randomMovement ( randomMovement && ) = default;
 
-    void on() const
+    void on()
     {
         _m.on(_x, _y);
     }
-    void off() const
+    void off()
     {
         _m.off(_x, _y);
     }
-    void clear() const
+    void clear()
     {
         _m.clear();
     }
@@ -47,7 +47,7 @@ private:
     }
 
 private:
-    const LedMatrix &_m;
+    LedMatrix &_m;
     uint8_t _x = 0;
     uint8_t _y = 0;
     constexpr static uint8_t max = 7;

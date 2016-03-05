@@ -9,7 +9,8 @@
 #include <Pino.h>
 #include "RowCol.h"
 #include "initializer_list.h"
-
+#include "move.h"
+ 
 class LedMatrix {
 private:
     // Size of matrix (the length of the row and column of a square matrix)
@@ -72,13 +73,13 @@ public:
      */
     void set(Row row, Col col, bool state);
     
-    void on(Row row, Col col)
-    {
-        set(row, col, true);
+    template <typename T1, typename T2>
+    void on(T1&& t1, T2&& t2) {
+        set(std::forward<T1>(t1), std::forward<T2>(t2), true);
     }
-    void off(Row row, Col col)
-    {
-        set(row, col, false);
+    template <typename T1, typename T2>
+    void off(T1&& t1, T2&& t2) {
+        set(std::forward<T1>(t1), std::forward<T2>(t2), false);
     }
 
     /* 

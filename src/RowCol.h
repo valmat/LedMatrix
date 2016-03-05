@@ -11,11 +11,16 @@ public:
         _nom(_valid ? nom : 0) 
     {}
 
-    // Copy constructor
-    RowCol( const RowCol& ) = default;
+    // Copy & Move constructors
+    RowCol( const RowCol& that) :
+        _valid(that._valid),
+        _nom(that._nom)
+    {}
+    RowCol ( RowCol&& that) :
+        _valid(that._valid),
+        _nom(that._nom)
+    {}
 
-    // Move constructor
-    RowCol ( RowCol && ) = default;
 
     bool isValid() const
     {
