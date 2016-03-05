@@ -25,10 +25,6 @@ public:
     {
         _m.off(_x, _y);
     }
-    void clear()
-    {
-        _m.clear();
-    }
 
     void move()
     {
@@ -48,8 +44,8 @@ private:
 
 private:
     LedMatrix &_m;
-    uint8_t _x = 0;
-    uint8_t _y = 0;
+    uint8_t _x = 3;
+    uint8_t _y = 4;
     constexpr static uint8_t max = 7;
 };
 

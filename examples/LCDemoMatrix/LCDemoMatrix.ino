@@ -1,7 +1,5 @@
 //We always have to include the library
 #include "LedMatrix.h"
-#include "randomMovement.h"
-
 
 /*
  Now we need a LedMatrix to work with.
@@ -12,8 +10,6 @@
  We have only a single MAX72XX.
  */
 LedMatrix lc(12,11,10);
-
-randomMovement randMov(lc, A4);
 
 /* we always wait a bit between updates of the display */
 unsigned long delaytime=300;
@@ -149,14 +145,8 @@ void single() {
 
 
 void loop() { 
-  //writeArduinoOnMatrix();
-  //rows();
-  //columns();
-  //single();
-
-  randMov.off();
-  randMov.move();
-  randMov.on();
-  delay(150);
-  
+  writeArduinoOnMatrix();
+  rows();
+  columns();
+  single();
 }
