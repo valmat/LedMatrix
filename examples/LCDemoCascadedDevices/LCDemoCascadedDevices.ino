@@ -13,7 +13,7 @@
 MatrixCascade<3> lc(12, 11, 10);
 
 /* we always wait a bit between updates of the display */
-unsigned long delaytime=50;
+unsigned long delaytime = 30;
 
 /* 
  This time we have more than one device. 
@@ -57,8 +57,8 @@ void setup() {
         lc.clear();
         */
     }
-    
-
+    lc[1].setRotation(2);
+    lc[2].setRotation(2);
 }
 
 /*
@@ -89,34 +89,31 @@ void loop() {
     //read the number cascaded devices
     int devices=lc.size();
     
-    for(int address=0; address<devices; address++) {
-        for(int row=0; row<8; row++) {
-            for(int col=0; col<8; col++) {
-                delay(delaytime);
-                lc[address].on(row, col);
-            }
-        }
-    }
-
-    /*
-    for(int address=0; address<devices; address++) {
-        for(int row=0; row<8; row++) {
-            for(int col=0; col<8; col++) {
-                delay(delaytime);
-                lc[address].off(row, col);
-            }
-        }
-    }
-    */
-
-    for(int address=devices-1; address >= 0; address--) {
-        for(int col=0; col<8; col++) {
+    for(uint8_t rotate = 0; rotate < 4; rotate++) {
+        for(int ind = 0; ind < devices; ind++) {
+            lc[ind].setRotation();
             for(int row=0; row<8; row++) {
-                delay(delaytime);
-                lc[address].off(row, col);
+                for(int col=0; col<8; col++) {
+                    delay(delaytime);
+                    lc[ind].on(row, col);
+                }
+            }
+            lc[ind].clear();
+        }
+        /*
+        for(int ind = devices-1; ind >= 0; ind--) {
+            for(int col=0; col < 8; col++) {
+                for(int row=0; row < 8; row++) {
+                    delay(delaytime);
+                    lc[ind].off(row, col);
+                }
             }
         }
+        */
+
+
     }
+
 
 }
 

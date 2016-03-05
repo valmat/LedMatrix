@@ -1,6 +1,8 @@
 
 
 #include "LedMatrix.h"
+#include "MatrixRotator.h"
+
 
 //the opcodes for the MAX7221 and MAX7219
 #define OP_NOOP   0
@@ -41,23 +43,27 @@ LedMatrix::LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeS
     shutdown();
 }
 
-void LedMatrix::shutdown() {
+void LedMatrix::shutdown()
+{
     Serial.println( "shutdown" );
     spiTransfer(OP_SHUTDOWN,0);
 }
 
-void LedMatrix::wakeup() {
+void LedMatrix::wakeup()
+{
     Serial.println( "wakeup" );
     spiTransfer(OP_SHUTDOWN,1);
 }
 
-void LedMatrix::setScanLimit(int limit) {
+void LedMatrix::setScanLimit(int limit)
+{
     Serial.println( "setScanLimit" );
     if(limit>=0 && limit<8)
         spiTransfer(OP_SCANLIMIT,limit);
 }
 
-void LedMatrix::setIntensity(int intensity) {
+void LedMatrix::setIntensity(int intensity)
+{
     Serial.println( "setIntensity" );
     if(intensity>=0 && intensity<16)	
         spiTransfer(OP_INTENSITY, intensity);
@@ -71,8 +77,33 @@ void LedMatrix::clear() {
     }
 }
 
-void LedMatrix::set(Row row, Col col, bool state) {
-    uint8_t val    = B10000000 >> col;
+void LedMatrix::set(Row row, Col col, bool state)
+{
+    MatrixRotator coords(row, col, _rotate, _size);
+    _set(coords.row(), coords.col(), state);
+}
+
+void LedMatrix::setRow(Row row, uint8_t value)
+{
+    MatrixRotator coords(row, 0, _rotate, _size);
+    if( coords.isSwaped() )
+        _setCol(coords.col(), value);
+    else
+        _setRow(coords.row(), value);
+}
+
+void LedMatrix::setCol(Col col, uint8_t value)
+{
+    MatrixRotator coords(0, col, _rotate, _size);
+    if( coords.isSwaped() )
+        _setRow(coords.row(), value);
+    else
+        _setCol(coords.col(), value);
+}
+
+void LedMatrix::_set(uint8_t row, uint8_t col, bool state)
+{
+    uint8_t val = B10000000 >> col;
 
     if(state)
         _status[row] = _status[row]|val;
@@ -83,12 +114,14 @@ void LedMatrix::set(Row row, Col col, bool state) {
     spiTransfer(row + 1, _status[row]);
 }
 
-void LedMatrix::setRow(Row row, uint8_t value) {
+void LedMatrix::_setRow(uint8_t row, uint8_t value)
+{
     _status[row] = value;
     spiTransfer(row + 1, _status[row]);
 }
 
-void LedMatrix::setCol(Col col, uint8_t value) {
+void LedMatrix::_setCol(uint8_t col, uint8_t value)
+{
     uint8_t val;
     for(int row=0; row < _size; row++) {
         val=value >> (_size - 1 - row);
@@ -97,7 +130,8 @@ void LedMatrix::setCol(Col col, uint8_t value) {
     }
 }
 
-void LedMatrix::spiTransfer(volatile uint8_t opcode, volatile uint8_t data) {
+void LedMatrix::spiTransfer(volatile uint8_t opcode, volatile uint8_t data)
+{
     //Create an array with the data to shift out
     int offset=_index * 2;
     int maxbytes = _cascadeSize*2;
@@ -120,4 +154,4 @@ void LedMatrix::spiTransfer(volatile uint8_t opcode, volatile uint8_t data) {
 
     //latch the data onto the display
     _cs.on();
-}    
+}

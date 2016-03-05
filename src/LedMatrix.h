@@ -105,6 +105,18 @@ public:
             setRow(rowNom++, rowVal);
         }
     }
+
+    // How many times to rotate the matrix clockwise
+    // From 0 to 3
+    void setRotation(uint8_t times = 1)
+    {
+        _rotate += times;
+        _rotate = _rotate % 4;
+    }
+    void resetRotation(uint8_t times)
+    {
+        _rotate = 0;
+    }
     
     uint8_t getIndex()
     {
@@ -132,6 +144,10 @@ private:
     // Send out a single command to the device
     void spiTransfer(uint8_t opcode, uint8_t data);
 
+    void _set(uint8_t row, uint8_t col, bool state);
+    void _setRow(uint8_t row, uint8_t value);
+    void _setCol(uint8_t col, uint8_t value);
+
 
 private:
     // Size of matrix (the length of the row and column of a square matrix)
@@ -157,6 +173,9 @@ private:
 
     // If the matrix is placed in cascade, _index is a index in the cascade.
     uint8_t _index = 0;
+
+    // Rotate index. How many times to rotate the matrix clockwise
+    uint8_t _rotate = 0;
 
     // If the matrix is placed in cascade, cascadeSize is a number of cascade devices.
     uint8_t _cascadeSize = 1;
