@@ -144,7 +144,7 @@ private:
     uint8_t _spidata[2 * _limit];
     
     // We keep track of the led-status for all 8 devices in this array
-    uint8_t _status[_size * _size];
+    uint8_t _status[_size];
     
     // Data is shifted out of this pin
     Pino _mosi = 0;
@@ -161,7 +161,7 @@ private:
     // If the matrix is placed in cascade, cascadeSize is a number of cascade devices.
     uint8_t _cascadeSize = 1;
 
-    template<uint8_t CascadeSize>
+    template<uint8_t cascadeSize>
     friend class MatrixCascade;
 };
 

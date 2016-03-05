@@ -28,7 +28,7 @@ LedMatrix::LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeS
    Serial.println( "LedMatrix::LedMatrix" );
     _cs.on();
 
-    for(int i=0; i < 64; i++) 
+    for(int i=0; i < _size; i++) 
         _status[i]=0x00;
 
     spiTransfer(OP_DISPLAYTEST, 0);
@@ -65,31 +65,27 @@ void LedMatrix::setIntensity(int intensity) {
 
 void LedMatrix::clear() {
     Serial.println( "clear" );
-    uint8_t offset = _index * 8;
     for(int i = 0; i < 8; i++) {
-        _status[offset+i] = 0;
-        spiTransfer(i+1, _status[offset+i]);
+        _status[i] = 0;
+        spiTransfer(i + 1, _status[i]);
     }
 }
 
 void LedMatrix::set(Row row, Col col, bool state) {
-    uint8_t offset =_index * 8 + row;
     uint8_t val    = B10000000 >> col;
 
     if(state)
-        _status[offset] = _status[offset]|val;
+        _status[row] = _status[row]|val;
     else {
         val = ~val;
-        _status[offset] = _status[offset]&val;
+        _status[row] = _status[row]&val;
     }
-    spiTransfer(row+1, _status[offset]);
+    spiTransfer(row + 1, _status[row]);
 }
 
 void LedMatrix::setRow(Row row, uint8_t value) {
-    
-    uint8_t offset =_index * 8;
-    _status[offset+row]=value;
-    spiTransfer(row+1,_status[offset+row]);
+    _status[row] = value;
+    spiTransfer(row + 1, _status[row]);
 }
 
 void LedMatrix::setCol(Col col, uint8_t value) {
@@ -106,18 +102,22 @@ void LedMatrix::spiTransfer(volatile uint8_t opcode, volatile uint8_t data) {
     int offset=_index * 2;
     int maxbytes = _cascadeSize*2;
 
-    for(int i=0; i<maxbytes; i++)
+    for(int i=0; i<maxbytes; i++) {
         _spidata[i]=0;
+    }
+    
     //put our device data into the array
     _spidata[offset+1] = opcode;
     _spidata[offset]   = data;
+    
     //enable the line 
     _cs.off();
+
     //Now shift out the data 
-    for(int i=maxbytes; i>0; i--)
-        shiftOut(_mosi, _clk,MSBFIRST, _spidata[i-1]);
+    for(int i=maxbytes; i>0; i--) {
+        _mosi.shiftOut(_clk, _spidata[i-1]);
+    }
+
     //latch the data onto the display
     _cs.on();
 }    
-
-
