@@ -1,26 +1,9 @@
+#include "MatrixCascade.h"
 
 
-#include "LedMatrix.h"
 
-//the opcodes for the MAX7221 and MAX7219
 /*
-#define OP_NOOP   0
-#define OP_DIGIT0 1
-#define OP_DIGIT1 2
-#define OP_DIGIT2 3
-#define OP_DIGIT3 4
-#define OP_DIGIT4 5
-#define OP_DIGIT5 6
-#define OP_DIGIT6 7
-#define OP_DIGIT7 8
-*/
-#define OP_DECODEMODE  9
-#define OP_INTENSITY   10
-#define OP_SCANLIMIT   11
-#define OP_SHUTDOWN    12
-#define OP_DISPLAYTEST 15
-
-LedMatrixes::LedMatrixes(Pino data, Pino clk, Pino cs, int numDevices) :
+MatrixCascade::MatrixCascade(Pino data, Pino clk, Pino cs, int numDevices) :
     _mosi(data, Pino::Mode::out),
     _clk(clk, Pino::Mode::out),
     _cs(cs, Pino::Mode::out),
@@ -42,11 +25,11 @@ LedMatrixes::LedMatrixes(Pino data, Pino clk, Pino cs, int numDevices) :
     }
 }
 
-int LedMatrixes::getDeviceCount() {
+int MatrixCascade::getDeviceCount() {
     return _numDevices;
 }
 
-void LedMatrixes::shutdown(int addr, bool b) {
+void MatrixCascade::shutdown(int addr, bool b) {
     if(addr<0 || addr>=_numDevices)
         return;
     if(b)
@@ -55,21 +38,21 @@ void LedMatrixes::shutdown(int addr, bool b) {
         spiTransfer(addr, OP_SHUTDOWN,1);
 }
 
-void LedMatrixes::setScanLimit(int addr, int limit) {
+void MatrixCascade::setScanLimit(int addr, int limit) {
     if(addr<0 || addr>=_numDevices)
         return;
     if(limit>=0 && limit<8)
         spiTransfer(addr, OP_SCANLIMIT,limit);
 }
 
-void LedMatrixes::setIntensity(int addr, int intensity) {
+void MatrixCascade::setIntensity(int addr, int intensity) {
     if(addr<0 || addr>=_numDevices)
         return;
     if(intensity>=0 && intensity<16)	
         spiTransfer(addr, OP_INTENSITY,intensity);
 }
 
-void LedMatrixes::clearDisplay(int addr) {
+void MatrixCascade::clearDisplay(int addr) {
     int offset;
 
     if(addr<0 || addr>=_numDevices)
@@ -81,7 +64,7 @@ void LedMatrixes::clearDisplay(int addr) {
     }
 }
 
-void LedMatrixes::setLed(int addr, int row, int column, boolean state) {
+void MatrixCascade::setLed(int addr, int row, int column, boolean state) {
     int offset;
     uint8_t val=0x00;
 
@@ -101,7 +84,7 @@ void LedMatrixes::setLed(int addr, int row, int column, boolean state) {
     spiTransfer(addr, row+1,status[offset+row]);
 }
 
-void LedMatrixes::setRow(int addr, int row, uint8_t value) {
+void MatrixCascade::setRow(int addr, int row, uint8_t value) {
     int offset;
     if(addr<0 || addr>=_numDevices)
         return;
@@ -112,7 +95,7 @@ void LedMatrixes::setRow(int addr, int row, uint8_t value) {
     spiTransfer(addr, row+1,status[offset+row]);
 }
 
-void LedMatrixes::setColumn(int addr, int col, uint8_t value) {
+void MatrixCascade::setColumn(int addr, int col, uint8_t value) {
     uint8_t val;
 
     if(addr < 0 || addr >= _numDevices)
@@ -126,7 +109,7 @@ void LedMatrixes::setColumn(int addr, int col, uint8_t value) {
     }
 }
 
-void LedMatrixes::setDigit(int addr, int digit, uint8_t value, boolean dp) {
+void MatrixCascade::setDigit(int addr, int digit, uint8_t value, boolean dp) {
     int offset;
     uint8_t v;
 
@@ -142,7 +125,7 @@ void LedMatrixes::setDigit(int addr, int digit, uint8_t value, boolean dp) {
     spiTransfer(addr, digit+1,v);
 }
 
-void LedMatrixes::setChar(int addr, int digit, char value, boolean dp) {
+void MatrixCascade::setChar(int addr, int digit, char value, boolean dp) {
     int offset;
     uint8_t index,v;
 
@@ -163,7 +146,7 @@ void LedMatrixes::setChar(int addr, int digit, char value, boolean dp) {
     spiTransfer(addr, digit+1,v);
 }
 
-void LedMatrixes::spiTransfer(int addr, volatile uint8_t opcode, volatile uint8_t data) {
+void MatrixCascade::spiTransfer(int addr, volatile uint8_t opcode, volatile uint8_t data) {
     //Create an array with the data to shift out
     int offset=addr*2;
     int maxbytes=_numDevices*2;
@@ -180,6 +163,8 @@ void LedMatrixes::spiTransfer(int addr, volatile uint8_t opcode, volatile uint8_
         shiftOut(_mosi,_clk,MSBFIRST,spidata[i-1]);
     //latch the data onto the display
     _cs.on();
-}    
+}
+
+*/
 
 

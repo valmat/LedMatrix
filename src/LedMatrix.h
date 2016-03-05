@@ -10,33 +10,13 @@
 #include "RowCol.h"
 #include "initializer_list.h"
 #include "move.h"
+
+// forward declaration
+template<uint8_t CascadeSize>
+class MatrixCascade;
+
  
 class LedMatrix {
-private:
-    // Size of matrix (the length of the row and column of a square matrix)
-    constexpr static uint8_t _size = 8;
-
-    // The maximum number of matrices
-    constexpr static uint8_t _limit = 8;
-
-    // The array for shifting the data to the devices
-    uint8_t spidata[2 * _limit];
-    
-    // We keep track of the led-status for all 8 devices in this array
-    uint8_t status[_size * _size];
-    
-    // Data is shifted out of this pin
-    Pino _mosi;
-    
-    // The clock is signaled on this pin
-    Pino _clk;
-    
-    // This one is driven LOW for chip selectzion
-    Pino _cs;
-
-    // If the matrix is placed in cascade, _index is a number in the cascade.
-    const uint8_t _index = 0;
-    
 public:
     /* 
      * Create a new controler 
@@ -45,7 +25,29 @@ public:
      * clockPin		pin for the clock
      * csPin		pin for selecting the device 
      */
-    LedMatrix(Pino data, Pino clk, Pino cs);
+    LedMatrix(Pino data, Pino clk, Pino cs) :
+        LedMatrix(data, clk, cs, 0)
+    {}
+
+    // Copy & Move constructors
+    LedMatrix( const LedMatrix& ) = default;
+    LedMatrix( LedMatrix&& ) = default;
+    // Copy & Move assigment
+    LedMatrix& operator=(const LedMatrix&) = default;
+    LedMatrix& operator=(LedMatrix &&) = default;
+    /*
+    LedMatrix& operator=(const LedMatrix& rhs)
+    {
+        ind = that.ind;
+        return *this;
+    }
+    LedMatrix& operator=(LedMatrix && rhs)
+    {
+        ind = that.ind;
+        return *this;
+    }
+    */
+    
 
     // Set the shutdown (power saving) mode for the device
     void shutdown();
@@ -118,8 +120,18 @@ public:
     }
 
 
-
 private:
+
+    // Private empty constructor
+    // Only MatrixCascade can use it
+    LedMatrix() :
+        LedMatrix(0, 0, 0, 0)
+    {}
+
+    // Private constructor
+    // Only MatrixCascade can use it
+    LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind);
+
     /* 
      * Set the number of digits (or rows) to be displayed.
      * See datasheet for sideeffects of the scanlimit on the brightness
@@ -132,6 +144,34 @@ private:
     // Send out a single command to the device
     void spiTransfer(uint8_t opcode, uint8_t data);
 
+
+private:
+    // Size of matrix (the length of the row and column of a square matrix)
+    constexpr static uint8_t _size = 8;
+
+    // The maximum number of matrices
+    constexpr static uint8_t _limit = 8;
+
+    // The array for shifting the data to the devices
+    uint8_t spidata[2 * _limit];
+    
+    // We keep track of the led-status for all 8 devices in this array
+    uint8_t status[_size * _size];
+    
+    // Data is shifted out of this pin
+    Pino _mosi;
+    
+    // The clock is signaled on this pin
+    Pino _clk;
+    
+    // This one is driven LOW for chip selectzion
+    Pino _cs;
+
+    // If the matrix is placed in cascade, _index is a number in the cascade.
+    uint8_t _index = 0;
+
+    template<uint8_t CascadeSize>
+    friend class MatrixCascade;
 };
 
 

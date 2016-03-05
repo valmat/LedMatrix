@@ -3,7 +3,6 @@
 #include "LedMatrix.h"
 
 //the opcodes for the MAX7221 and MAX7219
-/*
 #define OP_NOOP   0
 #define OP_DIGIT0 1
 #define OP_DIGIT1 2
@@ -13,18 +12,17 @@
 #define OP_DIGIT5 6
 #define OP_DIGIT6 7
 #define OP_DIGIT7 8
-*/
 #define OP_DECODEMODE  9
 #define OP_INTENSITY   10
 #define OP_SCANLIMIT   11
 #define OP_SHUTDOWN    12
 #define OP_DISPLAYTEST 15
 
-
-LedMatrix::LedMatrix(Pino data, Pino clk, Pino cs) :
+LedMatrix::LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind) :
     _mosi(data, Pino::Mode::out),
     _clk(clk, Pino::Mode::out),
-    _cs(cs, Pino::Mode::out)
+    _cs(cs, Pino::Mode::out),
+    _index(ind)
 {
     _cs.on();
 

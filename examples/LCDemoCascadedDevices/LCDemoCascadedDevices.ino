@@ -1,5 +1,5 @@
 //We always have to include the library
-#include "LedMatrix.h"
+#include "MatrixCascade.h"
 
 /*
  Now we need a LedMatrix to work with.
@@ -10,7 +10,7 @@
  ***** Please set the number of devices you have *****
  But the maximum default of 8 MAX72XX wil also work.
  */
-LedMatrixes lc(12, 11, 10, 2);
+MatrixCascade<2> lc(12, 11, 10);
 
 /* we always wait a bit between updates of the display */
 unsigned long delaytime=500;
@@ -22,30 +22,38 @@ unsigned long delaytime=500;
  */
 void setup() {
   //we have already set the number of devices when we created the LedMatrix
-  int devices=lc.getDeviceCount();
+  int devices = lc.size();
   //we have to init all devices in a loop
   for(int address=0;address<devices;address++) {
     /*The MAX72XX is in power-saving mode on startup*/
-    lc.shutdown(address,false);
+    lc[address].wakeup();
     /* Set the brightness to a medium values */
-    lc.setIntensity(address,8);
+    lc[address].setIntensity(8);
     /* and clear the display */
-    lc.clearDisplay(address);
+    lc[address].clear();
+    /*
+    lc.wakeup();
+    // Set the brightness to a medium values
+    //lc.setIntensity(8);
+    lc.setIntensity(1);
+    // and clear the display
+    lc.clear();
+    */
   }
 }
 
 void loop() { 
   //read the number cascaded devices
-  int devices=lc.getDeviceCount();
+  int devices=lc.size();
   
   //we have to init all devices in a loop
-  for(int row=0;row<8;row++) {
-    for(int col=0;col<8;col++) {
-      for(int address=0;address<devices;address++) {
+  for(int row=0; row<8; row++) {
+    for(int col=0; col<8; col++) {
+      for(int address=0; address<devices; address++) {
         delay(delaytime);
-        lc.setLed(address,row,col,true);
+        lc[address].on(row, col);
         delay(delaytime);
-        lc.setLed(address,row,col,false);
+        lc[address].off(row, col);
       }
     }
   }
