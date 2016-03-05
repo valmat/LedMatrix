@@ -9,7 +9,7 @@
 #include <Pino.h>
 #include "LedMatrix.h"
 
-template<uint8_t CascadeSize>
+template<uint8_t cascadeSize>
 class MatrixCascade {
 public:
     /* 
@@ -22,8 +22,8 @@ public:
      */
     MatrixCascade(Pino data, Pino clk, Pino cs)
     {
-        for(uint8_t i = 0; i < CascadeSize; i++) {
-            matrixes[i] = LedMatrix(data, clk, cs, i);
+        for(uint8_t i = 0; i < cascadeSize; i++) {
+            matrixes[i] = LedMatrix(data, clk, cs, i, cascadeSize);
         }
     }
 
@@ -34,7 +34,7 @@ public:
      */
     constexpr uint8_t size()
     {
-        return CascadeSize;
+        return cascadeSize;
     }
 
     /**
@@ -45,7 +45,7 @@ public:
      */
     LedMatrix& get(uint8_t index)
     {
-        //return 
+        return matrixes[ ( (index >=0 && index < cascadeSize) ? index : 0 ) ];
     }
 
     /**
@@ -66,7 +66,7 @@ private :
     // The maximum number of matrices
     constexpr static uint8_t _matrixLimit = 8;
 
-    LedMatrix matrixes[CascadeSize];
+    LedMatrix matrixes[cascadeSize];
 };
 
 

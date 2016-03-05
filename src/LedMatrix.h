@@ -119,18 +119,22 @@ public:
         }
     }
 
+    
+    uint8_t getIndex()
+    {
+        return _index;
+    }
+
 
 private:
 
     // Private empty constructor
     // Only MatrixCascade can use it
-    LedMatrix() :
-        LedMatrix(0, 0, 0, 0)
-    {}
+    LedMatrix() {}
 
     // Private constructor
     // Only MatrixCascade can use it
-    LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind);
+    LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeSize = 1);
 
     /* 
      * Set the number of digits (or rows) to be displayed.
@@ -153,22 +157,25 @@ private:
     constexpr static uint8_t _limit = 8;
 
     // The array for shifting the data to the devices
-    uint8_t spidata[2 * _limit];
+    uint8_t _spidata[2 * _limit];
     
     // We keep track of the led-status for all 8 devices in this array
-    uint8_t status[_size * _size];
+    uint8_t _status[_size * _size];
     
     // Data is shifted out of this pin
-    Pino _mosi;
+    Pino _mosi = 0;
     
     // The clock is signaled on this pin
-    Pino _clk;
+    Pino _clk = 0;
     
     // This one is driven LOW for chip selectzion
-    Pino _cs;
+    Pino _cs = 0;
 
-    // If the matrix is placed in cascade, _index is a number in the cascade.
+    // If the matrix is placed in cascade, _index is a index in the cascade.
     uint8_t _index = 0;
+
+    // If the matrix is placed in cascade, cascadeSize is a number of cascade devices.
+    uint8_t _cascadeSize = 1;
 
     template<uint8_t CascadeSize>
     friend class MatrixCascade;
