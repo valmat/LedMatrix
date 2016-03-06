@@ -1,25 +1,19 @@
-LedControl
+LedMatrix
 ==========
-LedControl is an [Arduino](http://arduino.cc) library for MAX7219 and MAX7221 Led display drivers.
-The code also works with the [Teensy (3.1)](https://www.pjrc.com/teensy/)
+This is my fork of the [LedControl](https://github.com/wayoda/LedControl) library.
 
-Documentation
+I completely redesigned that library, leaving only low-level logic.
+
+Main purposes
 -------------
-Documentation for the library is on the [Github Project Pages](http://wayoda.github.io/LedControl/)
+To make the code useable.
+To perform the refactoring and optimization.
 
-Download
+It still under construction
 --------
-The lastest binary version of the Library is always available from the 
-[LedControl Release Page](https://github.com/wayoda/LedControl/releases) 
-
-
-Install
--------
-The library can be installed using the [standard Arduino library install procedure](http://arduino.cc/en/Guide/Libraries)  
-
-
-
-
+At the moment it is not finished yet. Soon there will be a final version.
+Although the library is already usable.
+I will add new functions to this library soon.
 
 
 
