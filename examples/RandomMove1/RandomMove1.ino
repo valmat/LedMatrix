@@ -33,15 +33,14 @@ void setup() {
         Serial.print( "\t" );
         Serial.println( lc[i].getIndex() );
 
-        // The MAX72XX is in power-saving mode on startup
-        lc[i].wakeup();
         //  Set the brightness to a medium values
         lc[i].setIntensity(1);
-        //  and clear the display
-        lc[i].clear();
 
         Serial.println( "^" );
     }
+    lc[0].setRotation(3);
+    lc[1].setRotation(1);
+    lc[2].setRotation(1);
 }
 
 
@@ -49,7 +48,7 @@ void loop() {
     randMov.off();
     randMov.move();
     randMov.on();
-    delay(30);
+    delay(50);
 
     Serial.print( "loop: " );
     Serial.println( lc[1].getIndex() );

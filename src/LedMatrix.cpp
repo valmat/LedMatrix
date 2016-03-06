@@ -38,9 +38,11 @@ LedMatrix::LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeS
     setScanLimit(7);
     //decode is done in source
     spiTransfer(OP_DECODEMODE, 0);
+
+    //To clear display on startup
     clear();
-    //we go into shutdown-mode on startup
-    shutdown();
+    //we go into wakeup-mode on startup
+    wakeup();
 }
 
 void LedMatrix::shutdown()
