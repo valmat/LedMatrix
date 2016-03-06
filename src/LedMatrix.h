@@ -36,14 +36,14 @@ public:
     LedMatrix& operator=(LedMatrix &&) = default;
 
     // Set the shutdown (power saving) mode for the device
-    void shutdown();
+    void shutdown() const;
 
     // Set the wakeup mode for the device
-    void wakeup();
+    void wakeup() const;
 
     // Set the brightness of the display.
     // @param intensity the brightness of the display. (0..15)
-    void setIntensity(uint8_t intensity);
+    void setIntensity(uint8_t intensity) const;
 
     // Switch all Leds on the display to off. 
     void clear();
@@ -104,7 +104,7 @@ public:
     }
     
     // get matrix index in cascade
-    uint8_t getIndex()
+    uint8_t getIndex() const
     {
         return _index;
     }
@@ -133,10 +133,10 @@ private:
     // See datasheet for sideeffects of the scanlimit on the brightness
     // of the display.
     // @param limit  number of digits to be displayed (1..8)
-    void _setScanLimit(uint8_t limit);
+    void _setScanLimit(uint8_t limit) const;
 
     // Send out a single command to the device
-    void _spiTransfer(uint8_t opcode, uint8_t data);
+    void _spiTransfer(uint8_t opcode, uint8_t data) const;
 
     void _set(uint8_t row, uint8_t col, bool state);
     void _setRow(uint8_t row, uint8_t value);
@@ -154,7 +154,7 @@ private:
     constexpr static uint8_t _maxIntensity = 16;
 
     // The array for shifting the data to the devices
-    uint8_t _spidata[2 * _limit];
+    mutable uint8_t _spidata[2 * _limit];
     
     // We keep track of the led-status for all 8 devices in this array
     uint8_t _status[_size];

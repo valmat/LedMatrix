@@ -29,9 +29,9 @@ void setup() {
     Serial.println( cascade.size() );
 
     //  Set the brightness to a medium values
-    for(auto &matrix: cascade) {
-        matrix.setIntensity(1);
-    }
+    cascade.setIntensity(1);
+
+    //cascade.clear();
 
     cascade[1].setRotation(2);
     cascade[2].setRotation(2);

@@ -45,33 +45,34 @@ LedMatrix::LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeS
     wakeup();
 }
 
-void LedMatrix::shutdown()
+void LedMatrix::shutdown() const
 {
     Serial.println( "shutdown" );
     _spiTransfer(OP_SHUTDOWN,0);
 }
 
-void LedMatrix::wakeup()
+void LedMatrix::wakeup() const
 {
     Serial.println( "wakeup" );
     _spiTransfer(OP_SHUTDOWN,1);
 }
 
-void LedMatrix::_setScanLimit(uint8_t limit)
+void LedMatrix::_setScanLimit(uint8_t limit) const
 {
     Serial.println( "_setScanLimit" );
     if(limit >= 0 && limit < _limit)
         _spiTransfer(OP_SCANLIMIT, limit);
 }
 
-void LedMatrix::setIntensity(uint8_t intensity)
+void LedMatrix::setIntensity(uint8_t intensity) const
 {
     Serial.println( "setIntensity" );
     if(intensity >= 0 && intensity < _maxIntensity)
         _spiTransfer(OP_INTENSITY, intensity);
 }
 
-void LedMatrix::clear() {
+void LedMatrix::clear()
+{
     Serial.println( "clear" );
     for(uint8_t i = 0; i < _size; i++) {
         _status[i] = 0;
@@ -132,7 +133,7 @@ void LedMatrix::_setCol(uint8_t col, uint8_t value)
     }
 }
 
-void LedMatrix::_spiTransfer(volatile uint8_t opcode, volatile uint8_t data)
+void LedMatrix::_spiTransfer(volatile uint8_t opcode, volatile uint8_t data) const
 {
     //Create an array with the data to shift out
     uint8_t offset=_index * 2;

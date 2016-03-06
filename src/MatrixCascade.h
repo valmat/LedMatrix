@@ -12,7 +12,7 @@
 template<uint8_t cascadeSize>
 class MatrixCascade {
 public:
-    
+
     // Constructor
     // @param dataPin   pin on the Arduino where data gets shifted out
     // @param clockPin  pin for the clock
@@ -45,12 +45,80 @@ public:
         return get(index);
     }
 
+
+    //
+    // Group methods
+    //
+
+    // Set the shutdown (power saving) mode for all devices
+    void shutdown() const
+    {
+        for(auto &matrix: *this) {
+            matrix.shutdown();
+        }
+    }
+
+    // Set the wakeup mode for all devices
+    void wakeup() const
+    {
+        for(const auto &matrix: *this) {
+            matrix.wakeup();
+        }
+    }
+
+    // Set the brightness of all displays.
+    // @param intensity the brightness of the display. (0..15)
+    void setIntensity(uint8_t intensity) const
+    {
+        for(const auto &matrix: *this) {
+            matrix.setIntensity(intensity);
+        }
+    }
+
+    // Switch all LEDs on all displays to off. 
+    void clear()
+    {
+        for(auto &matrix: *this) {
+            matrix.clear();
+        }
+    }
+
+    // How many times to rotate all matrixes clockwise
+    // @param From 0 to 3
+    void setRotation(uint8_t times = 1)
+    {
+        for(auto &matrix: *this) {
+            matrix.setRotation(times);
+        }
+    }
+
+    // Reset rotation flag for all matrixes to default
+    void resetRotation()
+    {
+        for(auto &matrix: *this) {
+            matrix.resetRotation();
+        }
+    }
+
+
+    //
+    // Iterator methods
+    //
+
     // Make iterable
     LedMatrix* begin()
     {
         return matrixes;
     }
     LedMatrix* end()
+    {
+        return matrixes + cascadeSize;
+    }
+    const LedMatrix* begin() const
+    {
+        return matrixes;
+    }
+    const LedMatrix* end() const
     {
         return matrixes + cascadeSize;
     }
