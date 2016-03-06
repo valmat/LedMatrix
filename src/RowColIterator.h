@@ -7,28 +7,6 @@
 #pragma once
 
 #include "RowCol.h"
-/*
-template<uint8_t maxRows, bool isRow>
-struct RowColIterator {
-    // Constructor
-    constexpr RowColIterator() {}
-
-    constexpr uint8_t size() const
-    {
-        return maxRows;
-    }
-
-    // Make iterable
-    constexpr uint8_t begin() const
-    {
-        return 0;
-    }
-    constexpr uint8_t end() const
-    {
-        return maxRows;
-    }
-};
-*/
 
 template<uint8_t maxRows, bool isRow>
 struct RowColIterator {
@@ -50,9 +28,6 @@ struct RowColIterator {
         return RowCol<maxRows, isRow>(maxRows, false);
     }
 };
-
-
-
 
 using RowsIterator = RowColIterator<8, true>;
 using ColsIterator = RowColIterator<8, false>;

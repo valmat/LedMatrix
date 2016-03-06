@@ -4,6 +4,7 @@
 template<uint8_t maxRows, bool isRow>
 struct RowColIterator;
 
+
 template<uint8_t maxRows, bool isRow>
 class RowCol {
 public:
