@@ -67,7 +67,7 @@ void LedMatrix::_setScanLimit(uint8_t limit)
 void LedMatrix::setIntensity(uint8_t intensity)
 {
     Serial.println( "setIntensity" );
-    if(intensity >= 0 && intensity < _maxIntensity)	
+    if(intensity >= 0 && intensity < _maxIntensity)
         _spiTransfer(OP_INTENSITY, intensity);
 }
 
@@ -149,7 +149,7 @@ void LedMatrix::_spiTransfer(volatile uint8_t opcode, volatile uint8_t data)
     //enable the line 
     _cs.off();
 
-    //Now shift out the data 
+    //Shift out the data
     for(uint8_t i = maxbytes; i > 0; i--) {
         _mosi.shiftOut(_clk, _spidata[i-1]);
     }
