@@ -6,8 +6,6 @@
  *
  */
 
-
-
 class MatrixRotator {
 public:
     // Constructor

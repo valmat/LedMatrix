@@ -16,50 +16,17 @@ MatrixCascade<CascadeSize> cascade(12, 11, 10);
 /* we always wait a bit between updates of the display */
 unsigned long delaytime = 30;
 
-/* 
- This time we have more than one device. 
- But all of them have to be initialized 
- individually.
- */
+// This time we have more than one device. 
 void setup() {
-    
-    Serial.begin(9600);
-
-    Serial.print( "size: " );
-    Serial.println( cascade.size() );
-
     //  Set the brightness to a medium values
     cascade.setIntensity(1);
 
     //cascade.clear();
-
+    
+    // Rotate some matrixes
     cascade[1].setRotation(2);
     cascade[2].setRotation(2);
 }
-
-/*
-void loop() { 
-    //read the number cascaded devices
-    int devices=cascade.size();
-    
-    //we have to init all devices in a loop
-    for(int row=0; row<8; row++) {
-        for(int col=0; col<8; col++) {
-            for(int address=0; address<devices; address++) {
-                delay(delaytime);
-                cascade[address].on(row, col);
-                //delay(delaytime);
-                //cascade[address].off(row, col);
-
-                Serial.print( "loop :" );
-                Serial.print( row );
-                Serial.print( "\t" );
-                Serial.println( col );
-            }
-        }
-    }
-}
-*/
 
 void loop() { 
     for(auto &matrix: cascade) {
@@ -81,6 +48,5 @@ void loop() {
             }
         }
     }
-
 }
 

@@ -27,7 +27,6 @@ LedMatrix::LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeS
     _index(ind),
     _cascadeSize(cascadeSize)
 {
-   Serial.println( "LedMatrix::LedMatrix" );
     _cs.on();
 
     for(int i=0; i < _size; i++) 
@@ -47,33 +46,28 @@ LedMatrix::LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeS
 
 void LedMatrix::shutdown() const
 {
-    Serial.println( "shutdown" );
     _spiTransfer(OP_SHUTDOWN,0);
 }
 
 void LedMatrix::wakeup() const
 {
-    Serial.println( "wakeup" );
     _spiTransfer(OP_SHUTDOWN,1);
 }
 
 void LedMatrix::_setScanLimit(uint8_t limit) const
 {
-    Serial.println( "_setScanLimit" );
     if(limit >= 0 && limit < _limit)
         _spiTransfer(OP_SCANLIMIT, limit);
 }
 
 void LedMatrix::setIntensity(uint8_t intensity) const
 {
-    Serial.println( "setIntensity" );
     if(intensity >= 0 && intensity < _maxIntensity)
         _spiTransfer(OP_INTENSITY, intensity);
 }
 
 void LedMatrix::clear()
 {
-    Serial.println( "clear" );
     for(uint8_t i = 0; i < _size; i++) {
         _status[i] = 0;
         _spiTransfer(i + 1, _status[i]);
