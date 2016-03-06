@@ -15,16 +15,9 @@ LedMatrix lc(12,11,10);
 unsigned long delaytime=300;
 
 void setup() {
-  /*
-   The MAX72XX is in power-saving mode on startup,
-   we have to do a wakeup call
-   */
-  lc.wakeup();
-  /* Set the brightness to a medium values */
+  // Set the brightness to a medium values
   //lc.setIntensity(8);
   lc.setIntensity(1);
-  /* and clear the display */
-  lc.clear();
 }
 
 /*
