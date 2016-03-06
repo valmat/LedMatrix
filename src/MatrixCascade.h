@@ -59,6 +59,16 @@ public:
         return get(index);
     }
 
+    // Make iterable
+    LedMatrix* begin()
+    {
+        return matrixes;
+    }
+    LedMatrix* end()
+    {
+        return matrixes + cascadeSize;
+    }
+
 
 private :
     // Size of matrix (the length of the row and column of a square matrix)

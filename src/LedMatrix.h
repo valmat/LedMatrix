@@ -8,6 +8,7 @@
 
 #include <Pino.h>
 #include "RowCol.h"
+#include "RowColIterator.h"
 #include "initializer_list.h"
 #include "move.h"
 
@@ -122,6 +123,17 @@ public:
     {
         return _index;
     }
+
+    // Make rows and colomns iterable
+    constexpr static RowsIterator rows()
+    {
+        return _rows;
+    }
+    constexpr static ColsIterator cols()
+    {
+        return _cols;
+    }
+
 private:
 
     // Private empty constructor
@@ -180,7 +192,11 @@ private:
     // If the matrix is placed in cascade, cascadeSize is a number of cascade devices.
     uint8_t _cascadeSize = 1;
 
-    template<uint8_t cascadeSize>
+    // Rows and colomns iterators
+    constexpr static RowsIterator _rows{};
+    constexpr static ColsIterator _cols{};
+
+    template<uint8_t __cascadeSize>
     friend class MatrixCascade;
 };
 
