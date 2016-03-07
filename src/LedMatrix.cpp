@@ -54,14 +54,12 @@ void LedMatrix::wakeup() const
 
 void LedMatrix::_setScanLimit(uint8_t limit) const
 {
-    if(limit >= 0 && limit < _limit)
-        _spiTransfer(OP_SCANLIMIT, limit);
+    _spiTransfer(OP_SCANLIMIT, max(limit, _limit-1));
 }
 
 void LedMatrix::setIntensity(uint8_t intensity) const
 {
-    if(intensity >= 0 && intensity < _maxIntensity)
-        _spiTransfer(OP_INTENSITY, intensity);
+    _spiTransfer(OP_INTENSITY, intensity % _maxIntensity);
 }
 
 // Switch all Leds on the display to off.
@@ -89,7 +87,7 @@ void LedMatrix::set(Row row, Col col, bool state)
     _set(coords.row(), coords.col(), state);
 }
 
-// Binary inverting
+// Binary inverting (helper function)
 static uint8_t _binInvert(uint8_t v)
 {
     uint8_t r = 0;
@@ -106,7 +104,6 @@ static uint8_t _binInvert(uint8_t v)
     }
     return r;
 }
-
 
 void LedMatrix::setRow(Row row, uint8_t value)
 {
@@ -188,12 +185,32 @@ bool LedMatrix::get(Row row, Col col)
     return _status[row] & pos;
 }
 
-// Invert filled matrix
+// Invert all points of matrix
 void LedMatrix::invert()
 {
     for(auto row: _rows) {
-        _status[row] = ~_status[row];
-        _spiTransfer(row + 1, _status[row]);
+        invert(row);
+    }
+}
+
+// Invert current point on matrix
+void LedMatrix::invert(Row row, Col col)
+{
+    _set(row, col, !get(row, col));
+}
+
+// Invert row on matrix
+void LedMatrix::invert(Row row)
+{
+    _status[row] = ~_status[row];
+    _spiTransfer(row + 1, _status[row]);
+}
+
+// Invert colomn on matrix
+void LedMatrix::invert(Col col)
+{
+    for(auto row: _rows) {
+        invert(row, col);
     }
 }
 

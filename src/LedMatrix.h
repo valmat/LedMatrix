@@ -45,10 +45,10 @@ public:
     // @param intensity the brightness of the display. (0..15)
     void setIntensity(uint8_t intensity) const;
 
-    // Switch all Leds on the display to off.
+    // Switch all LEDs on the display to off.
     void clear();
 
-    // Switch all Leds on the display to on.
+    // Switch all LEDs on the display to on.
     void fill();
 
     // Set the status of a single LED.
@@ -98,9 +98,35 @@ public:
     // @param col   the column of the Led (0..7)
     bool get(Row row, Col col);
 
-    // Invert filled matrix
+    // Invert all points of matrix
     void invert();
 
+    // Invert current point on matrix
+    // @param row   the row of the LED (0..7)
+    // @param col   the column of the LED (0..7)
+    void invert(Row row, Col col);
+
+    // Invert row on matrix
+    // @param row   the row of the LED (0..7)
+    void invert(Row row);
+
+    // Invert colomn on matrix
+    // @param col   the column of the LED (0..7)
+    void invert(Col col);
+
+    // Invert row on matrix
+    // @param row   the row of the LED (0..7)
+    void invertRow(Row row)
+    {
+        invert(row);
+    }
+
+    // Invert colomn on matrix
+    // @param col   the column of the LED (0..7)
+    void invertCol(Col col)
+    {
+        invert(col);
+    }
 
     // How many times to rotate the matrix clockwise
     // @param From 0 to 3

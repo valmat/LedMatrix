@@ -84,10 +84,10 @@ public:
         return (_nom != rhs._nom);
     }
 
-    // Dereference as a number
-    constexpr const uint8_t &operator*() const
+    // Dereference as a current object
+    constexpr const RowCol &operator*() const
     {
-        return _nom;
+        return *this;
     }
     
     // Dereference as a number pointer
