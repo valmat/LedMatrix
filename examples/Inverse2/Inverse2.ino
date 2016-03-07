@@ -25,19 +25,19 @@ void loop()
     delay(delaytime);
 
     // Iterate over rows to invert them
-    for(auto row: matrix.rows()) {
+    for(auto &row: matrix.rows()) {
         matrix.invert(row);
         delay(delaytime);
     }
     // Iterate over colomns to invert them
-    for(auto col: matrix.cols()) {
+    for(auto &col: matrix.cols()) {
         matrix.invert(col);
         delay(delaytime);
     }
 
     // Iterate for each point to invert it
-    for(auto row: matrix.rows()) {
-        for(auto col: matrix.cols()) {
+    for(auto &row: matrix.rows()) {
+        for(auto &col: matrix.cols()) {
             matrix.invert(row, col);
             delay(delaytime);
         }

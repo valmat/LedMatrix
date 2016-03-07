@@ -24,8 +24,8 @@ void loop()
 { 
     for(auto &matrix: cascade) {
         matrix.setRotation();
-        for(auto row: matrix.rows()) {
-            for(auto col: matrix.cols()) {
+        for(auto &row: matrix.rows()) {
+            for(auto &col: matrix.cols()) {
                 delay(delaytime);
                 matrix.on(row, col);
             }
@@ -34,8 +34,8 @@ void loop()
     }
 
     for(auto &matrix: cascade) {
-        for(auto col: matrix.cols()) {
-            for(auto row: matrix.rows()) {
+        for(auto &col: matrix.cols()) {
+            for(auto &row: matrix.rows()) {
                 delay(delaytime);
                 matrix.off(row, col);
             }

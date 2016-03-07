@@ -20,8 +20,8 @@ void printSer(const char * str)
     Serial.println("--------------------------");
     Serial.println(str);
     Serial.println("--------------------------");
-    for(auto row: matrix.rows()) {
-        for(auto col: matrix.cols()) {
+    for(auto &row: matrix.rows()) {
+        for(auto &col: matrix.cols()) {
             Serial.print(matrix.get(row, col) ? ("*  ") : ("-  "));
         }
         Serial.println();

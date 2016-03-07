@@ -62,7 +62,7 @@ void LedMatrix::setIntensity(uint8_t intensity) const
 // Switch all Leds on the display to off.
 void LedMatrix::clear()
 {
-    for(auto row: _rows) {
+    for(auto &row: _rows) {
         _status[row] = 0;
         _spiTransfer(row + 1, _status[row]);
     }
@@ -71,7 +71,7 @@ void LedMatrix::clear()
 // Switch all Leds on the display to on.
 void LedMatrix::fill()
 {
-    for(auto row: _rows) {
+    for(auto &row: _rows) {
         _status[row] = B11111111;
         _spiTransfer(row + 1, _status[row]);
     }
@@ -157,7 +157,7 @@ void LedMatrix::_setRow(uint8_t row, uint8_t value)
 void LedMatrix::_setCol(uint8_t col, uint8_t value)
 {
     uint8_t val;
-    for(auto row: _rows) {
+    for(auto &row: _rows) {
         val = value >> (_size - 1 - row);
         val = val & 1;
         _set(row, col, val);
@@ -176,7 +176,7 @@ bool LedMatrix::get(Row row, Col col)
 // Invert all points of matrix
 void LedMatrix::invert()
 {
-    for(auto row: _rows) {
+    for(auto &row: _rows) {
         invert(row);
     }
 }
@@ -197,7 +197,7 @@ void LedMatrix::invert(Row row)
 // Invert colomn on matrix
 void LedMatrix::invert(Col col)
 {
-    for(auto row: _rows) {
+    for(auto &row: _rows) {
         invert(row, col);
     }
 }
