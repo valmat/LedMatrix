@@ -83,6 +83,22 @@ public:
         }
     }
 
+    // Switch all LEDs on all displays to on.
+    void fill()
+    {
+        for(auto &matrix: *this) {
+            matrix.fill();
+        }
+    }
+
+    // Invert all points of all matrixes
+    void invert()
+    {
+        for(auto &matrix: *this) {
+            matrix.invert();
+        }
+    }
+
     // How many times to rotate all matrixes clockwise
     // @param From 0 to 3
     void setRotation(uint8_t times = 1)

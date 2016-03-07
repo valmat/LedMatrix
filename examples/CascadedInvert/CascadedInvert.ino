@@ -20,6 +20,7 @@ void setup()
     cascade[2].setRotation(2);
 }
 
+/*
 void loop()
 { 
     for(auto &matrix: cascade) {
@@ -41,5 +42,50 @@ void loop()
             }
         }
     }
+
+    cascade.clear();
+    delay(100*delaytime);
+    cascade.fill();
+    delay(100*delaytime);
+    cascade.invert();
+}
+*/
+void loop()
+{ 
+
+
+    randomSeed(millis());
+    
+
+    for(auto &matrix: cascade) {
+        matrix.setRotation();
+        for(auto &row: matrix.rows()) {
+            for(auto &col: matrix.cols()) {
+                delay(delaytime);
+                matrix.set(row, col, random(2));
+            }
+        }
+        //matrix.clear();
+    }
+
+    //delay(100*delaytime);
+    cascade.invert();
+    delay(50*delaytime);
+
+    for(auto &matrix: cascade) {
+        for(auto &col: matrix.cols()) {
+            for(auto &row: matrix.rows()) {
+                delay(delaytime);
+                matrix.set(row, col, random(2));
+            }
+        }
+    }
+    cascade.invert();
+    delay(50*delaytime);
+
+    cascade.clear();
+    delay(50*delaytime);
+    cascade.fill();
+
 }
 
