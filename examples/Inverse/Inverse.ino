@@ -1,4 +1,3 @@
-//We always have to include the library
 #include "LedMatrix.h"
 
 // pin 12 is connected to the DataIn 
@@ -6,7 +5,6 @@
 // pin 10 is connected to LOAD 
 LedMatrix matrix(12,11,10);
 
-/* we always wait a bit between updates of the display */
 const uint16_t delaytime = 700;
 
 void setup() 

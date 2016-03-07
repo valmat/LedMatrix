@@ -29,9 +29,6 @@ LedMatrix::LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeS
 {
     _cs.on();
 
-    for(int i=0; i < _size; i++) 
-        _status[i]=0x00;
-
     _spiTransfer(OP_DISPLAYTEST, 0);
     //scanlimit is set to max on startup
     _setScanLimit(_limit - 1);
@@ -39,6 +36,7 @@ LedMatrix::LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeS
     _spiTransfer(OP_DECODEMODE, 0);
 
     //To clear display on startup
+    // And fill the _status array by zeros
     clear();
     //we go into wakeup-mode on startup
     wakeup();
@@ -66,13 +64,24 @@ void LedMatrix::setIntensity(uint8_t intensity) const
         _spiTransfer(OP_INTENSITY, intensity);
 }
 
+// Switch all Leds on the display to off.
 void LedMatrix::clear()
 {
-    for(uint8_t i = 0; i < _size; i++) {
-        _status[i] = 0;
-        _spiTransfer(i + 1, _status[i]);
+    for(auto row: _rows) {
+        _status[row] = 0;
+        _spiTransfer(row + 1, _status[row]);
     }
 }
+
+// Switch all Leds on the display to on.
+void LedMatrix::fill()
+{
+    for(auto row: _rows) {
+        _status[row] = B11111111;
+        _spiTransfer(row + 1, _status[row]);
+    }
+}
+
 
 void LedMatrix::set(Row row, Col col, bool state)
 {

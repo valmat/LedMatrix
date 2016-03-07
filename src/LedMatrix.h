@@ -45,8 +45,11 @@ public:
     // @param intensity the brightness of the display. (0..15)
     void setIntensity(uint8_t intensity) const;
 
-    // Switch all Leds on the display to off. 
+    // Switch all Leds on the display to off.
     void clear();
+
+    // Switch all Leds on the display to on.
+    void fill();
 
     // Set the status of a single LED.
     // @param row   the row of the Led (0..7)
