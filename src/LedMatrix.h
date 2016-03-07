@@ -36,6 +36,7 @@ public:
     LedMatrix& operator=(const LedMatrix&) = default;
     LedMatrix& operator=(LedMatrix &&) = default;
 
+    
     // Set the shutdown (power saving) mode for the device
     void shutdown() const;
 
@@ -52,6 +53,7 @@ public:
     // Switch all LEDs on the display to on.
     void fill();
 
+    
     // Set the status of a single LED.
     // @param Row row   the row of the Led (0..7)
     // @param Col col   the column of the Led (0..7)
@@ -113,8 +115,9 @@ public:
     // Allows to initialize the values of all points of the matrix
     // Attention. If you pass an array to this function, strictly follow its length
     // @param  raw array
-    void set(uint8_t arr[]);
+    void set(const uint8_t arr[]);
 
+    
     // Get state of LED point on matrix
     // @param row   the row of the Led (0..7)
     // @param col   the column of the Led (0..7)
@@ -142,7 +145,7 @@ public:
         return get(col);
     }
 
-
+    
     // Invert all points of matrix
     void invert();
 
@@ -173,6 +176,16 @@ public:
         invert(col);
     }
 
+    
+    // Shift matrix
+    // @param value is shifting value
+    // @return shifted value
+    uint8_t shiftUp(uint8_t value = 0);
+    uint8_t shiftDown(uint8_t value = 0);
+    uint8_t shiftLeft(uint8_t value = 0);
+    uint8_t shiftRight(uint8_t value = 0);
+
+    
     // How many times to rotate the matrix clockwise
     // @param From 0 to 3
     void setRotation(uint8_t times = 1)

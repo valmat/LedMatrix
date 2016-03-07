@@ -167,7 +167,7 @@ void LedMatrix::_setCol(uint8_t col, uint8_t value)
 }
 
 // Allows to initialize the values of all points of the matrix
-void LedMatrix::set(uint8_t arr[])
+void LedMatrix::set(const uint8_t arr[])
 {
     for(auto &row: _rows) {
         set(row, arr[row]);;
@@ -228,6 +228,47 @@ void LedMatrix::invert(const Col &col)
     for(auto &row: _rows) {
         invert(row, col);
     }
+}
+
+// Shift matrix
+uint8_t LedMatrix::shiftUp(uint8_t value)
+{
+    uint8_t rez = getRow(0);
+    for(uint8_t i = 0; i < _size-1; i++) {
+        _setRow(i, getRow(i+1));
+    }
+    _setRow(_size-1, value);
+    return rez;
+}
+
+uint8_t LedMatrix::shiftDown(uint8_t value)
+{
+    uint8_t rez = getRow(_size-1);
+    for(uint8_t i = _size-1; i > 0; i--) {
+        _setRow(i, getRow(i-1));
+    }
+    _setRow(0, value);
+    return rez;
+}
+
+uint8_t LedMatrix::shiftLeft(uint8_t value)
+{
+    uint8_t rez = getCol(0);
+    for(uint8_t i = 0; i < _size-1; i++) {
+        _setCol(i, getCol(i+1));
+    }
+    _setCol(_size-1, value);
+    return rez;
+}
+
+uint8_t LedMatrix::shiftRight(uint8_t value)
+{
+    uint8_t rez = getCol(_size-1);
+    for(uint8_t i = _size-1; i > 0; i--) {
+        _setCol(i, getCol(i-1));
+    }
+    _setCol(0, value);
+    return rez;
 }
 
 void LedMatrix::_spiTransfer(volatile uint8_t opcode, volatile uint8_t data) const
