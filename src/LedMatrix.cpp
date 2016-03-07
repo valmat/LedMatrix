@@ -75,7 +75,7 @@ void LedMatrix::fill()
 }
 
 
-void LedMatrix::set(Row row, Col col, bool state)
+void LedMatrix::set(const Row &row, const Col &col, bool state)
 {
     // Set the value to the desired position depending on the seted rotation value
     if( 1 == _rotate ) {
@@ -108,7 +108,7 @@ static uint8_t _binInvert(uint8_t v)
 }
 
 // Set all LEDs in a row to a new state
-void LedMatrix::set(Row row, uint8_t value)
+void LedMatrix::set(const Row &row, uint8_t value)
 {
     // Set the value to the desired position depending on the seted rotation value
     if( 1 == _rotate ) {
@@ -123,7 +123,7 @@ void LedMatrix::set(Row row, uint8_t value)
 }
 
 // Set all LEDs in a column to a new state
-void LedMatrix::set(Col col, uint8_t value)
+void LedMatrix::set(const Col &col, uint8_t value)
 {
     // Set the value to the desired position depending on the seted rotation value
     if( 1 == _rotate ) {
@@ -175,7 +175,7 @@ void LedMatrix::set(uint8_t arr[])
 }
 
 // Get state of LED point on matrix
-bool LedMatrix::get(Row row, Col col)
+bool LedMatrix::get(const Row &row, const Col &col)
 {
     // Calculate binary position of colomn
     uint8_t pos = (1 << (_size - 1 - col));
@@ -192,20 +192,20 @@ void LedMatrix::invert()
 }
 
 // Invert current point on matrix
-void LedMatrix::invert(Row row, Col col)
+void LedMatrix::invert(const Row &row, const Col &col)
 {
     _set(row, col, !get(row, col));
 }
 
 // Invert row on matrix
-void LedMatrix::invert(Row row)
+void LedMatrix::invert(const Row &row)
 {
     _status[row] = ~_status[row];
     _spiTransfer(row + 1, _status[row]);
 }
 
 // Invert colomn on matrix
-void LedMatrix::invert(Col col)
+void LedMatrix::invert(const Col &col)
 {
     for(auto &row: _rows) {
         invert(row, col);

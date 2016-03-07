@@ -56,7 +56,7 @@ public:
     // @param Row row   the row of the Led (0..7)
     // @param Col col   the column of the Led (0..7)
     // @param state If true the led is switched on, if false it is switched off
-    void set(Row row, Col col, bool state);
+    void set(const Row &row, const Col &col, bool state);
     
     // Turn on LED at a point
     // @param Row row   the row of the Led (0..7)
@@ -76,17 +76,17 @@ public:
     // Set all LEDs in a row to a new state
     // @param  row which is to be set (0..7)
     // @param  value each bit set to 1 will light up the corresponding LED.
-    void set(Row row, uint8_t value);
+    void set(const Row &row, uint8_t value);
 
     // Set all LEDs in a column to a new state
     // @param  col -- column which is to be set (0..7)
     // @param  value -- each bit set to 1 will light up the corresponding LED.
-    void set(Col col, uint8_t value);
+    void set(const Col &col, uint8_t value);
 
     // Set all LEDs in a row to a new state
     // @param  row which is to be set (0..7)
     // @param  value each bit set to 1 will light up the corresponding LED.
-    void setRow(Row row, uint8_t value)
+    void setRow(const Row &row, uint8_t value)
     {
         set(row, value);
     }
@@ -94,7 +94,7 @@ public:
     // Set all LEDs in a column to a new state
     // @param  col -- column which is to be set (0..7)
     // @param  value -- each bit set to 1 will light up the corresponding LED.
-    void setCol(Col col, uint8_t value)
+    void setCol(const Col &col, uint8_t value)
     {
         set(col, value);
     }
@@ -118,7 +118,7 @@ public:
     // Get state of LED point on matrix
     // @param row   the row of the Led (0..7)
     // @param col   the column of the Led (0..7)
-    bool get(Row row, Col col);
+    bool get(const Row &row, const Col &col);
 
     // Invert all points of matrix
     void invert();
@@ -126,26 +126,26 @@ public:
     // Invert current point on matrix
     // @param row   the row of the LED (0..7)
     // @param col   the column of the LED (0..7)
-    void invert(Row row, Col col);
+    void invert(const Row &row, const Col &col);
 
     // Invert row on matrix
     // @param row   the row of the LED (0..7)
-    void invert(Row row);
+    void invert(const Row &row);
 
     // Invert colomn on matrix
     // @param col   the column of the LED (0..7)
-    void invert(Col col);
+    void invert(const Col &col);
 
     // Invert row on matrix
     // @param row   the row of the LED (0..7)
-    void invertRow(Row row)
+    void invertRow(const Row &row)
     {
         invert(row);
     }
 
     // Invert colomn on matrix
     // @param col   the column of the LED (0..7)
-    void invertCol(Col col)
+    void invertCol(const Col &col)
     {
         invert(col);
     }
