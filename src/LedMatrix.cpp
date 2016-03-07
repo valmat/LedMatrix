@@ -101,12 +101,6 @@ static uint8_t _binInvert(uint8_t v)
 
 void LedMatrix::setRow(Row row, uint8_t value)
 {
-    
-    
-    Serial.print("\n _rotate = \t");
-    Serial.println(_rotate);
-
-
     if( 1 == _rotate ) {
         _setCol(_size - 1 - row, value);
     } else if( 2 == _rotate ) {
@@ -116,10 +110,6 @@ void LedMatrix::setRow(Row row, uint8_t value)
     } else { // if( 0 == _rotate )
         _setRow(row, value);
     }
-   
-    
-
-
     /*
     MatrixRotor coords(row, 0, _rotate, _size);
     //_setRow(coords.row(), value);
@@ -140,7 +130,6 @@ void LedMatrix::setCol(Col col, uint8_t value)
     else
         _setCol(coords.col(), value);
     */
-
     if( 1 == _rotate ) {
         _setRow(col, _binInvert(value));
     } else if( 2 == _rotate ) {
@@ -171,21 +160,10 @@ void LedMatrix::_setRow(uint8_t row, uint8_t value)
     _spiTransfer(row + 1, _status[row]);
 }
 
-/*
 void LedMatrix::_setCol(uint8_t col, uint8_t value)
 {
     uint8_t val;
-    for(int row = 0; row < _size; row++) {
-        val = value >> (_size - 1 - row);
-        val = val & 0x01;
-        set(row, col, val);
-    }
-}
-*/
-void LedMatrix::_setCol(uint8_t col, uint8_t value)
-{
-    uint8_t val;
-    for(int row = 0; row < _size; row++) {
+    for(auto row: _rows) {
         val = value >> (_size - 1 - row);
         val = val & 1;
         _set(row, col, val);
@@ -195,71 +173,16 @@ void LedMatrix::_setCol(uint8_t col, uint8_t value)
 // Get state of LED point on matrix
 bool LedMatrix::get(Row row, Col col)
 {
-//    Serial.println("=============LedMatrix::get===========");
-//    Serial.print("(");
-//    Serial.print(row);
-//    Serial.print(",");
-//    Serial.print(col);
-//    Serial.println("):");
-
-    //MatrixRotor coords(row, col, _rotate, _size, true);
-    //uint8_t x = coords.row(), y = coords.col();
-    uint8_t x = row, y = col;
-    uint8_t value = _status[x];
-
-    /*
-    uint8_t x, y;
-    if(1 == _rotate) {
-        x = _size - 1 - col;
-        y = row;
-        value = _status[x];
-        //value = _binInvert(_status[x]);
-    } else if(2 == _rotate) {
-        x = _size - 1 - row;
-        y = _size - 1 - col;
-        value = _status[x];
-        //value = _binInvert(_status[x]);
-    } else if(3 == _rotate) {
-        x = col;
-        y = _size - 1 - row;
-        value = _status[x];
-    } else { // if( 0 == _rotate )
-        x = row;
-        y = col;
-        value = _status[x];
-    }
-    */
-
-
-//    Serial.print("status[x]: ");
-//    Serial.print(_status[x]);
-//    Serial.print("\tstatus[x](BIN): ");
-//    Serial.println(_status[x], BIN);
-
-    //uint8_t pos = B10000000 >> y;
-    uint8_t pos = (1 << (_size - 1 - y));
-
-//    Serial.print("pos: ");
-//    Serial.print(pos);
-//    Serial.print("\tpos(BIN): ");
-//    Serial.println(pos, BIN);
-
-//    uint8_t q = _status[x] & pos;
-//    Serial.print("status[x] & pos: ");
-//    Serial.print(q);
-//    Serial.print("\tstatus[x] & pos(BIN): ");
-//    Serial.println(q, BIN);
-
-
-    //Serial.println("=============/LedMatrix::get===========");
-
-    return value & pos;
+    // Calculate binary position of colomn
+    uint8_t pos = (1 << (_size - 1 - col));
+    // Return binary value at the intersection of row and column
+    return _status[row] & pos;
 }
 
 // Invert filled matrix
 void LedMatrix::invert()
 {
-    for(int row = 0; row < _size; row++) {
+    for(auto row: _rows) {
         _status[row] = ~_status[row];
         _spiTransfer(row + 1, _status[row]);
     }

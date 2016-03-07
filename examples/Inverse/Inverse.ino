@@ -11,9 +11,9 @@ const uint16_t delaytime = 1000;
 
 void setup() 
 {
+    Serial.begin(9600);
     // Set the brightness to a medium values
     matrix.setIntensity(1);
-    Serial.begin(9600);
 }
 
 void printSer(const char * str) 
@@ -21,7 +21,6 @@ void printSer(const char * str)
 
     Serial.println("-----------------------------------");
     Serial.println(str);
-    matrix.print();
     Serial.println("-----------------------------------");
     for(auto row: matrix.rows()) {
         for(auto col: matrix.cols()) {

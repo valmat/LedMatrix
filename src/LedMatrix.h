@@ -73,7 +73,6 @@ public:
     // @param  value -- each bit set to 1 will light up the corresponding LED.
     void setCol(Col col, uint8_t value);
 
-    /*
     void set(Row row, uint8_t value)
     {
         setRow(row, value);
@@ -82,7 +81,6 @@ public:
     {
         setCol(col, value);
     }
-    */
 
     void set(std::initializer_list<uint8_t> disp)
     {
@@ -97,13 +95,6 @@ public:
     // @param row   the row of the Led (0..7)
     // @param col   the column of the Led (0..7)
     bool get(Row row, Col col);
-
-    void print()
-    {
-        for(int row = 0; row < _size; row++) {
-            Serial.println(_status[row], BIN);
-        }
-    }
 
     // Invert filled matrix
     void invert();
