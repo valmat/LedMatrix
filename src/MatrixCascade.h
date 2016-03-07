@@ -1,6 +1,6 @@
 /*
  *
- * MatrixCascade - is is my fork of LedControl lylbrary
+ * MatrixCascade is a class to easy control LED matrixes that are combined in a cascade.
  *
  */
 
@@ -19,6 +19,7 @@ public:
     // @param csPin     pin for selecting the device 
     MatrixCascade(Pino data, Pino clk, Pino cs)
     {
+        // Fill cascade on startup
         for(uint8_t i = 0; i < cascadeSize; i++) {
             matrixes[i] = LedMatrix(data, clk, cs, i, cascadeSize);
         }
@@ -100,7 +101,6 @@ public:
         }
     }
 
-
     //
     // Iterator methods
     //
@@ -132,7 +132,7 @@ private:
     // The maximum number of matrices
     constexpr static uint8_t _matrixLimit = 8;
 
-    // Cascadec array
+    // Cascade array
     LedMatrix matrixes[cascadeSize];
 };
 

@@ -39,27 +39,25 @@ LedMatrix::LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeS
     wakeup();
 }
 
+// Set the shutdown (power saving) mode for the device
 void LedMatrix::shutdown() const
 {
     _spiTransfer(OP_SHUTDOWN,0);
 }
 
+// Set the wakeup mode for the device
 void LedMatrix::wakeup() const
 {
     _spiTransfer(OP_SHUTDOWN,1);
 }
 
-void LedMatrix::_setScanLimit(uint8_t limit) const
-{
-    _spiTransfer(OP_SCANLIMIT, max(limit, _limit-1));
-}
-
+// Set the brightness of the display.
 void LedMatrix::setIntensity(uint8_t intensity) const
 {
     _spiTransfer(OP_INTENSITY, intensity % _maxIntensity);
 }
 
-// Switch all Leds on the display to off.
+// Switch all LEDs on the display to off.
 void LedMatrix::clear()
 {
     for(auto &row: _rows) {
@@ -68,7 +66,7 @@ void LedMatrix::clear()
     }
 }
 
-// Switch all Leds on the display to on.
+// Switch all LEDs on the display to on.
 void LedMatrix::fill()
 {
     for(auto &row: _rows) {
@@ -80,6 +78,7 @@ void LedMatrix::fill()
 
 void LedMatrix::set(Row row, Col col, bool state)
 {
+    // Set the value to the desired position depending on the seted rotation value
     if( 1 == _rotate ) {
         _set(col, _size - 1 - row, state);
     } else if( 2 == _rotate ) {
@@ -111,6 +110,7 @@ static uint8_t _binInvert(uint8_t v)
 
 void LedMatrix::setRow(Row row, uint8_t value)
 {
+    // Set the value to the desired position depending on the seted rotation value
     if( 1 == _rotate ) {
         _setCol(_size - 1 - row, value);
     } else if( 2 == _rotate ) {
@@ -124,6 +124,7 @@ void LedMatrix::setRow(Row row, uint8_t value)
 
 void LedMatrix::setCol(Col col, uint8_t value)
 {
+    // Set the value to the desired position depending on the seted rotation value
     if( 1 == _rotate ) {
         _setRow(col, _binInvert(value));
     } else if( 2 == _rotate ) {
@@ -226,4 +227,10 @@ void LedMatrix::_spiTransfer(volatile uint8_t opcode, volatile uint8_t data) con
 
     //latch the data onto the display
     _cs.on();
+}
+
+
+void LedMatrix::_setScanLimit(uint8_t limit) const
+{
+    _spiTransfer(OP_SCANLIMIT, max(limit, _limit-1));
 }

@@ -11,14 +11,14 @@ randomMovement randMov(matrix, A4);
 
 void setup()
 {
-  // Set the brightness. (0..15)
-  matrix.setIntensity(1);
+    // Set the brightness. (0..15)
+    matrix.setIntensity(1);
 }
 
 void loop()
 {
-  randMov.off();
-  randMov.move();
-  randMov.on();
-  delay(150);
+    randMov.off();
+    randMov.move();
+    randMov.on();
+    delay(150);
 }

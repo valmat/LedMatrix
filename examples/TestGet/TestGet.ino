@@ -14,9 +14,9 @@ void setup()
     matrix.setIntensity(1);
 }
 
+// Print matrix on serial console
 void printSer(const char * str) 
 {
-
     Serial.println("--------------------------");
     Serial.println(str);
     Serial.println("--------------------------");

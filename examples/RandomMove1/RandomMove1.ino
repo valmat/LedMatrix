@@ -8,14 +8,17 @@ const uint8_t matrixCount = 3;
 // pin 11 is connected to the CLK 
 // pin 10 is connected to LOAD 
 MatrixCascade<matrixCount> cascade(12, 11, 10);
-randomMovement<matrixCount> point1(cascade, A4), point2(cascade, A4), point3(cascade, A4);
+
+randomMovement<matrixCount> point1(cascade, A4), 
+                            point2(cascade, A4), 
+                            point3(cascade, A4);
 
 
 void setup()
 {
     int devices = cascade.size();
 
-    //we have to init all devices in a loop
+    // Here iterate via access operator
     for(int i=0; i < devices; i++) {
         // Set the brightness. (0..15)
         cascade[i].setIntensity(1);

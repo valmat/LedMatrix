@@ -1,6 +1,7 @@
 /*
  *
- * LedMatrix - is is my fork of LedContr1ol lylbrary
+ * LedMatrix is a class to control 8-bit LED matrix on controller MAX7219 and MAX7221.
+ * This class manages only the LED-matrix, but does it well.
  *
  */
 
@@ -57,34 +58,49 @@ public:
     // @param state If true the led is switched on, if false it is switched off
     void set(Row row, Col col, bool state);
     
+    // Turn on LED at a point
+    // @param row   the row of the Led (0..7)
+    // @param col   the column of the Led (0..7)
     template <typename T1, typename T2>
     void on(T1&& t1, T2&& t2) {
         set(std::forward<T1>(t1), std::forward<T2>(t2), true);
     }
+    // Turn off LED at a point
+    // @param row   the row of the Led (0..7)
+    // @param col   the column of the Led (0..7)
     template <typename T1, typename T2>
     void off(T1&& t1, T2&& t2) {
         set(std::forward<T1>(t1), std::forward<T2>(t2), false);
     }
 
-    // Set all LED's in a row to a new state
+    // Set all LEDs in a row to a new state
     // @param  row which is to be set (0..7)
     // @param  value each bit set to 1 will light up the corresponding LED.
     void setRow(Row row, uint8_t value);
 
-    // Set all LED's in a column to a new state
+    // Set all LEDs in a column to a new state
     // @param  col -- column which is to be set (0..7)
     // @param  value -- each bit set to 1 will light up the corresponding LED.
     void setCol(Col col, uint8_t value);
 
+    // Set all LEDs in a row to a new state
+    // @param  row which is to be set (0..7)
+    // @param  value each bit set to 1 will light up the corresponding LED.
     void set(Row row, uint8_t value)
     {
         setRow(row, value);
     }
+
+    // Set all LEDs in a column to a new state
+    // @param  col -- column which is to be set (0..7)
+    // @param  value -- each bit set to 1 will light up the corresponding LED.
     void set(Col col, uint8_t value)
     {
         setCol(col, value);
     }
 
+    // Allows to initialize the values of all points of the matrix
+    // @param  initializer_list instance
     void set(std::initializer_list<uint8_t> disp)
     {
         uint8_t rowNom = 0;
@@ -194,16 +210,17 @@ private:
     // The array for shifting the data to the devices
     mutable uint8_t _spidata[2 * _limit];
     
-    // We keep track of the led-status for all 8 devices in this array
+    // This array contains the statuses of all points of LED matrix
     uint8_t _status[_size];
     
+    // A pin on the Arduino where data gets shifted out (DIN).
     // Data is shifted out of this pin
     Pino _mosi{0};
     
-    // The clock is signaled on this pin
+    // The clock is signaled on this pin (CLK)
     Pino _clk{0};
     
-    // This one is driven LOW for chip selectzion
+    // This one is driven LOW for chip selection (CS)
     Pino _cs{0};
 
     // If the matrix is placed in cascade, _index is a index in the cascade.
@@ -212,7 +229,7 @@ private:
     // Rotate index. How many times to rotate the matrix clockwise
     uint8_t _rotate = 0;
 
-    // If the matrix is placed in cascade, cascadeSize is a number of cascade devices.
+    // If the matrix is placed in a cascade, cascadeSize is a index of cascade device.
     uint8_t _cascadeSize = 1;
 
     // Rows and colomns iterators

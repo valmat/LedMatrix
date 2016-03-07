@@ -1,3 +1,11 @@
+/*
+ *
+ * RowCol is a generic name for the two classes. Row and Col.
+ * These classes are for convenient control the rows and columns
+ * of the LED matrix using LedMatrix class.
+ *
+ */
+
 #pragma once
 
 // Forward declaration

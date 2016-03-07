@@ -1,6 +1,7 @@
 /*
  *
- * Makes rows and colomns iterable
+ * Makes rows and colomns of LedMatrix iterable
+ * Helper class.
  *
  */
 
