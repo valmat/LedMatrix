@@ -1,6 +1,5 @@
 #include "LedMatrix.h"
 
-
 //the opcodes for the MAX7221 and MAX7219
 #define OP_NOOP   0
 #define OP_DIGIT0 1
@@ -108,7 +107,8 @@ static uint8_t _binInvert(uint8_t v)
     return r;
 }
 
-void LedMatrix::setRow(Row row, uint8_t value)
+// Set all LEDs in a row to a new state
+void LedMatrix::set(Row row, uint8_t value)
 {
     // Set the value to the desired position depending on the seted rotation value
     if( 1 == _rotate ) {
@@ -122,7 +122,8 @@ void LedMatrix::setRow(Row row, uint8_t value)
     }
 }
 
-void LedMatrix::setCol(Col col, uint8_t value)
+// Set all LEDs in a column to a new state
+void LedMatrix::set(Col col, uint8_t value)
 {
     // Set the value to the desired position depending on the seted rotation value
     if( 1 == _rotate ) {
@@ -162,6 +163,14 @@ void LedMatrix::_setCol(uint8_t col, uint8_t value)
         val = value >> (_size - 1 - row);
         val = val & 1;
         _set(row, col, val);
+    }
+}
+
+// Allows to initialize the values of all points of the matrix
+void LedMatrix::set(uint8_t arr[])
+{
+    for(auto &row: _rows) {
+        set(row, arr[row]);;
     }
 }
 
@@ -228,7 +237,6 @@ void LedMatrix::_spiTransfer(volatile uint8_t opcode, volatile uint8_t data) con
     //latch the data onto the display
     _cs.on();
 }
-
 
 void LedMatrix::_setScanLimit(uint8_t limit) const
 {

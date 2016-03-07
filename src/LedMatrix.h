@@ -53,21 +53,21 @@ public:
     void fill();
 
     // Set the status of a single LED.
-    // @param row   the row of the Led (0..7)
-    // @param col   the column of the Led (0..7)
+    // @param Row row   the row of the Led (0..7)
+    // @param Col col   the column of the Led (0..7)
     // @param state If true the led is switched on, if false it is switched off
     void set(Row row, Col col, bool state);
     
     // Turn on LED at a point
-    // @param row   the row of the Led (0..7)
-    // @param col   the column of the Led (0..7)
+    // @param Row row   the row of the Led (0..7)
+    // @param Col col   the column of the Led (0..7)
     template <typename T1, typename T2>
     void on(T1&& t1, T2&& t2) {
         set(std::forward<T1>(t1), std::forward<T2>(t2), true);
     }
     // Turn off LED at a point
-    // @param row   the row of the Led (0..7)
-    // @param col   the column of the Led (0..7)
+    // @param Row row   the row of the Led (0..7)
+    // @param Col col   the column of the Led (0..7)
     template <typename T1, typename T2>
     void off(T1&& t1, T2&& t2) {
         set(std::forward<T1>(t1), std::forward<T2>(t2), false);
@@ -76,38 +76,44 @@ public:
     // Set all LEDs in a row to a new state
     // @param  row which is to be set (0..7)
     // @param  value each bit set to 1 will light up the corresponding LED.
-    void setRow(Row row, uint8_t value);
+    void set(Row row, uint8_t value);
 
     // Set all LEDs in a column to a new state
     // @param  col -- column which is to be set (0..7)
     // @param  value -- each bit set to 1 will light up the corresponding LED.
-    void setCol(Col col, uint8_t value);
+    void set(Col col, uint8_t value);
 
     // Set all LEDs in a row to a new state
     // @param  row which is to be set (0..7)
     // @param  value each bit set to 1 will light up the corresponding LED.
-    void set(Row row, uint8_t value)
+    void setRow(Row row, uint8_t value)
     {
-        setRow(row, value);
+        set(row, value);
     }
 
     // Set all LEDs in a column to a new state
     // @param  col -- column which is to be set (0..7)
     // @param  value -- each bit set to 1 will light up the corresponding LED.
-    void set(Col col, uint8_t value)
+    void setCol(Col col, uint8_t value)
     {
-        setCol(col, value);
+        set(col, value);
     }
 
     // Allows to initialize the values of all points of the matrix
     // @param  initializer_list instance
-    void set(std::initializer_list<uint8_t> disp)
+    template <typename T>
+    void set(const std::initializer_list<T> &disp)
     {
         uint8_t rowNom = 0;
-        for (auto &rowVal : disp) {
+        for (auto &&rowVal : disp) {
             setRow(rowNom++, rowVal);
         }
     }
+
+    // Allows to initialize the values of all points of the matrix
+    // Attention. If you pass an array to this function, strictly follow its length
+    // @param  raw array
+    void set(uint8_t arr[]);
 
     // Get state of LED point on matrix
     // @param row   the row of the Led (0..7)

@@ -46,9 +46,8 @@ public:
         return get(index);
     }
 
-
     //
-    // Group methods
+    // Group methods:
     //
 
     // Set the shutdown (power saving) mode for all devices
@@ -102,7 +101,7 @@ public:
     }
 
     //
-    // Iterator methods
+    // Iterator methods:
     //
 
     // Make iterable

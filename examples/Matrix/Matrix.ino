@@ -5,24 +5,22 @@
 // pin 10 is connected to LOAD 
 LedMatrix matrix(12,11,10);
 
-unsigned long delaytime=300;
+const uint16_t delaytime = 300;
 
 void setup() {
     // Set the brightness. (0..15)
     matrix.setIntensity(1);
 }
 
-/*
- This method will display the characters for the
- word "Arduino" one after the other on the matrix. 
- (you need at least 5x7 leds to see the whole chars)
- */
+// This method will display the characters for the
+// word "Arduino" one after the other on the matrix. 
+// (you need at least 5x7 leds to see the whole chars)
 void writeArduinoOnMatrix() {
 
-    /* now display them one by one with a small delay */
+    // now display them one by one with a small delay
     // A
+    // using initializer_list example
     matrix.set({B01110000, B10001000, B10001000, B10001000, B11111000, B10001000, B10001000, B10001000});
-    //matrix.set({B00000000, B01100110, B10011001, B10000001, B01000010, B00100100, B00011000, B00000000});
     delay(3*delaytime);
 
     // r
@@ -38,83 +36,82 @@ void writeArduinoOnMatrix() {
     delay(3*delaytime);
 
     // i
-    matrix.set({B00000000, B00100000, B00000000, B01100000, B00100000, B00100000, B00100000, B01110000});
+    // Attention. You can do so, but do not use this option.
+    // If you pass an array to the function set, strictly follow its length
+    uint8_t arr_i[8] = {B00000000, B00100000, B00000000, B01100000, B00100000, B00100000, B00100000, B01110000};
+    matrix.set(arr_i);
     delay(3*delaytime);
 
     //n
-    matrix.set({B00000000, B00000000, B00000000, B10110000, B11001000, B10001000, B10001000, B10001000});
+    auto arr_n = {B00000000, B00000000, B00000000, B10110000, B11001000, B10001000, B10001000, B10001000};
+    matrix.set(arr_n);
     delay(3*delaytime);
 
     // o
-    uint8_t o[] = {B00000000, B00000000, B00000000, B01110000, B10001000, B10001000, B10001000, B01110000};
-    matrix.setRow(0, o[0]);
-    matrix.setRow(1, o[1]);
-    matrix.setRow(2, o[2]);
-    matrix.setRow(3, o[3]);
-    matrix.setRow(4, o[4]);
-    matrix.setRow(5, o[5]);
-    matrix.setRow(6, o[6]);
-    matrix.setRow(7, o[7]);
+    uint8_t arr_o[] = {B00000000, B00000000, B00000000, B01110000, B10001000, B10001000, B10001000, B01110000};
+    // one by one for example
+    for(auto &row: matrix.rows()) {
+        matrix.set(row, arr_o[row]);
+    }
+    delay(3*delaytime);
+
+    matrix.set({B00000000, B01100110, B10011001, B10000001, B01000010, B00100100, B00011000, B00000000});
     delay(3*delaytime);
 
     matrix.clear();
     delay(3*delaytime);
 }
 
-/*
-  This function lights up a some Leds in a row.
- The pattern will be repeated on every row.
- The pattern will blink along with the row-number.
- row number 4 (index==3) will blink 4 times etc.
- */
+// This function lights up a some Leds in a row.
+// The pattern will be repeated on every row.
+// The pattern will blink along with the row-number.
+// row number 4 (index==3) will blink 4 times etc.
 void rows() {
-    for(int row=0; row<8; row++) {
+    for(auto &row: matrix.rows()) {
         delay(delaytime);
-        matrix.setRow(row, B10100000);
+        matrix.set(row, B10101010);
         delay(delaytime);
-        matrix.setRow(row, 0);
-        for(int i=0;i<row;i++) {
+        matrix.set(row, 0);
+
+        for(int i=0; i<row; i++) {
             delay(delaytime);
-            matrix.setRow(row, B10100000);
+            matrix.set(row, B01010101);
             delay(delaytime);
-            matrix.setRow(row, 0);
+            matrix.set(row, 0);
         }
     }
 }
 
-/*
-  This function lights up a some Leds in a column.
- The pattern will be repeated on every column.
- The pattern will blink along with the column-number.
- column number 4 (index==3) will blink 4 times etc.
- */
+// This function lights up a some Leds in a column.
+// The pattern will be repeated on every column.
+// The pattern will blink along with the column-number.
+// column number 4 (index==3) will blink 4 times etc.
 void columns() {
-    for(int col=0;col<8;col++) {
+    for(auto &col: matrix.cols()) {
         delay(delaytime);
-        matrix.setCol(col,B10100000);
+        matrix.set(col, B10101010);
         delay(delaytime);
-        matrix.setCol(col,0);
-        for(int i=0;i<col;i++) {
+        matrix.set(col, 0);
+
+        for(int i=0; i < col; i++) {
             delay(delaytime);
-            matrix.setCol(col,B10100000);
+            matrix.set(col, B01010101);
             delay(delaytime);
-            matrix.setCol(col,0);
+            matrix.set(col, 0);
         }
     }
 }
 
-/* 
- This function will light up every Led on the matrix.
- The led will blink along with the row-number.
- row number 4 (index==3) will blink 4 times etc.
- */
+// This function will light up every Led on the matrix.
+// The led will blink along with the row-number.
+// row number 4 (index==3) will blink 4 times etc.
 void single() {
-    for(int row=0; row<8; row++) {
-        for(int col=0; col<8; col++) {
-                delay(delaytime);
-                matrix.on(row, col);
-                delay(delaytime);
-                for(int i=0; i<3; i++) {
+    for(auto &row: matrix.rows()) {
+        for(auto &col: matrix.cols()) {
+            delay(delaytime);
+            matrix.on(row, col);
+            delay(delaytime);
+            for(int i=0; i<3; i++) {
                 matrix.off(row, col);
                 delay(delaytime);
                 matrix.on(row, col);
