@@ -87,7 +87,6 @@ public:
         uint8_t rowNom = 0;
         for (auto &rowVal : disp) {
             setRow(rowNom++, rowVal);
-            delay(50);
         }
     }
 
