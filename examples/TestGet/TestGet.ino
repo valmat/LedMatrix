@@ -27,6 +27,18 @@ void printSer(const char * str)
         Serial.println();
     }
     Serial.println("==========================");
+
+    /*
+    //Test for get(Row/Col):
+    Serial.println("Rows:");
+    for(auto &row: matrix.rows()) {
+        Serial.println(matrix.get(row), BIN);
+    }
+    Serial.println("Cols:");
+    for(auto &col: matrix.cols()) {
+        Serial.println(matrix.get(col), BIN);
+    }
+    */
 }
 
 void loop()

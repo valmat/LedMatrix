@@ -120,6 +120,29 @@ public:
     // @param col   the column of the Led (0..7)
     bool get(const Row &row, const Col &col);
 
+    // Get the values on row of LED-matrix
+    // @param row   the row of the Led (0..7)
+    uint8_t get(const Row &row);
+
+    // Get the values on colomn of LED-matrix
+    // @param col   the column of the Led (0..7)
+    uint8_t get(const Col &col);
+
+    // Get the values on row of LED-matrix
+    // @param row   the row of the Led (0..7)
+    uint8_t getRow(const Row &row)
+    {
+        return get(row);
+    }
+
+    // Get the values on colomn of LED-matrix
+    // @param col   the column of the Led (0..7)
+    uint8_t getCol(const Col &col)
+    {
+        return get(col);
+    }
+
+
     // Invert all points of matrix
     void invert();
 

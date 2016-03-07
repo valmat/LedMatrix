@@ -177,10 +177,28 @@ void LedMatrix::set(uint8_t arr[])
 // Get state of LED point on matrix
 bool LedMatrix::get(const Row &row, const Col &col)
 {
-    // Calculate binary position of colomn
+    // Binary position of colomn
     uint8_t pos = (1 << (_size - 1 - col));
     // Return binary value at the intersection of row and column
     return _status[row] & pos;
+}
+
+// Get the values on row of LED-matrix
+uint8_t LedMatrix::get(const Row &row)
+{
+    return _status[row];
+}
+
+// Get the values on colomn of LED-matrix
+uint8_t LedMatrix::get(const Col &col)
+{
+    uint8_t rez = 0;
+    for(auto &row: _rows) {
+        if(get(row, col)) {
+            rez |= (1 << (_size - 1 - row));
+        }
+    }
+    return rez;
 }
 
 // Invert all points of matrix
