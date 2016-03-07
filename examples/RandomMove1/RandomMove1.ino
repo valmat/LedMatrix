@@ -8,7 +8,7 @@ const uint8_t matrixCount = 3;
 // pin 11 is connected to the CLK 
 // pin 10 is connected to LOAD 
 MatrixCascade<matrixCount> cascade(12, 11, 10);
-randomMovement<matrixCount> randMov(cascade, A4);
+randomMovement<matrixCount> point1(cascade, A4), point2(cascade, A4), point3(cascade, A4);
 
 
 void setup()
@@ -28,8 +28,17 @@ void setup()
 
 void loop()
 {
-    randMov.off();
-    randMov.move();
-    randMov.on();
+    point1.off();
+    point1.move();
+    point1.on();
+    
+    point2.off();
+    point2.move();
+    point2.on();
+    
+    point3.off();
+    point3.move();
+    point3.on();
+    
     delay(50);
 }

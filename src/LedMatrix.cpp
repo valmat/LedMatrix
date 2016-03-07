@@ -1,7 +1,4 @@
-
-
 #include "LedMatrix.h"
-#include "MatrixRotor.h"
 
 
 //the opcodes for the MAX7221 and MAX7219
@@ -83,8 +80,15 @@ void LedMatrix::fill()
 
 void LedMatrix::set(Row row, Col col, bool state)
 {
-    MatrixRotor coords(row, col, _rotate, _size);
-    _set(coords.row(), coords.col(), state);
+    if( 1 == _rotate ) {
+        _set(col, _size - 1 - row, state);
+    } else if( 2 == _rotate ) {
+        _set(_size - 1 - row, _size - 1 - col, state);
+    } else if( 3 == _rotate ) {
+        _set(_size - 1 - col, row, state);
+    } else { // If _rotate == 0
+        _set(row, col, state);
+    }
 }
 
 // Binary inverting (helper function)
@@ -113,36 +117,20 @@ void LedMatrix::setRow(Row row, uint8_t value)
         _setRow(_size - 1 - row, _binInvert(value));
     } else if( 3 == _rotate ) {
         _setCol(row, _binInvert(value));
-    } else { // if( 0 == _rotate )
+    } else { // If _rotate == 0
         _setRow(row, value);
     }
-    /*
-    MatrixRotor coords(row, 0, _rotate, _size);
-    //_setRow(coords.row(), value);
-    
-    if( coords.isSwaped() )
-        _setCol(coords.row(), value);
-    else
-        _setRow(coords.row(), value);
-    */
 }
 
 void LedMatrix::setCol(Col col, uint8_t value)
 {
-    /*
-    MatrixRotor coords(0, col, _rotate, _size);
-    if( coords.isSwaped() )
-        _setRow(coords.row(), value);
-    else
-        _setCol(coords.col(), value);
-    */
     if( 1 == _rotate ) {
         _setRow(col, _binInvert(value));
     } else if( 2 == _rotate ) {
         _setCol(_size - 1 - col, _binInvert(value));
     } else if( 3 == _rotate ) {
         _setRow(_size - 1 - col, value);
-    } else { // if( 0 == _rotate )
+    } else { // If _rotate == 0
         _setCol(col, value);
     }
 }
