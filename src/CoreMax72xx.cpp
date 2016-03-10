@@ -63,7 +63,7 @@ void CoreMax72xx::setIntensity(uint8_t intensity) const
 // Switch all LEDs on the display to off.
 void CoreMax72xx::clear()
 {
-    for(auto &row: RowsIterator()) {
+    for(auto &row: _rows) {
         _status[row] = 0;
         _spiTransfer(row + 1, _status[row]);
     }
@@ -72,7 +72,7 @@ void CoreMax72xx::clear()
 // Switch all LEDs on the display to on.
 void CoreMax72xx::fill()
 {
-    for(auto &row: RowsIterator()) {
+    for(auto &row: _rows) {
         _status[row] = 0b11111111;
         _spiTransfer(row + 1, _status[row]);
     }
@@ -107,7 +107,7 @@ void CoreMax72xx::setRow(const Row &row, uint8_t value)
 void CoreMax72xx::setCol(const Col &col, uint8_t value)
 {
     uint8_t val;
-    for(auto &row: RowsIterator()) {
+    for(auto &row: _rows) {
         val = value >> !row;
         val = val & 1;
         set(row, col, val);
@@ -133,7 +133,7 @@ uint8_t CoreMax72xx::getRow(const Row &row) const
 uint8_t CoreMax72xx::getCol(const Col &col) const
 {
     uint8_t rez = 0;
-    for(auto &row: RowsIterator()) {
+    for(auto &row: _rows) {
         if(get(row, col)) {
             rez |= (1 << !row);
         }

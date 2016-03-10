@@ -11,7 +11,7 @@
 #include "RowColIterator.h"
 
 class CoreMax72xx {
-public:
+protected:
 
     // Constructor
     // @param dataPin      pin on the Arduino where data gets shifted out (DIN)
@@ -24,6 +24,8 @@ public:
     CoreMax72xx(Pino data, Pino clk, Pino cs) :
         CoreMax72xx(data, clk, cs, 0, 1)
     {}
+
+    CoreMax72xx() {}
 
 
     // Copy & Move constructors
@@ -49,6 +51,7 @@ public:
     // Switch all LEDs on the display to on.
     void fill();
 
+
     // Set the status of a single LED.
     // @param Row row   the row of the Led (0..7)
     // @param Col col   the column of the Led (0..7)
@@ -64,6 +67,7 @@ public:
     // @param  col -- column which is to be set (0..7)
     // @param  value -- each bit set to 1 will light up the corresponding LED.
     void setCol(const Col &col, uint8_t value);
+    
 
     // Get state of LED point on matrix
     // @param row   the row of the Led (0..7)
@@ -85,7 +89,20 @@ public:
         return _index;
     }
 
+
+    // Make rows and colomns iterable
+    RowsIterator rows() const
+    {
+        return _rows;
+    }
+    ColsIterator cols() const
+    {
+        return _cols;
+    }
+
+
 private:
+
     // Set the number of digits (or rows) to be displayed.
     // See datasheet for sideeffects of the scanlimit on the brightness
     // of the display.
@@ -96,9 +113,17 @@ private:
     void _spiTransfer(uint8_t opcode, uint8_t data) const;
 
 
-private:
+protected:
+
+    // Rows and colomns iterators
+    RowsIterator _rows{};
+    ColsIterator _cols{};
+
     // Size of matrix (the length of the row and column of a square matrix)
     constexpr static uint8_t _size = 8;
+
+
+private:
 
     // The maximum number of matrices
     constexpr static uint8_t _limit = 8;

@@ -10,6 +10,7 @@
 #include <Pino.h>
 #include "RowCol.h"
 #include "RowColIterator.h"
+#include "CoreMax72xx.h"
 #include "initializer_list.h"
 #include "move.h"
 
@@ -18,7 +19,10 @@ template<uint8_t CascadeSize>
 class MatrixCascade;
 
  
-class LedMatrix {
+class LedMatrix : public CoreMax72xx {
+    
+    using core = CoreMax72xx;
+
 public:
 
     // Constructor
@@ -26,7 +30,7 @@ public:
     // @param clockPin  pin for the clock  (CLK)
     // @param csPin     pin for selecting the device   (CS)
     LedMatrix(Pino data, Pino clk, Pino cs) :
-        LedMatrix(data, clk, cs, 0)
+        LedMatrix(data, clk, cs, 0, 1)
     {}
 
     // Copy & Move constructors
@@ -37,23 +41,7 @@ public:
     LedMatrix& operator=(LedMatrix &&) = default;
 
     
-    // Set the shutdown (power saving) mode for the device
-    void shutdown() const;
-
-    // Set the wakeup mode for the device
-    void wakeup() const;
-
-    // Set the brightness of the display.
-    // @param intensity the brightness of the display. (0..15)
-    void setIntensity(uint8_t intensity) const;
-
-    // Switch all LEDs on the display to off.
-    void clear();
-
-    // Switch all LEDs on the display to on.
-    void fill();
-
-    
+   
     // Set the status of a single LED.
     // @param Row row   the row of the Led (0..7)
     // @param Col col   the column of the Led (0..7)
@@ -63,16 +51,14 @@ public:
     // Turn on LED at a point
     // @param Row row   the row of the Led (0..7)
     // @param Col col   the column of the Led (0..7)
-    template <typename T1, typename T2>
-    void on(T1&& t1, T2&& t2) {
-        set(std::forward<T1>(t1), std::forward<T2>(t2), true);
+    void on(const Row &row, const Col &col) {
+        set(row, col, true);
     }
     // Turn off LED at a point
     // @param Row row   the row of the Led (0..7)
     // @param Col col   the column of the Led (0..7)
-    template <typename T1, typename T2>
-    void off(T1&& t1, T2&& t2) {
-        set(std::forward<T1>(t1), std::forward<T2>(t2), false);
+    void off(const Row &row, const Col &col) {
+        set(row, col, false);
     }
 
     // Set all LEDs in a row to a new state
@@ -121,26 +107,26 @@ public:
     // Get state of LED point on matrix
     // @param row   the row of the Led (0..7)
     // @param col   the column of the Led (0..7)
-    bool get(const Row &row, const Col &col);
+    bool get(const Row &row, const Col &col) const;
 
     // Get the values on row of LED-matrix
     // @param row   the row of the Led (0..7)
-    uint8_t get(const Row &row);
+    uint8_t get(const Row &row) const;
 
     // Get the values on colomn of LED-matrix
     // @param col   the column of the Led (0..7)
-    uint8_t get(const Col &col);
+    uint8_t get(const Col &col) const;
 
     // Get the values on row of LED-matrix
     // @param row   the row of the Led (0..7)
-    uint8_t getRow(const Row &row)
+    uint8_t getRow(const Row &row) const
     {
         return get(row);
     }
 
     // Get the values on colomn of LED-matrix
     // @param col   the column of the Led (0..7)
-    uint8_t getCol(const Col &col)
+    uint8_t getCol(const Col &col) const
     {
         return get(col);
     }
@@ -186,34 +172,26 @@ public:
     uint8_t shiftRight(uint8_t value = 0);
 
     
-    // How many times to rotate the matrix clockwise
+    // Set how many times to rotate the matrix clockwise
     // @param From 0 to 3
     void setRotation(uint8_t times = 1)
     {
         _rotate += times;
         _rotate = _rotate % 4;
     }
+
     // Reset rotation flag to default
     void resetRotation()
     {
         _rotate = 0;
     }
-    
-    // get matrix index in cascade
-    uint8_t getIndex() const
-    {
-        return _index;
-    }
 
-    // Make rows and colomns iterable
-    constexpr static RowsIterator rows()
+    // Get how many times the matrix was rotated clockwise
+    uint8_t getRotation() const
     {
-        return _rows;
+        return _rotate;
     }
-    constexpr static ColsIterator cols()
-    {
-        return _cols;
-    }
+    
 
 private:
 
@@ -223,60 +201,15 @@ private:
 
     // Private constructor
     // Only MatrixCascade can use it
-    LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeSize = 1);
-
-    // Set the number of digits (or rows) to be displayed.
-    // See datasheet for sideeffects of the scanlimit on the brightness
-    // of the display.
-    // @param limit  number of digits to be displayed (1..8)
-    void _setScanLimit(uint8_t limit) const;
-
-    // Send out a single command to the device
-    void _spiTransfer(uint8_t opcode, uint8_t data) const;
-
-    void _set(uint8_t row, uint8_t col, bool state);
-    void _setRow(uint8_t row, uint8_t value);
-    void _setCol(uint8_t col, uint8_t value);
+    LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeSize) :
+        core(data, clk, cs, ind, cascadeSize)
+    {}
 
 
-private:
-    // Size of matrix (the length of the row and column of a square matrix)
-    constexpr static uint8_t _size = 8;
-
-    // The maximum number of matrices
-    constexpr static uint8_t _limit = 8;
-
-    // The maximum of posible intensity
-    constexpr static uint8_t _maxIntensity = 16;
-
-    // The array for shifting the data to the devices
-    mutable uint8_t _spidata[2 * _limit];
-    
-    // This array contains the statuses of all points of LED matrix
-    uint8_t _status[_size];
-    
-    // A pin on the Arduino where data gets shifted out (DIN).
-    // Data is shifted out of this pin
-    Pino _mosi{0};
-    
-    // The clock is signaled on this pin (CLK)
-    Pino _clk{0};
-    
-    // This one is driven LOW for chip selection (CS)
-    Pino _cs{0};
-
-    // If the matrix is placed in cascade, _index is a index in the cascade.
-    uint8_t _index = 0;
-
+private:  
     // Rotate index. How many times to rotate the matrix clockwise
     uint8_t _rotate = 0;
 
-    // If the matrix is placed in a cascade, cascadeSize is a index of cascade device.
-    uint8_t _cascadeSize = 1;
-
-    // Rows and colomns iterators
-    constexpr static RowsIterator _rows{};
-    constexpr static ColsIterator _cols{};
 
     template<uint8_t __cascadeSize>
     friend class MatrixCascade;
