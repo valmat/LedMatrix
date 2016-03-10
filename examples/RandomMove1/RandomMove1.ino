@@ -43,5 +43,5 @@ void loop()
     point3.move();
     point3.on();
     
-    delay(50);
+    delay(150);
 }

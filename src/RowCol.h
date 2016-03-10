@@ -2,7 +2,7 @@
  *
  * RowCol is a generic name for the two classes. Row and Col.
  * These classes are for convenient control the rows and columns
- * of the LED matrix using LedMatrix class.
+ * of the LED matrix using thr LedMatrix class.
  *
  */
 
@@ -33,7 +33,7 @@ public:
         _nom(that._nom)
     {}
 
-    // if is Row/Col is valid
+    // if the Row/Col object is valid
     constexpr bool isValid() const
     {
         return _valid;
@@ -43,6 +43,20 @@ public:
     constexpr operator uint8_t () const
     {
         return _nom;
+    }
+
+    // Cast to a ... RowCol
+    // Row -> Col, Col -> Row
+    template<bool B>
+    constexpr operator RowCol<maxRows, B> () const
+    {
+        return RowCol<maxRows, B>(_nom);
+    }
+
+    // Reverse operator
+    constexpr RowCol operator!() const
+    {
+        return maxRows - 1 - _nom;
     }
 
     //
@@ -107,10 +121,10 @@ public:
 
 private:
     // Novalidateble constructor
-    constexpr RowCol(uint8_t nom, bool valid) : _nom(nom), _valid(valid) {}
+    constexpr RowCol(uint8_t nom, bool valid) :  _valid(valid), _nom(nom) {}
 
-    uint8_t _nom;
     const bool _valid = true;
+    uint8_t _nom;
 
     template<uint8_t __maxRows, bool __isRow>
     friend struct RowColIterator;
