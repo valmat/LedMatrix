@@ -11,7 +11,7 @@
 #include "RowColIterator.h"
 
 class CoreMax72xx {
-protected:
+public:
 
     // Constructor
     // @param dataPin      pin on the Arduino where data gets shifted out (DIN)
@@ -67,7 +67,7 @@ protected:
     // @param  col -- column which is to be set (0..7)
     // @param  value -- each bit set to 1 will light up the corresponding LED.
     void setCol(const Col &col, uint8_t value);
-    
+
 
     // Get state of LED point on matrix
     // @param row   the row of the Led (0..7)

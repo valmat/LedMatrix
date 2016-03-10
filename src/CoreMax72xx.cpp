@@ -114,6 +114,10 @@ void CoreMax72xx::setCol(const Col &col, uint8_t value)
     }
 }
 
+//
+// Getters:
+//
+
 // Get state of LED point on matrix
 bool CoreMax72xx::get(const Row &row, const Col &col) const
 {
@@ -141,15 +145,12 @@ uint8_t CoreMax72xx::getCol(const Col &col) const
     return rez;
 }
 
-
-
 //
 // Private methods:
 //
 
-
 // SPI transaction
-void CoreMax72xx::_spiTransfer(volatile uint8_t opcode, volatile uint8_t data) const
+void CoreMax72xx::_spiTransfer(uint8_t opcode, uint8_t data) const
 {
     //Create an array with the data to shift out
     const uint8_t offset=_index * 2;

@@ -8,7 +8,9 @@ LedMatrix matrix(12,11,10);
 const uint16_t delaytime = 1000;
 
 //const uint8_t pic[] = {B11001111, B10011110, B00111100, B01111001, B11110011, B11100111, B11001111, B10011110};
-const uint8_t pic[] = {B01001001, B10010010, B00100100, B01001000, B10010000, B00100000, B01000000, B10000000};
+//const uint8_t pic[] = {B01001001, B10010010, B00100100, B01001000, B10010000, B00100000, B01000000, B10000000};
+const uint8_t pic[] = {0b10000011, 0b10000111, 0b10001001, 0b11010010, 0b11110100, 0b11010010, 0b10001001, 0b10000111};
+
 
 void setup() 
 {
@@ -26,11 +28,14 @@ void loop()
     delay(delaytime);
 
     //matrix.shiftUp(pic[ind%8]);
+    //matrix.shiftDown(pic[ind%8]);
+    //matrix.shiftRight(pic[ind%8]);
+    matrix.shiftLeft(pic[ind%8]);
 
     //matrix.shiftUp();
     //matrix.shiftDown();
     //matrix.shiftRight();
-    matrix.shiftLeft();
+    //matrix.shiftLeft();
 
 
     ind++;

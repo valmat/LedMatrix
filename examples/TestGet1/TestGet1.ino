@@ -5,7 +5,7 @@
 // pin 10 is connected to LOAD 
 LedMatrix matrix(12,11,10);
 
-const uint16_t delaytime = 300;
+const uint16_t delaytime = 50;
 
 //const uint8_t pic[] = {B11001111, B10011110, B00111100, B01111001, B11110011, B11100111, B11001111, B10011110};
 //const uint8_t pic[] = {B01001001, B10010010, B00100100, B01001000, B10010000, B00100000, B01000000, B10000000};
@@ -68,8 +68,7 @@ void loop()
     //matrix.shiftLeft(pic[ind%8]);
     //matrix.shiftLeft();
 
-
-    
+    delay(1000);
     matrix.set(pic);
     for(int i = 0; i < 8; i++){
         matrix.shiftUp(pic[i%8]);
@@ -98,6 +97,11 @@ void loop()
     }
     delay(1000);
 
+
+    
+    matrix.clear();
+    delay(100);
+    matrix.set(pic);
 
     printSer("Shifted:");
     matrix.setRotation();
