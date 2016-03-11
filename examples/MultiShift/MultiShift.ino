@@ -1,10 +1,19 @@
 #include "MatrixCascade.h"
 
-// pin 12 is connected to the DataIn 
-// pin 11 is connected to the CLK 
+//
+//
+// This example clearly shows the difference in the speed between the hardware and softvare SPI
+//
+//
+
+// pin 11 is connected to the DataIn 
+// pin 13 is connected to the CLK 
 // pin 10 is connected to LOAD 
 const uint8_t CascadeSize = 3;
-MatrixCascade<CascadeSize> cascade(12, 11, 10);
+// Softvare SPI:
+//MatrixCascade<CascadeSize> cascade(11, 13, 10);
+// Hardware SPI:
+MatrixCascade<CascadeSize> cascade(10);
 
 const uint8_t picsCount = 3;
 const uint8_t pics[3][8] = {
@@ -48,7 +57,7 @@ void loop()
         for (auto &matrix: cascade)
         {
             LastCol = matrix.shiftRight(LastCol);
-            //delay(5);
+            delay(20);
         }
         //delay(100);
     }

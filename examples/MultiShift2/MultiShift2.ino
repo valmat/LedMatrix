@@ -1,10 +1,11 @@
 #include "MatrixCascade.h"
 
-// pin 12 is connected to the DataIn 
-// pin 11 is connected to the CLK 
+// pin 11 is connected to the DataIn 
+// pin 13 is connected to the CLK 
 // pin 10 is connected to LOAD 
 const uint8_t CascadeSize = 3;
-MatrixCascade<CascadeSize> cascade(12, 11, 10);
+MatrixCascade<CascadeSize> cascade(11, 13, 10);
+//MatrixCascade<CascadeSize> cascade(10);
 
 const uint16_t delaytime = 20;
 

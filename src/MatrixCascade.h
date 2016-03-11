@@ -13,7 +13,7 @@ template<uint8_t cascadeSize>
 class MatrixCascade {
 public:
 
-    // Constructor
+    // Software-SPI Constructor
     // @param dataPin   pin on the Arduino where data gets shifted out
     // @param clockPin  pin for the clock
     // @param csPin     pin for selecting the device (chip select pin)
@@ -22,6 +22,16 @@ public:
         // Fill cascade on startup
         for(uint8_t i = 0; i < cascadeSize; i++) {
             matrixes[i] = LedMatrix(data, clk, cs, i, cascadeSize);
+        }
+    }
+
+    // HardWare-SPI Constructor
+    // @param csPin        pin for selecting the device   (CS -- chip select pin)
+    MatrixCascade(Pino cs)
+    {
+        // Fill cascade on startup
+        for(uint8_t i = 0; i < cascadeSize; i++) {
+            matrixes[i] = LedMatrix(cs, i, cascadeSize, true);
         }
     }
 
