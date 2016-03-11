@@ -23,14 +23,12 @@ void setup()
 void loop()
 { 
     for(auto &matrix: cascade) {
-        matrix.setRotation();
         for(auto &row: matrix.rows()) {
             for(auto &col: matrix.cols()) {
                 delay(delaytime);
                 matrix.on(row, col);
             }
         }
-        //matrix.clear();
     }
 
     for(auto &matrix: cascade) {
@@ -40,6 +38,9 @@ void loop()
                 matrix.off(row, col);
             }
         }
+
+        // Rotate matrix
+        matrix.setRotation();
     }
 }
 
