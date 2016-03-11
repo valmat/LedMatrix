@@ -7,57 +7,56 @@ LedMatrix matrix(12,11,10);
 
 const uint16_t delaytime = 1000;
 
-//const uint8_t pic[] = {B11001111, B10011110, B00111100, B01111001, B11110011, B11100111, B11001111, B10011110};
-//const uint8_t pic[] = {B01001001, B10010010, B00100100, B01001000, B10010000, B00100000, B01000000, B10000000};
-const uint8_t pic[] = {0b10000011, 0b10000111, 0b10001001, 0b11010010, 0b11110100, 0b11010010, 0b10001001, 0b10000111};
+const uint8_t picsCount = 6;
+const uint8_t pics[6][8] = {
+    {0b10000011, 0b10000111, 0b10001001, 0b11010010, 0b11110100, 0b11010010, 0b10001001, 0b10000111},
+    {0b11001111, 0b10011110, 0b00111100, 0b01111001, 0b11110011, 0b11100111, 0b11001111, 0b10011110},
+    {0b01001001, 0b10010010, 0b00100100, 0b01001000, 0b10010000, 0b00100000, 0b01000000, 0b10000000},
+    {0b11111111, 0b10000001, 0b10111101, 0b10100101, 0b10100101, 0b10111101, 0b10000001, 0b11111111},
+    {0b10011001, 0b01011010, 0b00111100, 0b11111111, 0b11111111, 0b00111100, 0b01011010, 0b10011001},
+    {0b11111000, 0b00000100, 0b00000010, 0b11111111, 0b11111111, 0b11000010, 0b11000100, 0b11001000},
+};
 
 
 void setup() 
 {
-    //Serial.begin(9600);
-    // Set the brightness. (0..15)
     matrix.setIntensity(0);
-    matrix.set(pic);
 }
-
 
 uint8_t ind = 0;
 
 void loop()
 {
-    delay(delaytime);
+    
+    auto pic = pics[ind % picsCount];
 
-    //matrix.shiftUp(pic[ind%8]);
-    //matrix.shiftDown(pic[ind%8]);
-    //matrix.shiftRight(pic[ind%8]);
-    matrix.shiftLeft(pic[ind%8]);
-
-    //matrix.shiftUp();
-    //matrix.shiftDown();
-    //matrix.shiftRight();
-    //matrix.shiftLeft();
-
+    matrix.set(pics[ind % picsCount]);
+    for(int i = 0; i < 8; i++){
+        matrix.shiftUp(pic[i%8]);
+        delay(80);
+    }
+    delay(1000);
+    
+    matrix.set(pic);
+    for(int i = 0; i < 8; i++){
+        matrix.shiftDown(pic[i%8]);
+        delay(80);
+    }
+    delay(1000);
+    
+    matrix.set(pic);
+    for(int i = 0; i < 8; i++){
+        matrix.shiftLeft(pic[i%8]);
+        delay(80);
+    }
+    delay(1000);
+    
+    matrix.set(pic);
+    for(int i = 0; i < 8; i++){
+        matrix.shiftRight(pic[i%8]);
+        delay(80);
+    }
+    delay(1000);
 
     ind++;
-
-
-
-
-    /*
-
-    for(auto &row: matrix.rows()) {
-        for(auto &col: matrix.cols()) {
-        }
-    }
-
-    matrix.set({B00111111, B00011111, B00001111, B00011111, B00110011, B01100001, B11000111, B10000111});
-    printSer("orig:");
-    delay(delaytime);
-    
-    matrix.invert();
-    printSer("inverted:");
-    delay(delaytime);
-    
-    matrix.setRotation();
-    */
 }
