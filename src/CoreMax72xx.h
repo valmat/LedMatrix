@@ -9,6 +9,7 @@
 #include <Pino.h>
 #include "RowCol.h"
 #include "RowColIterator.h"
+#include "BitInt.h"
 
 class CoreMax72xx {
 public:
@@ -61,12 +62,12 @@ public:
     // Set all LEDs in a row to a new state
     // @param  row which is to be set (0..7)
     // @param  value each bit set to 1 will light up the corresponding LED.
-    void setRow(const Row &row, uint8_t value);
+    void setRow(const Row &row, buint8_t value);
 
     // Set all LEDs in a column to a new state
     // @param  col -- column which is to be set (0..7)
     // @param  value -- each bit set to 1 will light up the corresponding LED.
-    void setCol(const Col &col, uint8_t value);
+    void setCol(const Col &col, buint8_t value);
 
 
     // Get state of LED point on matrix
@@ -76,11 +77,11 @@ public:
 
     // Get the values on row of LED-matrix
     // @param row   the row of the Led (0..7)
-    uint8_t getRow(const Row &row) const;
+    buint8_t getRow(const Row &row) const;
 
     // Get the values on colomn of LED-matrix
     // @param col   the column of the Led (0..7)
-    uint8_t getCol(const Col &col) const;
+    buint8_t getCol(const Col &col) const;
 
 
     // get device index in cascade
@@ -132,7 +133,7 @@ private:
     constexpr static uint8_t _maxIntensity = 16;
    
     // This array contains the statuses of all points of LED matrix
-    uint8_t _status[_size];
+    buint8_t _status[_size];
     
     // A pin on the Arduino where data gets shifted out (DIN).
     // Data is shifted out of this pin

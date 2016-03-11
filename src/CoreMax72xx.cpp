@@ -85,32 +85,22 @@ void CoreMax72xx::fill()
 // Set the status of a single LED.
 void CoreMax72xx::set(const Row &row, const Col &col, bool state)
 {
-    uint8_t val = 0b10000000 >> col;
-
-    if(state)
-        _status[row] = _status[row] | val;
-    else {
-        val = ~val;
-        _status[row] = _status[row] & val;
-    }
+    _status[row][col] = state;
     _spiTransfer(row + 1, _status[row]);
 }
 
 // Set all LEDs in a row to a new state
-void CoreMax72xx::setRow(const Row &row, uint8_t value)
+void CoreMax72xx::setRow(const Row &row, buint8_t value)
 {
     _status[row] = value;
     _spiTransfer(row + 1, _status[row]);
 }
 
 // Set all LEDs in a column to a new state
-void CoreMax72xx::setCol(const Col &col, uint8_t value)
+void CoreMax72xx::setCol(const Col &col, buint8_t value)
 {
-    uint8_t val;
     for(auto &row: _rows) {
-        val = value >> !row;
-        val = val & 1;
-        set(row, col, val);
+        set(row, col, value[row]);
     }
 }
 
@@ -121,26 +111,22 @@ void CoreMax72xx::setCol(const Col &col, uint8_t value)
 // Get state of LED point on matrix
 bool CoreMax72xx::get(const Row &row, const Col &col) const
 {
-    // Binary position of colomn
-    uint8_t pos = (1 << !col);
     // Return binary value at the intersection of row and column
-    return _status[row] & pos;
+    return _status[row][col];
 }
 
 // Get the values on row of LED-matrix
-uint8_t CoreMax72xx::getRow(const Row &row) const
+buint8_t CoreMax72xx::getRow(const Row &row) const
 {
     return _status[row];
 }
 
 // Get the values on colomn of LED-matrix
-uint8_t CoreMax72xx::getCol(const Col &col) const
+buint8_t CoreMax72xx::getCol(const Col &col) const
 {
-    uint8_t rez = 0;
-    for(auto &row: _rows) {
-        if(get(row, col)) {
-            rez |= (1 << !row);
-        }
+    buint8_t rez = 0;
+    for(auto &row: RowsIterator()) {
+        rez[row] = get(row, col);
     }
     return rez;
 }
