@@ -4,10 +4,10 @@
 
 const uint8_t matrixCount = 3;
 
-// pin 12 is connected to the DataIn 
-// pin 11 is connected to the CLK 
-// pin 10 is connected to LOAD 
-MatrixCascade<matrixCount> cascade(12, 11, 10);
+// pin 11 is connected to the DataIn
+// pin 13 is connected to the CLK
+// pin 10 is connected to LOAD (cs)
+MatrixCascade<CascadeSize> cascade(11, 13, 10);
 
 randomMovement<matrixCount> point1(cascade, A4), 
                             point2(cascade, A4), 

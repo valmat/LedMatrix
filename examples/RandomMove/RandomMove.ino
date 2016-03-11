@@ -2,10 +2,10 @@
 #include "randomMovement.h"
 
 // A single display
-// pin 12 is connected to the DataIn 
-// pin 11 is connected to the CLK 
-// pin 10 is connected to LOAD 
-LedMatrix matrix(12,11,10);
+// pin 11 is connected to the DataIn
+// pin 13 is connected to the CLK
+// pin 10 is connected to LOAD (cs)
+LedMatrix matrix(11, 13, 10);
 
 randomMovement randMov(matrix, A4);
 

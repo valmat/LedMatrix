@@ -6,8 +6,8 @@
 //     DIN => MOSI      (Arduino pin 11)
 //     CS =>            (Arduino any pin)
 
-// pin 11 is connected to the DataIn 
-// pin 13 is connected to the CLK 
+// pin 11 is connected to the DataIn
+// pin 13 is connected to the CLK
 // pin 10 is connected to LOAD (cs)
 const uint8_t CascadeSize = 3;
 //MatrixCascade<CascadeSize> cascade(11, 13, 10);
