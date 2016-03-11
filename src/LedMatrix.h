@@ -57,13 +57,15 @@ public:
     // Turn on LED at a point
     // @param Row row   the row of the Led (0..7)
     // @param Col col   the column of the Led (0..7)
-    void on(const Row &row, const Col &col) {
+    void on(const Row &row, const Col &col)
+    {
         set(row, col, true);
     }
     // Turn off LED at a point
     // @param Row row   the row of the Led (0..7)
     // @param Col col   the column of the Led (0..7)
-    void off(const Row &row, const Col &col) {
+    void off(const Row &row, const Col &col)
+    {
         set(row, col, false);
     }
 

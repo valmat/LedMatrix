@@ -36,7 +36,7 @@ public:
     }
 
     // Returns the number of devices on this MatrixCascade
-    constexpr uint8_t size()
+    constexpr uint8_t size() const
     {
         return cascadeSize;
     }
