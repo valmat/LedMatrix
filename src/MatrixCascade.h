@@ -16,7 +16,7 @@ public:
     // Constructor
     // @param dataPin   pin on the Arduino where data gets shifted out
     // @param clockPin  pin for the clock
-    // @param csPin     pin for selecting the device 
+    // @param csPin     pin for selecting the device (chip select pin)
     MatrixCascade(Pino data, Pino clk, Pino cs)
     {
         // Fill cascade on startup

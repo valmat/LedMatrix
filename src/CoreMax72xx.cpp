@@ -1,5 +1,5 @@
 #include "CoreMax72xx.h"
-
+#include <SPI.h>
 
 //the opcodes for the MAX7221 and MAX7219
 #define OP_NOOP   0
@@ -26,6 +26,30 @@ CoreMax72xx::CoreMax72xx(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t casc
     _index(ind),
     _cascadeSize(cascadeSize)
 {
+    _initialize();
+}
+
+
+CoreMax72xx::CoreMax72xx(Pino cs, uint8_t ind, uint8_t cascadeSize) :
+    _mosi(0),
+    _clk(0),
+    _cs(cs, Pino::Mode::out),
+    _index(ind),
+    _cascadeSize(cascadeSize),
+    _isHardwareSPI(true)
+{
+    // initialize SPI:
+    SPI.setBitOrder(MSBFIRST);
+    SPI.setDataMode(SPI_MODE0);
+    SPI.begin();
+    SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
+
+    _initialize();
+}
+
+// Initialize the chip
+void CoreMax72xx::_initialize()
+{
     _cs.on();
 
     _spiTransfer(OP_DISPLAYTEST, 0);
@@ -34,8 +58,8 @@ CoreMax72xx::CoreMax72xx(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t casc
     //decode is done in source
     _spiTransfer(OP_DECODEMODE, 0);
 
-    //To clear display on startup
-    // And fill the _status array by zeros
+    // Clear display on startup
+    // and fill the _status array by zeros
     clear();
     //we go into wakeup-mode on startup
     wakeup();
@@ -140,7 +164,7 @@ void CoreMax72xx::_spiTransfer(uint8_t opcode, uint8_t data) const
 {
     //Create an array with the data to shift out
     const uint8_t offset=_index * 2;
-    const uint8_t maxbytes = _cascadeSize*2;
+    const uint8_t maxbytes = _cascadeSize * 2;
 
     // The array for shifting the data to the devices
     uint8_t _spidata[maxbytes];
@@ -157,13 +181,22 @@ void CoreMax72xx::_spiTransfer(uint8_t opcode, uint8_t data) const
     _cs.off();
 
     //Shift out the data
-    for(uint8_t i = maxbytes; i > 0; i--) {
-        _mosi.shiftOut(_clk, _spidata[i-1]);
+    if(_isHardwareSPI) {
+        //SPI.beginTransaction(SPISettings(100000000, MSBFIRST, SPI_MODE0));
+        for(uint8_t i = maxbytes; i > 0; i--) {
+            SPI.transfer(_spidata[i-1]);
+        }
+        //SPI.endTransaction();
+    } else {
+        for(uint8_t i = maxbytes; i > 0; i--) {
+            _mosi.shiftOut(_clk, _spidata[i-1]);
+        }
     }
 
     //latch the data onto the display
     _cs.on();
 }
+
 
 void CoreMax72xx::_setScanLimit(uint8_t limit) const
 {

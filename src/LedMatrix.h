@@ -25,12 +25,18 @@ class LedMatrix : public CoreMax72xx {
 
 public:
 
-    // Constructor
+    // Software-SPI Constructor
     // @param dataPin   pin on the Arduino where data gets shifted out (DIN)
     // @param clockPin  pin for the clock  (CLK)
-    // @param csPin     pin for selecting the device   (CS)
+    // @param csPin     pin for selecting the device   (CS - chip select pin)
     LedMatrix(Pino data, Pino clk, Pino cs) :
         LedMatrix(data, clk, cs, 0, 1)
+    {}
+
+    // HardWare-SPI Constructor
+    // @param csPin        pin for selecting the device   (CS -- chip select pin)
+    LedMatrix(Pino cs) :
+        LedMatrix(cs, 0, 1, true)
     {}
 
     // Copy & Move constructors
@@ -199,12 +205,25 @@ private:
     // Only MatrixCascade can use it
     LedMatrix() {}
 
-    // Private constructor
+    // Private Software-SPI Constructor
     // Only MatrixCascade can use it
+    // @param dataPin      pin on the Arduino where data gets shifted out (DIN)
+    // @param clockPin     pin for the clock  (CLK)
+    // @param csPin        pin for selecting the device   (CS -- chip select pin)
+    // @param ind          index in the devises cascade, if the devise is placed in cascade
+    // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
     LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeSize) :
         core(data, clk, cs, ind, cascadeSize)
     {}
 
+    // Private HardWare-SPI Constructor
+    // Only MatrixCascade can use it
+    // @param csPin        pin for selecting the device   (CS -- chip select pin)
+    // @param ind          index in the devises cascade, if the devise is placed in cascade
+    // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
+    LedMatrix(Pino cs, uint8_t ind, uint8_t cascadeSize, bool) :
+        core(cs, ind, cascadeSize)
+    {}
 
 private:  
     // Rotate index. How many times to rotate the matrix clockwise

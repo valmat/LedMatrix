@@ -14,10 +14,10 @@
 class CoreMax72xx {
 public:
 
-    // Constructor
+    // Software-SPI Constructor
     // @param dataPin      pin on the Arduino where data gets shifted out (DIN)
     // @param clockPin     pin for the clock  (CLK)
-    // @param csPin        pin for selecting the device   (CS)
+    // @param csPin        pin for selecting the device   (CS -- chip select pin)
     // @param ind          index in the devises cascade, if the devise is placed in cascade
     // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
     CoreMax72xx(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeSize);
@@ -26,6 +26,17 @@ public:
         CoreMax72xx(data, clk, cs, 0, 1)
     {}
 
+    // HardWare-SPI Constructor
+    // @param csPin        pin for selecting the device   (CS -- chip select pin)
+    // @param ind          index in the devises cascade, if the devise is placed in cascade
+    // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
+    CoreMax72xx(Pino cs, uint8_t ind, uint8_t cascadeSize);
+    
+    CoreMax72xx(Pino cs) :
+        CoreMax72xx(cs, 0, 1)
+    {}
+    
+    // Empty constructor
     CoreMax72xx() {}
 
 
@@ -113,6 +124,9 @@ private:
     // Send out a single command to the device
     void _spiTransfer(uint8_t opcode, uint8_t data) const;
 
+    // Initialize the chip
+    void _initialize();
+
 
 protected:
 
@@ -150,5 +164,7 @@ private:
 
     // If the matrix is placed in a cascade, cascadeSize is count of devices.
     uint8_t _cascadeSize = 1;
+
+    bool _isHardwareSPI = false;
 };
 
