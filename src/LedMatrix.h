@@ -64,17 +64,17 @@ public:
     // Set all LEDs in a row to a new state
     // @param  row which is to be set (0..7)
     // @param  value each bit set to 1 will light up the corresponding LED.
-    void set(const Row &row, uint8_t value);
+    void set(const Row &row, buint8_t value);
 
     // Set all LEDs in a column to a new state
     // @param  col -- column which is to be set (0..7)
     // @param  value -- each bit set to 1 will light up the corresponding LED.
-    void set(const Col &col, uint8_t value);
+    void set(const Col &col, buint8_t value);
 
     // Set all LEDs in a row to a new state
     // @param  row which is to be set (0..7)
     // @param  value each bit set to 1 will light up the corresponding LED.
-    void setRow(const Row &row, uint8_t value)
+    void setRow(const Row &row, buint8_t value)
     {
         set(row, value);
     }
@@ -82,7 +82,7 @@ public:
     // Set all LEDs in a column to a new state
     // @param  col -- column which is to be set (0..7)
     // @param  value -- each bit set to 1 will light up the corresponding LED.
-    void setCol(const Col &col, uint8_t value)
+    void setCol(const Col &col, buint8_t value)
     {
         set(col, value);
     }
@@ -111,22 +111,22 @@ public:
 
     // Get the values on row of LED-matrix
     // @param row   the row of the Led (0..7)
-    uint8_t get(const Row &row) const;
+    buint8_t get(const Row &row) const;
 
     // Get the values on colomn of LED-matrix
     // @param col   the column of the Led (0..7)
-    uint8_t get(const Col &col) const;
+    buint8_t get(const Col &col) const;
 
     // Get the values on row of LED-matrix
     // @param row   the row of the Led (0..7)
-    uint8_t getRow(const Row &row) const
+    buint8_t getRow(const Row &row) const
     {
         return get(row);
     }
 
     // Get the values on colomn of LED-matrix
     // @param col   the column of the Led (0..7)
-    uint8_t getCol(const Col &col) const
+    buint8_t getCol(const Col &col) const
     {
         return get(col);
     }
@@ -166,10 +166,10 @@ public:
     // Shift matrix
     // @param value is shifting value
     // @return shifted value
-    uint8_t shiftUp(uint8_t value = 0);
-    uint8_t shiftDown(uint8_t value = 0);
-    uint8_t shiftLeft(uint8_t value = 0);
-    uint8_t shiftRight(uint8_t value = 0);
+    buint8_t shiftUp(buint8_t value = 0);
+    buint8_t shiftDown(buint8_t value = 0);
+    buint8_t shiftLeft(buint8_t value = 0);
+    buint8_t shiftRight(buint8_t value = 0);
 
     
     // Set how many times to rotate the matrix clockwise

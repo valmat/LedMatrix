@@ -1,23 +1,5 @@
 #include "LedMatrix.h"
 
-// Binary order inverting transposition (helper function)
-inline static uint8_t _binTranspos(uint8_t v)
-{
-    uint8_t r = 0;
-    uint8_t pos = 1;
-    uint8_t x, s = 8, s2 = 4; // s = sizeof(uint8_t)
-
-    for(uint8_t i = 0; i < s2; i++) {
-        x = v & (pos << i);
-        r = r | ( x << (s-2*i-1) );
-    }
-    for(uint8_t i = 0; i < s2; i++) {
-        x = v & ( pos << (s - i - 1) );
-        r = r | ( x >> (s-2*i-1) );
-    }
-    return r;
-}
-
 void LedMatrix::set(const Row &row, const Col &col, bool state)
 {
     // Set the value to the desired position depending on the seted rotation value
@@ -33,28 +15,28 @@ void LedMatrix::set(const Row &row, const Col &col, bool state)
 }
 
 // Set all LEDs in a row to a new state
-void LedMatrix::set(const Row &row, uint8_t value)
+void LedMatrix::set(const Row &row, buint8_t value)
 {
     // Set the value to the desired position depending on the seted rotation value
     if( 1 == _rotate ) {
         core::setCol(!row, value);
     } else if( 2 == _rotate ) {
-        core::setRow(!row, _binTranspos(value));
+        core::setRow(!row, !value);
     } else if( 3 == _rotate ) {
-        core::setCol(row, _binTranspos(value));
+        core::setCol(row, !value);
     } else { // If _rotate == 0
         core::setRow(row, value);
     }
 }
 
 // Set all LEDs in a column to a new state
-void LedMatrix::set(const Col &col, uint8_t value)
+void LedMatrix::set(const Col &col, buint8_t value)
 {
     // Set the value to the desired position depending on the seted rotation value
     if( 1 == _rotate ) {
-        core::setRow(col, _binTranspos(value));
+        core::setRow(col, !value);
     } else if( 2 == _rotate ) {
-        core::setCol(!col, _binTranspos(value));
+        core::setCol(!col, !value);
     } else if( 3 == _rotate ) {
         core::setRow(!col, value);
     } else { // If _rotate == 0
@@ -86,28 +68,28 @@ bool LedMatrix::get(const Row &row, const Col &col) const
 }
 
 // Get the values on row of LED-matrix
-uint8_t LedMatrix::get(const Row &row) const
+buint8_t LedMatrix::get(const Row &row) const
 {
     // Set the value to the desired position depending on the seted rotation value
     if( 1 == _rotate ) {
         return core::getCol(!row);
     } else if( 2 == _rotate ) {
-        return _binTranspos( core::getRow(!row) );
+        return !core::getRow(!row);
     } else if( 3 == _rotate ) {
-        return _binTranspos( core::getCol(row) );
+        return !core::getCol(row);
     } else { // If _rotate == 0
         return core::getRow(row);
     }
 }
 
 // Get the values on colomn of LED-matrix
-uint8_t LedMatrix::get(const Col &col) const
+buint8_t LedMatrix::get(const Col &col) const
 {
     // Set the value to the desired position depending on the seted rotation value
     if( 1 == _rotate ) {
-        return _binTranspos( core::getRow(col) );
+        return !core::getRow(col);
     } else if( 2 == _rotate ) {
-        return _binTranspos( core::getCol(!col) );
+        return !core::getCol(!col);
     } else if( 3 == _rotate ) {
         return core::getRow(!col);
     } else { // If _rotate == 0
@@ -144,9 +126,9 @@ void LedMatrix::invert(const Col &col)
 
 // Shift matrix
 // Shift matrix
-uint8_t LedMatrix::shiftUp(uint8_t value)
+buint8_t LedMatrix::shiftUp(buint8_t value)
 {
-    uint8_t rez = getRow(0);
+    buint8_t rez = getRow(0);
     for(uint8_t i = 0; i < _size-1; i++) {
         setRow(i, getRow(i+1));
     }
@@ -154,9 +136,9 @@ uint8_t LedMatrix::shiftUp(uint8_t value)
     return rez;
 }
 
-uint8_t LedMatrix::shiftDown(uint8_t value)
+buint8_t LedMatrix::shiftDown(buint8_t value)
 {
-    uint8_t rez = getRow(_size-1);
+    buint8_t rez = getRow(_size-1);
     for(uint8_t i = _size-1; i > 0; i--) {
         setRow(i, getRow(i-1));
     }
@@ -164,9 +146,9 @@ uint8_t LedMatrix::shiftDown(uint8_t value)
     return rez;
 }
 
-uint8_t LedMatrix::shiftLeft(uint8_t value)
+buint8_t LedMatrix::shiftLeft(buint8_t value)
 {
-    uint8_t rez = getCol(0);
+    buint8_t rez = getCol(0);
     for(uint8_t i = 0; i < _size-1; i++) {
         setCol(i, getCol(i+1));
     }
@@ -174,9 +156,9 @@ uint8_t LedMatrix::shiftLeft(uint8_t value)
     return rez;
 }
 
-uint8_t LedMatrix::shiftRight(uint8_t value)
+buint8_t LedMatrix::shiftRight(buint8_t value)
 {
-    uint8_t rez = getCol(_size-1);
+    buint8_t rez = getCol(_size-1);
     for(uint8_t i = _size-1; i > 0; i--) {
         setCol(i, getCol(i-1));
     }
