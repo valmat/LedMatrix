@@ -1,28 +1,67 @@
 #######################################
-# Syntax Coloring Map For LedControl
+# Syntax Coloring Map For LedMatrix
 #######################################
 
 #######################################
 # Datatypes (KEYWORD1)
 #######################################
-
-LedControl	KEYWORD1
-
+BitInt		KEYWORD1
+BitIntMember	KEYWORD1
+buint8_t	KEYWORD1
+buint16_t	KEYWORD1
+buint32_t	KEYWORD1
+buint64_t	KEYWORD1
+bint8_t		KEYWORD1
+bint16_t	KEYWORD1
+bint32_t	KEYWORD1
+bint64_t	KEYWORD1
+initializer_list	KEYWORD1
+LedMatrix	KEYWORD1
+RowCol		KEYWORD1
+Col		KEYWORD1
+Row		KEYWORD1
+MatrixCascade	KEYWORD1
+RowColIterator	KEYWORD1
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-shutdown	KEYWORD2
-setScanLimit	KEYWORD2
+begin		KEYWORD2
+clear		KEYWORD2
+cols		KEYWORD2
+combineCascades	KEYWORD2
+end		KEYWORD2
+fill		KEYWORD2
+get		KEYWORD2
+getCol		KEYWORD2
+getRotation	KEYWORD2
+getRow		KEYWORD2
+index		KEYWORD2
+invert		KEYWORD2
+invertCol	KEYWORD2
+invertRow	KEYWORD2
+off		KEYWORD2
+on		KEYWORD2
+resetRotation	KEYWORD2
+rows		KEYWORD2
+set		KEYWORD2
+setCol		KEYWORD2
 setIntensity	KEYWORD2
-clearDisplay	KEYWORD2
-setLed		KEYWORD2
+setRotation	KEYWORD2
 setRow		KEYWORD2
-setColumn	KEYWORD2
-setDigit	KEYWORD2
-setChar		KEYWORD2
+shiftDown	KEYWORD2
+shiftLeft	KEYWORD2
+shiftRight	KEYWORD2
+shiftUp		KEYWORD2
+shutdown	KEYWORD2
+size		KEYWORD2
+wakeup		KEYWORD2
+#######################################
+# Instances (KEYWORD2)
+#######################################
 
 #######################################
 # Constants (LITERAL1)
 #######################################
+
 
