@@ -8,6 +8,53 @@
 
 #include <Pino.h>
 #include "LedMatrix.h"
+#include "Traits.h"
+
+
+//template<uint8_t cascadeSize>
+//class MatrixCascade;
+
+
+
+/*
+template<uint8_t cascadeSize>
+class MatrixCascade;
+
+template <typename T>
+struct SizeTrait;
+
+
+template <uint8_t N>
+struct SizeTrait< MatrixCascade<N> >
+{
+    constexpr static int size = N;
+};
+template <typename T>
+struct SizeTrait
+{
+    constexpr static int size = SizeTrait< typename std::remove_reference<T>::type >::size;
+};
+
+*/
+
+/*
+template <uint8_t N>
+struct SizeTrait< MatrixCascade<N> >
+{
+    constexpr static int size = N;
+};
+template <uint8_t N>
+struct SizeTrait< MatrixCascade<N>& >
+{
+    constexpr static int size = N;
+};
+template <uint8_t N>
+struct SizeTrait< MatrixCascade<N>&& >
+{
+    constexpr static int size = N;
+};
+*/
+
 
 template<uint8_t cascadeSize>
 class MatrixCascade {
@@ -33,6 +80,17 @@ public:
         for(uint8_t i = 0; i < cascadeSize; i++) {
             matrixes[i] = LedMatrix(cs, i, cascadeSize, true);
         }
+    }
+
+    // A template constructor that allows to join several cascades in one
+    template <uint8_t N0, uint8_t ...Ns>
+    MatrixCascade(MatrixCascade<N0>&& arg0, MatrixCascade<Ns>&& ...args)
+    {
+        static_assert(cascadeSize == SumTrait<N0, Ns...>::sum, "Inconsistency sizes. cascadeSize should be the sum of the cascadeSize of its arguments.");
+        //_fillBySubCascades(0, static_cast<MatrixCascade<N0>&&>(arg0), static_cast<MatrixCascade<N0>&&>(args)...);
+        //_fillBySubCascades(0, std::forward< MatrixCascade<N0> >(arg0), std::forward< MatrixCascade<N0> >(args)...);
+        _fillBySubCascades(0, std::move(arg0), std::move(args)...);
+        //_fillBySubCascades(0, arg0, args...);
     }
 
     // Returns the number of devices on this MatrixCascade
@@ -148,6 +206,42 @@ public:
         return matrixes + cascadeSize;
     }
 
+private:
+    // Helper functions for combining multiple MatrixCascade to one
+    
+
+    //template <typename Arg0, typename ...Args>
+    //void _fillBySubCascades(uint8_t offset, Arg0&& arg0, Args&& ...args)
+    template <uint8_t N0, uint8_t ...Ns>
+    void _fillBySubCascades(uint8_t offset, MatrixCascade<N0>&& arg0, MatrixCascade<Ns>&& ...args)
+    {
+        //constexpr uint8_t N0 = SizeTrait<Arg0>::size;
+
+        for (uint8_t i = 0; i < N0; ++i)
+        {
+            matrixes[offset + i] = std::move(arg0.matrixes[i]);
+            //matrixes[offset + i] = arg0.matrixes[i];
+            matrixes[offset + i].index(offset + i);
+        }
+        _fillBySubCascades(N0, std::move(args)...);
+        //_fillBySubCascades(N0, args...);
+    }
+    
+    //template <typename Arg0>
+    //void _fillBySubCascades(uint8_t offset, Arg0&& arg0)
+    template <uint8_t N0>
+    void _fillBySubCascades(uint8_t offset, MatrixCascade<N0>&& arg0)
+    {
+        //uint8_t N0 = SizeTrait<Arg0>::size;
+
+        for (uint8_t i = 0; i < N0; ++i)
+        {
+            matrixes[offset + i] = std::move(arg0.matrixes[i]);
+            //matrixes[offset + i] = arg0.matrixes[i];
+            matrixes[offset + i].index(offset + i);
+        }
+    }
+
 
 private:
     
@@ -159,7 +253,50 @@ private:
 
     // Cascade array
     LedMatrix matrixes[cascadeSize];
+
+    
+    template<uint8_t ___size>
+    friend class MatrixCascade;
 };
+
+
+/*
+template <uint8_t N0, uint8_t ...Ns>
+//constexpr MatrixCascade< SumTrait<N0, Ns...>::size > combineCascades(MatrixCascade<N0>&& arg0, MatrixCascade<Ns>&& ...args)
+MatrixCascade< SumTrait<N0, Ns...>::size > combineCascades(MatrixCascade<N0>&& arg0, MatrixCascade<Ns>&& ...args)
+// &&
+{
+    //return MatrixCascade< SumTrait<N0, Ns...>::size >(std::move(arg0), std::move(args)...);
+    return MatrixCascade< SumTrait<N0, Ns...>::size >(arg0, args...);
+}
+*/
+
+/*
+template <typename Arg0, typename ...Args>
+constexpr MatrixCascade< SumTrait<SizeTrait<Arg0>::size, SizeTrait<Args>::size...>::sum >&&
+combineCascades(Arg0&& arg0, Args&& ...args)
+{
+    return MatrixCascade< SumTrait<SizeTrait<Arg0>::size, SizeTrait<Args>::size...>::sum >(std::forward<Arg0>(arg0), std::forward<Args>(args)...);
+}
+*/
+
+
+template <uint8_t N0, uint8_t ...Ns>
+constexpr MatrixCascade< SumTrait<N0, Ns...>::sum >
+combineCascades(MatrixCascade<N0>&& arg0, MatrixCascade<Ns>&& ...args)
+{
+    return MatrixCascade< SumTrait<N0, Ns...>::sum >(std::move(arg0), std::move(args)...);
+}
+
+/*
+template <typename Arg0, typename ...Args>
+constexpr MatrixCascade< SumTrait<SizeTrait<Arg0>::size, SizeTrait<Args>::size...>::sum >&&
+combineCascades(Arg0&& arg0, Args&& ...args)
+{
+    return MatrixCascade< SumTrait<SizeTrait<Arg0>::size, SizeTrait<Args>::size...>::sum >(std::forward<Arg0>(arg0), std::forward<Args>(args)...);
+}
+*/
+
 
 
 

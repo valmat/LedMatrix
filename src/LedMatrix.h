@@ -45,7 +45,6 @@ public:
     // Copy & Move assigment
     LedMatrix& operator=(const LedMatrix&) = default;
     LedMatrix& operator=(LedMatrix &&) = default;
-
     
    
     // Set the status of a single LED.
@@ -199,9 +198,22 @@ public:
     {
         return _rotate;
     }
+
+
+    // get device index in cascade
+    uint8_t index() const
+    {
+        return _index;
+    }
     
 
 private:
+
+    // get device index in cascade
+    void index(uint8_t ind)
+    {
+        _index = ind;
+    }
 
     // Private empty constructor
     // Only MatrixCascade can use it
@@ -215,7 +227,8 @@ private:
     // @param ind          index in the devises cascade, if the devise is placed in cascade
     // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
     LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeSize) :
-        core(data, clk, cs, ind, cascadeSize)
+        core(data, clk, cs, ind, cascadeSize),
+        _index(ind)
     {}
 
     // Private HardWare-SPI Constructor
@@ -224,12 +237,19 @@ private:
     // @param ind          index in the devises cascade, if the devise is placed in cascade
     // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
     LedMatrix(Pino cs, uint8_t ind, uint8_t cascadeSize, bool) :
-        core(cs, ind, cascadeSize)
+        core(cs, ind, cascadeSize),
+        _index(ind)
     {}
 
 private:  
     // Rotate index. How many times to rotate the matrix clockwise
     uint8_t _rotate = 0;
+
+    // If the matrix is placed in cascade, _index is a index in the cascade.
+    // The variable _index is already in the parent class CoreMax72xx.
+    // But we can not use it, if cascade is united in supercascade.
+    // Therefore, this class contains  its own variable _index
+    uint8_t _index = 0;
 
 
     template<uint8_t __cascadeSize>
