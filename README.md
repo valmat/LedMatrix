@@ -2,6 +2,23 @@
 This is my fork of the library [LedControl](https://github.com/wayoda/LedControl).
 I completely reworked the original library. The new interface, rich features.
 
+- [Dependencies](#dependencies)
+- [Main features](#main-features)
+- [Single matrix](#single-matrix)
+	- [Basic methods](#basic-methods)
+	- [Setters](#setters)
+	- [Getters](#getters)
+	- [Inversion](#inversion)
+	- [Shift](#shift)
+- [Syntactic sugar](#syntactic-sugar)
+- [Cascades of matrices](#cascades-of-matrices)
+	- [Basic methods of MatrixCascade](#basic-methods-o-matrixCascade)
+	- [Supercascades](#supercascades)
+- [Additionally](#additionally)
+	- [License](#license)
+	- [Russian version](#russian-version)
+
+
 ## Dependencies
 
 The library depends on the [Pino](https://github.com/valmat/Pino) library.
