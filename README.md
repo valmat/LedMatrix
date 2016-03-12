@@ -12,7 +12,7 @@ I completely reworked the original library. The new interface, rich features.
 	- [Shift](#shift)
 - [Syntactic sugar](#syntactic-sugar)
 - [Cascades of matrices](#cascades-of-matrices)
-	- [Basic methods of MatrixCascade](#basic-methods-o-matrixCascade)
+	- [Basic methods of MatrixCascade](#basic-methods-of-matrixcascade)
 	- [Supercascades](#supercascades)
 - [Additionally](#additionally)
 	- [License](#license)
@@ -343,7 +343,7 @@ for(auto v: x) {
 Matrixes may be combined in a cascade.
 
 Wiring scheme like this:
-```c
+```
  -> VVC  ->  VVC  ->   
  -> GND  ->  GND  ->   
  -> DIN      DOUT ->   
@@ -354,7 +354,7 @@ Wiring scheme like this:
 As a single matrix, the cascade matrix can be controlled by using a software SPI and by using hardware SPI.
 
 like single matrix case, software SPI allows you to use any free three pins, the hardware SPI leaves only one free pin (CS):
-```c
+```
 //   Hardware-SPI wiring scheme:
 //   CLK => SCLK      (Arduino UNO/Nano/Micro pin 13)
 //   DIN => MOSI      (Arduino UNO/Nano/Micro pin 11)
