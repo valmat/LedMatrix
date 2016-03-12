@@ -366,7 +366,7 @@ for(auto v: x) {
 но аппаратный SPI заметно шустрее.
 
 Software-SPI:
-```
+```c
 #include <MatrixCascade.h>
 
 // pin 11 is connected to the DataIn
@@ -377,7 +377,7 @@ const uint8_t CascadeSize = 3;
 MatrixCascade<CascadeSize> cascade(11, 13, 10);
 ```
 Hardware-SPI:
-```
+```c
 #include <MatrixCascade.h>
 
 // pin 11 is connected to the DataIn
