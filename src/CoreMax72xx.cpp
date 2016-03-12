@@ -1,3 +1,20 @@
+/*
+ *
+ * CoreMax72xx this is the class for direct interaction with a controller MAX72xx
+ *
+ *  @author   Valeriy V Dmitriev aka valmat <ufabiz@gmail.com>, http://valmat.ru/
+ *  @licenses MIT https://opensource.org/licenses/MIT
+ *  @repo     https://github.com/valmat/LedMatrix
+ *
+ *
+ *  Software SPI and main core functionality implemented
+ *  by Eberhard Fahle aka wayoda <e.fahle@wayoda.org>
+ *  https://github.com/wayoda/LedControl
+ *  http://wayoda.github.io/LedControl/
+ *
+ */
+ 
+
 #include "CoreMax72xx.h"
 #include <SPI.h>
 

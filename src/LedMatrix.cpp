@@ -1,3 +1,15 @@
+/*
+ *
+ * LedMatrix is a class to control 8-bit LED matrix on controller MAX7219 and MAX7221.
+ * This class manages only the LED-matrix, but does it well.
+ *
+ *  @author   Valeriy V Dmitriev aka valmat <ufabiz@gmail.com>, http://valmat.ru/
+ *  @licenses MIT https://opensource.org/licenses/MIT
+ *  @repo     https://github.com/valmat/LedMatrix
+ *
+ *
+ */
+ 
 #include "LedMatrix.h"
 
 void LedMatrix::set(const Row &row, const Col &col, bool state)
