@@ -2,6 +2,10 @@
  *
  * BitInt is a helper type for use the numeric types as a binary arrays
  *
+ *  @author   Valeriy V Dmitriev aka valmat <ufabiz@gmail.com>, http://valmat.ru/
+ *  @licenses MIT https://opensource.org/licenses/MIT
+ *  @repo     https://github.com/valmat/LedMatrix
+ *
  */
 
 #pragma once

@@ -4,6 +4,10 @@
  * These classes are for convenient control the rows and columns
  * of the LED matrix using thr LedMatrix class.
  *
+ *  @author   Valeriy V Dmitriev aka valmat <ufabiz@gmail.com>, http://valmat.ru/
+ *  @licenses MIT https://opensource.org/licenses/MIT
+ *  @repo     https://github.com/valmat/LedMatrix
+ *
  */
 
 #pragma once

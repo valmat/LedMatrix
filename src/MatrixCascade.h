@@ -2,6 +2,10 @@
  *
  * MatrixCascade is a class to easy control LED matrixes that are combined in a cascade.
  *
+ *  @author   Valeriy V Dmitriev aka valmat <ufabiz@gmail.com>, http://valmat.ru/
+ *  @licenses MIT https://opensource.org/licenses/MIT
+ *  @repo     https://github.com/valmat/LedMatrix
+ *
  */
 
 #pragma once

@@ -2,6 +2,10 @@
  *
  * Traits to compile time template calculating
  *
+ *  @author   Valeriy V Dmitriev aka valmat <ufabiz@gmail.com>, http://valmat.ru/
+ *  @licenses MIT https://opensource.org/licenses/MIT
+ *  @repo     https://github.com/valmat/LedMatrix
+ *
  */
 
 // SumTrait is a trait to compile time calculate total cascade size

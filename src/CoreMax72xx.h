@@ -2,6 +2,10 @@
  *
  * CoreMax72xx this is the class for direct interaction with a controller MAX72xx
  *
+ *  @author   Valeriy V Dmitriev aka valmat <ufabiz@gmail.com>, http://valmat.ru/
+ *  @licenses MIT https://opensource.org/licenses/MIT
+ *  @repo     https://github.com/valmat/LedMatrix
+ *
  */
 
 #pragma once
