@@ -45,7 +45,7 @@ const uint8_t matrixSize = 8;
 void loop()
 {
     //
-    // Shifting UP
+    // Shifting Right
     //
 
     //iterate over colomns

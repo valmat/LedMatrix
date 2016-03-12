@@ -42,7 +42,7 @@ CoreMax72xx::CoreMax72xx(Pino cs, uint8_t ind, uint8_t cascadeSize) :
     SPI.setBitOrder(MSBFIRST);
     SPI.setDataMode(SPI_MODE0);
     SPI.begin();
-    SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
+    //SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
 
     _initialize();
 }
@@ -182,11 +182,11 @@ void CoreMax72xx::_spiTransfer(uint8_t opcode, uint8_t data) const
 
     //Shift out the data
     if(_isHardwareSPI) {
-        //SPI.beginTransaction(SPISettings(100000000, MSBFIRST, SPI_MODE0));
+        SPI.beginTransaction(SPISettings(100000000, MSBFIRST, SPI_MODE0));
         for(uint8_t i = maxbytes; i > 0; i--) {
             SPI.transfer(_spidata[i-1]);
         }
-        //SPI.endTransaction();
+        SPI.endTransaction();
     } else {
         for(uint8_t i = maxbytes; i > 0; i--) {
             _mosi.shiftOut(_clk, _spidata[i-1]);
