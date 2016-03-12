@@ -326,7 +326,7 @@ for(auto v: x) {
 Matrixes may be combined in a cascade.
 
 Wiring scheme like this:
-```
+```c
  -> VVC  ->  VVC  ->   
  -> GND  ->  GND  ->   
  -> DIN      DOUT ->   
@@ -337,16 +337,16 @@ Wiring scheme like this:
 As a single matrix, the cascade matrix can be controlled by using a software SPI and by using hardware SPI.
 
 like single matrix case, software SPI allows you to use any free three pins, the hardware SPI leaves only one free pin (CS):
-```
+```c
 //   Hardware-SPI wiring scheme:
 //   CLK => SCLK      (Arduino UNO/Nano/Micro pin 13)
 //   DIN => MOSI      (Arduino UNO/Nano/Micro pin 11)
-//   CS =>            (Arduino any pin)
+//   CS  =>           (Arduino any pin)
 ```
 but the hardware SPI is noticeably faster.
 
 Software-SPI:
-```
+```c
 #include <MatrixCascade.h>
 
 // pin 11 is connected to the DataIn
@@ -357,7 +357,7 @@ const uint8_t CascadeSize = 3;
 MatrixCascade<CascadeSize> cascade(11, 13, 10);
 ```
 Hardware-SPI:
-```
+```c
 #include <MatrixCascade.h>
 
 // pin 11 is connected to the DataIn
