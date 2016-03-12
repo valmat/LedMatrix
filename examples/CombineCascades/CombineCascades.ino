@@ -9,43 +9,10 @@
 // pin 11 is connected to the DataIn
 // pin 13 is connected to the CLK
 // pin 10 is connected to LOAD
-
-/*
 auto cascade = combineCascades(
-    MatrixCascade<1>(10), 
-    MatrixCascade<2>(11, 13, 10)
+    MatrixCascade<2>(10), 
+    MatrixCascade<1>(5, 6, 7)
 );
-*/
-
-
-auto cascade = combineCascades(
-    MatrixCascade<3>(10)
-    //MatrixCascade<1>(10), 
-    //MatrixCascade<2>(10)
-    //MatrixCascade<1>(11, 13, 10),
-    //MatrixCascade<2>(11, 13, 10)
-);
-
-
-
-//MatrixCascade<3> cascade(11, 13, 10);
-//MatrixCascade<3> cascade(10);
-
-
-/*
-MatrixCascade<3> cascade(
-    MatrixCascade<1>(10), 
-    MatrixCascade<2>(11, 13, 10)
-);
-*/
-
-/*
-MatrixCascade<3> cascade(
-    MatrixCascade<1>(10),
-    MatrixCascade<2>(10)
-);
-*/
-
 
 
 const uint8_t picsCount = 3;
