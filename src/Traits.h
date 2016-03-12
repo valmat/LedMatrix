@@ -22,7 +22,7 @@ struct SumTrait<N>
 template <typename T>
 struct SizeTrait;
 
-template < template<uint8_t M> class T, uint8_t N>
+template < template<int M> class T, int N>
 struct SizeTrait< T<N> >
 {
     constexpr static int size = N;

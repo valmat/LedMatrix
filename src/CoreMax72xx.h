@@ -20,7 +20,7 @@ public:
     // @param csPin        pin for selecting the device   (CS -- chip select pin)
     // @param ind          index in the devises cascade, if the devise is placed in cascade
     // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
-    CoreMax72xx(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeSize);
+    CoreMax72xx(Pino data, Pino clk, Pino cs, uint8_t ind, uint16_t cascadeSize);
     
     CoreMax72xx(Pino data, Pino clk, Pino cs) :
         CoreMax72xx(data, clk, cs, 0, 1)
@@ -30,7 +30,7 @@ public:
     // @param csPin        pin for selecting the device   (CS -- chip select pin)
     // @param ind          index in the devises cascade, if the devise is placed in cascade
     // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
-    CoreMax72xx(Pino cs, uint8_t ind, uint8_t cascadeSize);
+    CoreMax72xx(Pino cs, uint8_t ind, uint16_t cascadeSize);
     
     CoreMax72xx(Pino cs) :
         CoreMax72xx(cs, 0, 1)
@@ -163,7 +163,7 @@ private:
     uint8_t _index = 0;
 
     // If the matrix is placed in a cascade, cascadeSize is count of devices.
-    uint8_t _cascadeSize = 1;
+    uint16_t _cascadeSize = 1;
 
     bool _isHardwareSPI = false;
 };

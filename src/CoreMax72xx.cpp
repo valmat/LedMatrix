@@ -19,7 +19,7 @@
 
 
 // Constructor
-CoreMax72xx::CoreMax72xx(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeSize) :
+CoreMax72xx::CoreMax72xx(Pino data, Pino clk, Pino cs, uint8_t ind, uint16_t cascadeSize) :
     _mosi(data, Pino::Mode::out),
     _clk(clk, Pino::Mode::out),
     _cs(cs, Pino::Mode::out),
@@ -30,7 +30,7 @@ CoreMax72xx::CoreMax72xx(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t casc
 }
 
 
-CoreMax72xx::CoreMax72xx(Pino cs, uint8_t ind, uint8_t cascadeSize) :
+CoreMax72xx::CoreMax72xx(Pino cs, uint8_t ind, uint16_t cascadeSize) :
     _mosi(0),
     _clk(0),
     _cs(cs, Pino::Mode::out),
@@ -164,7 +164,7 @@ void CoreMax72xx::_spiTransfer(uint8_t opcode, uint8_t data) const
 {
     //Create an array with the data to shift out
     const uint8_t offset=_index * 2;
-    const uint8_t maxbytes = _cascadeSize * 2;
+    const uint16_t maxbytes = _cascadeSize * 2;
 
     // The array for shifting the data to the devices
     uint8_t _spidata[maxbytes];

@@ -15,7 +15,7 @@
 #include "move.h"
 
 // forward declaration
-template<uint8_t CascadeSize>
+template<uint16_t CascadeSize>
 class MatrixCascade;
 
  
@@ -201,7 +201,7 @@ public:
 
 
     // get device index in cascade
-    uint8_t index() const
+    uint16_t index() const
     {
         return _index;
     }
@@ -210,7 +210,7 @@ public:
 private:
 
     // get device index in cascade
-    void index(uint8_t ind)
+    void index(uint16_t ind)
     {
         _index = ind;
     }
@@ -226,7 +226,7 @@ private:
     // @param csPin        pin for selecting the device   (CS -- chip select pin)
     // @param ind          index in the devises cascade, if the devise is placed in cascade
     // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
-    LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint8_t cascadeSize) :
+    LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint16_t cascadeSize) :
         core(data, clk, cs, ind, cascadeSize),
         _index(ind)
     {}
@@ -236,7 +236,7 @@ private:
     // @param csPin        pin for selecting the device   (CS -- chip select pin)
     // @param ind          index in the devises cascade, if the devise is placed in cascade
     // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
-    LedMatrix(Pino cs, uint8_t ind, uint8_t cascadeSize, bool) :
+    LedMatrix(Pino cs, uint8_t ind, uint16_t cascadeSize, bool) :
         core(cs, ind, cascadeSize),
         _index(ind)
     {}
@@ -249,10 +249,10 @@ private:
     // The variable _index is already in the parent class CoreMax72xx.
     // But we can not use it, if cascade is united in supercascade.
     // Therefore, this class contains  its own variable _index
-    uint8_t _index = 0;
+    uint16_t _index = 0;
 
 
-    template<uint8_t __cascadeSize>
+    template<uint16_t __cascadeSize>
     friend class MatrixCascade;
 };
 

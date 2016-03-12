@@ -15,6 +15,7 @@ auto cascade = combineCascades(
 );
 
 
+
 const uint8_t picsCount = 3;
 const uint8_t pics[3][8] = {
     {B00000000, B00000000, B10001000, B11011001, B10101010, B10001011, B10001010, B00000000},

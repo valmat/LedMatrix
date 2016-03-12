@@ -11,7 +11,7 @@
 #include "Traits.h"
 
 
-template<uint8_t cascadeSize>
+template<uint16_t cascadeSize>
 class MatrixCascade {
 public:
 
@@ -22,7 +22,7 @@ public:
     MatrixCascade(Pino data, Pino clk, Pino cs)
     {
         // Fill cascade on startup
-        for(uint8_t i = 0; i < cascadeSize; i++) {
+        for(uint16_t i = 0; i < cascadeSize; i++) {
             matrixes[i] = LedMatrix(data, clk, cs, i, cascadeSize);
         }
     }
@@ -32,13 +32,13 @@ public:
     MatrixCascade(Pino cs)
     {
         // Fill cascade on startup
-        for(uint8_t i = 0; i < cascadeSize; i++) {
+        for(uint16_t i = 0; i < cascadeSize; i++) {
             matrixes[i] = LedMatrix(cs, i, cascadeSize, true);
         }
     }
 
     // A template constructor that allows to join several cascades in one
-    template <uint8_t N0, uint8_t ...Ns>
+    template <uint16_t N0, uint16_t ...Ns>
     MatrixCascade(MatrixCascade<N0>&& arg0, MatrixCascade<Ns>&& ...args)
     {
         static_assert(cascadeSize == SumTrait<N0, Ns...>::sum, 
@@ -48,14 +48,14 @@ public:
     }
 
     // Returns the number of devices on this MatrixCascade
-    constexpr uint8_t size() const
+    constexpr uint16_t size() const
     {
         return cascadeSize;
     }
 
     // This can be used for accessing to the LedMatrix arrays
     // @param  index -- index of matrix in cascade
-    LedMatrix& get(uint8_t index)
+    LedMatrix& get(uint16_t index)
     {
         return matrixes[ ( (index >=0 && index < cascadeSize) ? index : 0 ) ];
     }
@@ -63,7 +63,7 @@ public:
     // Array access operator
     // This can be used for accessing to the LedMatrix arrays
     // @param  index -- index of matrix in cascade
-    LedMatrix& operator[](uint8_t index)
+    LedMatrix& operator[](uint16_t index)
     {
         return get(index);
     }
@@ -163,20 +163,20 @@ public:
 private:
     
     // Helper functions for combining multiple MatrixCascade to one
-    template <uint8_t N0, uint8_t ...Ns>
-    void _fillBySubCascades(uint8_t offset, MatrixCascade<N0>&& arg0, MatrixCascade<Ns>&& ...args)
+    template <uint16_t N0, uint16_t ...Ns>
+    void _fillBySubCascades(uint16_t offset, MatrixCascade<N0>&& arg0, MatrixCascade<Ns>&& ...args)
     {
-        for (uint8_t i = 0; i < N0; ++i)
+        for (uint16_t i = 0; i < N0; ++i)
         {
             matrixes[offset + i] = std::move(arg0.matrixes[i]);
             matrixes[offset + i].index(offset + i);
         }
         _fillBySubCascades(N0, std::move(args)...);
     }
-    template <uint8_t N0>
-    void _fillBySubCascades(uint8_t offset, MatrixCascade<N0>&& arg0)
+    template <uint16_t N0>
+    void _fillBySubCascades(uint16_t offset, MatrixCascade<N0>&& arg0)
     {
-        for (uint8_t i = 0; i < N0; ++i)
+        for (uint16_t i = 0; i < N0; ++i)
         {
             matrixes[offset + i] = std::move(arg0.matrixes[i]);
             matrixes[offset + i].index(offset + i);
@@ -196,11 +196,11 @@ private:
     LedMatrix matrixes[cascadeSize];
 
     
-    template<uint8_t ___size>
+    template<uint16_t ___size>
     friend class MatrixCascade;
 };
 
-template <uint8_t N0, uint8_t ...Ns>
+template <uint16_t N0, uint16_t ...Ns>
 constexpr MatrixCascade< SumTrait<N0, Ns...>::sum >
 combineCascades(MatrixCascade<N0>&& arg0, MatrixCascade<Ns>&& ...args)
 {
