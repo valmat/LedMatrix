@@ -6,6 +6,7 @@ I completely reworked the original library. The new interface, rich features.
 - [Main features](#main-features)
 - [Single matrix](#single-matrix)
 	- [Basic methods](#basic-methods)
+	- [Matrix rotation](#matrix-rotation)
 	- [Setters](#setters)
 	- [Getters](#getters)
 	- [Inversion](#inversion)
@@ -104,6 +105,8 @@ The method `clear()` "cleans" the screen by turning off all points on the matrix
 void fill();
 ```
 The method `fill()` "fills" the screen by turning on all points on the matrix.
+
+### Matrix rotation
 
 As I said before, the matrix may be combined in a cascade. I believe that when they are combined in a cascade is necessary to proceed first and foremost from the ease of installation. In this case, some matrices may be rotated. For this, I added the ability to programmatically rotation matrices.
 
