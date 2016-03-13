@@ -9,14 +9,12 @@ I completely reworked the original library. The new interface, rich features.
 	- [Setters](#setters)
 	- [Getters](#getters)
 	- [Inversion](#inversion)
-	- [Shift](#shift)
+	- [Shifting](#shifting)
 - [Syntactic sugar](#syntactic-sugar)
 - [Cascades of matrices](#cascades-of-matrices)
 	- [Basic methods of MatrixCascade](#basic-methods-of-matrixcascade)
 	- [Supercascades](#supercascades)
 - [Additionally](#additionally)
-	- [License](#license)
-	- [Russian version](#russian-version)
 
 
 ## Dependencies
@@ -28,7 +26,7 @@ Accordingly, in order to use this library, you need to first install `Pino`.
 ## Main features
 
 With the **LedMatrix** library, you can flexibly control LED matrixes are connected via chips **MAX7219** and **MAX7221**. As well as cascades of such matrices. And whole groups of cascades.
-It can work via software SPI, using any of any three free pins or through hardware SPI.
+It can work via software SPI, using any three free pins or through hardware SPI.
 Hardware SPI of course is faster.
 
 ## Single matrix
@@ -54,7 +52,7 @@ Now the matrix is ready to use.
 
 The library provides two constructors.
 
-One constructor creates a matrix that operates through a software SPI:
+One constructor creates a matrix that operates through software SPI:
 ```c
 // Software-SPI Constructor
 // @param dataPin   pin on the Arduino where data gets shifted out (DIN)
@@ -85,7 +83,7 @@ The method `shutdown()` turns off the power of the matrix, in order to save ener
 // Set the wakeup mode for the device
 void wakeup() const;
 ```
-The method `wakeup()` it turn on the power of the matrix if it was previously turned off.
+The method `wakeup()` turns on the power of the matrix if it was previously turned off.
 
 ```c
 // Set the brightness of the display.
@@ -99,13 +97,13 @@ The method `setIntensity()` sets the brightness of the LEDs. Possible values are
 // Switch all LEDs on the display to off.
 void clear();
 ```
-The method `clear()` "cleans" the screen by turning off all points of the matrix.
+The method `clear()` "cleans" the screen by turning off all points on the matrix.
 
 ```c
 // Switch all LEDs on the display to on.
 void fill();
 ```
-The method `fill()` "fills" the screen by turning on all points of the matrix.
+The method `fill()` "fills" the screen by turning on all points on the matrix.
 
 As I said before, the matrix may be combined in a cascade. I believe that when they are combined in a cascade is necessary to proceed first and foremost from the ease of installation. In this case, some matrices may be rotated. For this, I added the ability to programmatically rotation matrices.
 
@@ -182,13 +180,13 @@ void set(const std::initializer_list<T> &disp);
 void set(const uint8_t arr[]);
 ```
 
-In the list of arguments you can see here the types of `Row`, `Col` and `buint8_t`.
-Do not be alarmed. They were introduced for convenience. What they can do for you I will write below.
+In the list of arguments you can see here the types `Row`, `Col` and `buint8_t`.
+Do not be alarmed. They were introduced for convenience. What they can do for you I will write [below](#syntactic-sugar).
 In the meantime, you need to know that these types are automatically converted to numbers such as `uint8_t` and back.
 In fact, these types are the `uint8_t` + a little sugar.
 Then the record `matrix.on(3, 5);` is absolutely correct.
 
-I will not describe use of all the setters, because their naming and prototypes speak for themselves.
+I will not describe use of all these setters, because their naming and prototypes speak for themselves.
 
 More focus on two.
 ```c
@@ -199,7 +197,14 @@ This method allows you to fill the matrix on place. Right at compile time, witho
 
 Here is an example:
 ```c
-matrix.set({0b00000000, 0b01100110, 0b10011001, 0b10000001, 0b01000010, 0b00100100, 0b00011000, 0b00000000});
+matrix.set({0b00000000,
+            0b01100110,
+            0b10011001,
+            0b10000001,
+            0b01000010,
+            0b00100100,
+            0b00011000,
+            0b00000000});
 ```
 
 The method 
@@ -208,12 +213,19 @@ void set(const uint8_t arr[])
 ```
 allows to fill the matrix with a previously created array:
 ```c
-uint8_t arr[8] = {0b00000000, 0b00100000, 0b00000000, 0b01100000, 0b00100000, 0b00100000, 0b00100000, 0b01110000};
+uint8_t arr[8] = {0b00000000,
+                  0b00100000,
+                  0b00000000,
+                  0b01100000,
+                  0b00100000,
+                  0b00100000,
+                  0b00100000,
+                  0b01110000};
 matrix.set(arr);
 ```
 ### Getters
 
-To retrieve information from the matrix is the following group of methods:
+The following group of methods is to retrieve information from the matrix:
 ```c
 // Get state of LED point on matrix
 // @param row   the row of the Led (0..7)
@@ -266,7 +278,7 @@ void invertRow(const Row &row);
 // @param col   the column of the LED (0..7)
 void invertCol(const Col &col);
 ```
-### Shift
+### Shifting
 
 ```c
 // Shift matrix
@@ -286,14 +298,14 @@ As an argument you can pass the value of the replaced row or column.
 
 A few words about the types of `Row`, `Col` and `buint8_t`.
 
-`Row` and `Col` are declared in the header file `RowCol.h`. Both these types can be used as a numeric, but they have additional features.
+`Row` and `Col` are declared in the header file [RowCol.h](src/RowCol.h). Both these types can be used as a numeric, but they have additional features.
 
 
 -   The variables of `Row` and `Col` is always in the range 0..7.
 -   They serve as an iterator and allow a nice overdrive.
 
 
-That is, instead of the awkward code
+That is, instead of the awkward code:
 ```c
 uint8_t foo(/*...*/) {/*...*/}
 
@@ -310,7 +322,7 @@ for(auto &row: matrix.rows()) {
     matrix.set(row, foo(row));
 }
 ```
-There are two methods to use `Row` and `Col`
+There are two methods to get `Row` and `Col`
 ```c
 // Make rows and colomns iterable
 RowsIterator rows() const;
@@ -318,7 +330,7 @@ ColsIterator cols() const;
 ```
 These methods return iterators for the rows and columns, respectively.
 
-The type `buint8_t` is defined in the header file `BitInt.h`.
+The type `buint8_t` is defined in the header file [BitInt.h](src/BitInt.h).
 Its definition is just a specialization of template class `BitInt`:
 ```c
 // Types predefinition
@@ -351,13 +363,13 @@ Wiring scheme like this:
  -> CS   ->  CS   ->  
  -> CLK  ->  CLK  ->   
 ```
-As a single matrix, the cascade matrix can be controlled by using a software SPI and by using hardware SPI.
+As a single matrix, the cascade matrix can be controlled by using software SPI and by hardware SPI.
 
-like single matrix case, software SPI allows you to use any free three pins, the hardware SPI leaves only one free pin (CS):
+Like single matrix case, software SPI allows you to use any three free pins, the hardware SPI leaves only one free pin (CS):
 ```
 //   Hardware-SPI wiring scheme:
-//   CLK => SCLK      (Arduino UNO/Nano/Micro pin 13)
-//   DIN => MOSI      (Arduino UNO/Nano/Micro pin 11)
+//   CLK => SCLK      (Arduino UNO/Nano/Mini pin 13)
+//   DIN => MOSI      (Arduino UNO/Nano/Mini pin 11)
 //   CS  =>           (Arduino any pin)
 ```
 but the hardware SPI is noticeably faster.
@@ -386,6 +398,8 @@ MatrixCascade<CascadeSize> cascade(10);
 ```
 Note,  The class `MatrixCascade` is template. And you need to explicitly specify the size of the cascade (`MatrixCascade<3>`) at compile time.
 
+
+To use cascades of matrixes and groups of cascades include the header file [MatrixCascade.h](src/MatrixCascade.h)
 
 ### Basic methods of `MatrixCascade`
 
@@ -429,7 +443,7 @@ Access to the matrix by index:
 LedMatrix& get(uint16_t index);
 ```
 
-Class `Matrix Cascade` has the traits of the array. Contained matrixes can be accessed through the operator `[]`:
+Class `MatrixCascade` has a traits of an array. Contained matrixes can be accessed through the operator `[]`:
 ```c
 cascade[0].setRotation(3);
 cascade[1].setRotation(1);
@@ -467,7 +481,7 @@ The actual limitation is the number of free pins.
 
 ## Additionally
 
-More detailed information is available in the source code, which I tried to provide comments, and in the examples.
+More detailed information is available in the [source code](src), which I tried to provide comments, and in the [examples](examples).
 
 
 The library does not implement the means to print a text string on the cascade of matrices. This is intentional.
@@ -480,8 +494,9 @@ All the necessary functions are in the library.
 Feel free to report bugs and send your suggestions.
 
 
-### [License](LICENSE)
+[License](LICENSE)
 
-### [Russian version](README.RU.md)
+
+[Russian version](README.RU.md)
 
 
