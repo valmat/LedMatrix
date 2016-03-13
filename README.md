@@ -1,4 +1,5 @@
 # LedMatrix
+LedMatrix is a flexible and powerful Arduino C++11 library to control LED matrixes on chips MAX7219 and MAX7221.
 This is my fork of the library [LedControl](https://github.com/wayoda/LedControl).
 I completely reworked the original library. The new interface, rich features.
 
