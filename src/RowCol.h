@@ -23,7 +23,7 @@ public:
     // Constructor
     constexpr RowCol(uint8_t nom) : 
         // If out of matrix range
-        _valid(nom >= 0 && nom < maxRows), 
+        _valid(nom < maxRows), 
         _nom(_valid ? nom : 0) 
     {}
 
@@ -116,13 +116,6 @@ public:
         return *this;
     }
     
-    // Dereference as a number pointer
-    //const uint8_t *operator->() const
-    //{
-    //    return &(this->_nom);
-    //}
-
-
 private:
     // Novalidateble constructor
     constexpr RowCol(uint8_t nom, bool valid) :  _valid(valid), _nom(nom) {}
