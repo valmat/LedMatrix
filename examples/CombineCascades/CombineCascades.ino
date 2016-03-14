@@ -2,7 +2,7 @@
 
 //
 //
-// This example clearly shows the difference in the speed between the hardware and softvare SPI
+// This example clearly shows the difference in the speed between the hardware and software SPI
 //
 //
 

@@ -4,7 +4,7 @@
 // pin 13 is connected to the CLK
 // pin 10 is connected to LOAD
 const uint8_t CascadeSize = 3;
-// Softvare SPI:
+// Software SPI:
 //MatrixCascade<CascadeSize> cascade(11, 13, 10);
 // Hardware SPI:
 MatrixCascade<CascadeSize> cascade(10);
