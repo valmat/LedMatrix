@@ -57,7 +57,7 @@ public:
     // Copy & Move assigment
     MatrixCascade& operator=(const MatrixCascade&) = delete;
     MatrixCascade& operator=(MatrixCascade &&) = default;
-    
+
 
     // Returns the number of devices on this MatrixCascade
     constexpr uint16_t size() const
@@ -69,7 +69,7 @@ public:
     // @param  index -- index of matrix in cascade
     LedMatrix& get(uint16_t index)
     {
-        return matrixes[ ( (index >=0 && index < cascadeSize) ? index : 0 ) ];
+        return matrixes[ ( (index < cascadeSize) ? index : 0 ) ];
     }
 
     // Array access operator

@@ -137,7 +137,6 @@ void LedMatrix::invert(const Col &col)
 }
 
 // Shift matrix
-// Shift matrix
 buint8_t LedMatrix::shiftUp(buint8_t value)
 {
     buint8_t rez = getRow(0);
