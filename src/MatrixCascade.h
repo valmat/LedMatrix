@@ -51,6 +51,14 @@ public:
         _fillBySubCascades(0, std::move(arg0), std::move(args)...);
     }
 
+    // Copy & Move constructors
+    MatrixCascade( const MatrixCascade& ) = delete;
+    MatrixCascade( MatrixCascade&& ) = default;
+    // Copy & Move assigment
+    MatrixCascade& operator=(const MatrixCascade&) = delete;
+    MatrixCascade& operator=(MatrixCascade &&) = default;
+    
+
     // Returns the number of devices on this MatrixCascade
     constexpr uint16_t size() const
     {
