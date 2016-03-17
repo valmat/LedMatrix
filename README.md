@@ -1,7 +1,5 @@
 # LedMatrix
 **LedMatrix** is a flexible and powerful *Arduino C++11* library to control LED matrixes on chips MAX7219 and MAX7221.
-This is my fork of the [LedControl](https://github.com/wayoda/LedControl) library.
-I completely reworked the original library. The new interface, rich features.
 
 - [Dependencies](#dependencies)
 - [Main features](#main-features)
@@ -487,14 +485,20 @@ The actual limitation is the number of free pins.
 
 More detailed information is available in the [source code](src), which I tried to provide comments, and in the [examples](examples).
 
-
+---
 The library does not implement the means to print a text string on the cascade of matrices. This is intentional.
 Since the matrix can be mounted in an arbitrary manner.
 And entering  code into the library involving a particular type of installation would be a violation of integrity. 
 Especially to write any superstructure library with the desired functionality is not difficult.
 All the necessary functions are in the library.
 
+A couple of examples how to make a running line: [1](examples/MultiShift/MultiShift.ino), [2](examples/HelloHabr/HelloHabr.ino)
 
+---
+Initially, the library was a fork of the library [LedControl](https://github.com/wayoda/LedControl) library.
+I completely reworked the original library. From the original library code has remained just a couple of lines. So it was moved to a separate repository.
+
+---
 Feel free to report bugs and send your suggestions.
 
 
