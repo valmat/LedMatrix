@@ -19,20 +19,23 @@
 #include <SPI.h>
 
 //the opcodes for the MAX7221 and MAX7219
-#define OP_NOOP   0
-#define OP_DIGIT0 1
-#define OP_DIGIT1 2
-#define OP_DIGIT2 3
-#define OP_DIGIT3 4
-#define OP_DIGIT4 5
-#define OP_DIGIT5 6
-#define OP_DIGIT6 7
-#define OP_DIGIT7 8
-#define OP_DECODEMODE  9
-#define OP_INTENSITY   10
-#define OP_SCANLIMIT   11
-#define OP_SHUTDOWN    12
-#define OP_DISPLAYTEST 15
+namespace
+{
+    constexpr uint8_t OP_NOOP        = 0;
+    constexpr uint8_t OP_DIGIT0      = 1;
+    constexpr uint8_t OP_DIGIT1      = 2;
+    constexpr uint8_t OP_DIGIT2      = 3;
+    constexpr uint8_t OP_DIGIT3      = 4;
+    constexpr uint8_t OP_DIGIT4      = 5;
+    constexpr uint8_t OP_DIGIT5      = 6;
+    constexpr uint8_t OP_DIGIT6      = 7;
+    constexpr uint8_t OP_DIGIT7      = 8;
+    constexpr uint8_t OP_DECODEMODE  = 9;
+    constexpr uint8_t OP_INTENSITY   = 10;
+    constexpr uint8_t OP_SCANLIMIT   = 11;
+    constexpr uint8_t OP_SHUTDOWN    = 12;
+    constexpr uint8_t OP_DISPLAYTEST = 15;
+}
 
 
 // Constructor
@@ -59,7 +62,6 @@ CoreMax72xx::CoreMax72xx(Pino cs, uint8_t ind, uint16_t cascadeSize) :
     SPI.setBitOrder(MSBFIRST);
     SPI.setDataMode(SPI_MODE0);
     SPI.begin();
-    //SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
 
     _initialize();
 }
@@ -166,7 +168,7 @@ buint8_t CoreMax72xx::getRow(const Row &row) const
 buint8_t CoreMax72xx::getCol(const Col &col) const
 {
     buint8_t rez = 0;
-    for(auto &row: RowsIterator()) {
+    for(auto &row: _rows) {
         rez[row] = get(row, col);
     }
     return rez;

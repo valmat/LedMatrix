@@ -45,10 +45,10 @@ public:
     {}
 
     // Copy & Move constructors
-    LedMatrix( const LedMatrix& ) = default;
+    LedMatrix( const LedMatrix& ) = delete;
     LedMatrix( LedMatrix&& ) = default;
     // Copy & Move assigment
-    LedMatrix& operator=(const LedMatrix&) = default;
+    LedMatrix& operator=(const LedMatrix&) = delete;
     LedMatrix& operator=(LedMatrix &&) = default;
     
    
