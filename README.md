@@ -1,5 +1,5 @@
 # LedMatrix
-**LedMatrix** is a flexible and powerful an *Arduino C++11* library to control LED matrixes on chips MAX7219 and MAX7221.
+**LedMatrix** is a flexible and powerful *Arduino C++11* library to control LED matrixes on chips MAX7219 and MAX7221.
 
 - [Dependencies](#dependencies)
 - [Main features](#main-features)
@@ -502,7 +502,7 @@ I completely reworked the original library. From the original library code has r
 Feel free to report bugs and send your suggestions.
 
 ---
-[License](LICENSE)
+[The MIT License](LICENSE)
 
 
 [Russian version](README.RU.md)
