@@ -1,7 +1,6 @@
 # LedMatrix
 **LedMatrix** is a flexible and powerful *Arduino C++11* library to control LED matrixes on chips MAX7219 and MAX7221.
 
-- [Dependencies](#dependencies)
 - [Main features](#main-features)
 - [Single matrix](#single-matrix)
 	- [Basic methods](#basic-methods)
@@ -15,12 +14,6 @@
 	- [Basic methods of MatrixCascade](#basic-methods-of-matrixcascade)
 	- [Supercascades](#supercascades)
 - [Additionally](#additionally)
-
-
-## Dependencies
-
-The library depends on the [Pino](https://github.com/valmat/Pino) library.
-Accordingly, in order to use this library, you need to first install `Pino`.
 
 
 ## Main features
