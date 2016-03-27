@@ -2,10 +2,10 @@
  *
  * DirectInteract this is a helper class to direct interaction with a set of Arduino pins.
  *
- *  @author   Valeriy V Dmitriev aka valmat <ufabiz@gmail.com>
- *  @author   ...
- *  @licenses MIT https://opensource.org/licenses/MIT
- *  @repo     https://github.com/valmat/LedMatrix
+ *  @author    Valeriy V Dmitriev aka valmat <ufabiz@gmail.com>
+ *  @coauthor  Nikolai Tikhonov aka Dragon_Knight <dubki4132@mail.ru>, https://vk.com/globalzone_edev
+ *  @licenses  MIT https://opensource.org/licenses/MIT
+ *  @repo      https://github.com/valmat/LedMatrix
  *
  */
 

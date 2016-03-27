@@ -4,10 +4,10 @@
  * The purpose of this class is to increase speed by eliminating unnecessary in this case checks.
  * Not all methods are implemented, but only those that are needed within the library.
  *
- *  @author   Valeriy V Dmitriev aka valmat <ufabiz@gmail.com>
- *  @author   ...
- *  @licenses MIT https://opensource.org/licenses/MIT
- *  @repo     https://github.com/valmat/LedMatrix
+ *  @author    Valeriy V Dmitriev aka valmat <ufabiz@gmail.com>
+ *  @coauthor  Nikolai Tikhonov aka Dragon_Knight <dubki4132@mail.ru>, https://vk.com/globalzone_edev
+ *  @licenses  MIT https://opensource.org/licenses/MIT
+ *  @repo      https://github.com/valmat/LedMatrix
  *
  */
 
@@ -39,25 +39,25 @@ public:
     {}
 
     // Directly set mode as `OUTPUT`
-    void modeOut(bool mode)
+    void modeOut(bool mode) const
     {
         *(_baseReg + 1) |= _bitMask;
     }
 
     // Directly set mode as `INPUT`
-    void modeIn()
+    void modeIn() const
     {
         *(_baseReg + 1) &= ~_bitMask;
     }
 
     // Directly set mode as `OUTPUT`
-    void modeOut()
+    void modeOut() const
     {
         *(_baseReg + 1) |= _bitMask;
     }
 
     // Directly set mode
-    void setMode(uint8_t mode)
+    void setMode(uint8_t mode) const
     {
         if(OUTPUT == mode) {
             modeOut();
@@ -105,7 +105,6 @@ public:
     {
         for(uint8_t i = 0; i < 8; ++i) {
             turn(val & (1 << i));
-
             clock.on();
             clock.off();
         }
