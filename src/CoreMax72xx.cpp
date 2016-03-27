@@ -37,23 +37,18 @@ namespace
     constexpr uint8_t OP_DISPLAYTEST = 15;
 }
 
-
-// Constructor
-CoreMax72xx::CoreMax72xx(Pino data, Pino clk, Pino cs, uint8_t ind, uint16_t cascadeSize) :
-    _mosi(data, Pino::Mode::out),
-    _clk(clk, Pino::Mode::out),
-    _cs(cs, Pino::Mode::out),
+// Software-SPI constructor
+CoreMax72xx::CoreMax72xx(uint8_t data, uint8_t clk, uint8_t cs, uint8_t ind, uint16_t cascadeSize) :
+    _pins(data, clk, cs),
     _index(ind),
     _cascadeSize(cascadeSize)
 {
     _initialize();
 }
 
-
-CoreMax72xx::CoreMax72xx(Pino cs, uint8_t ind, uint16_t cascadeSize) :
-    _mosi(0),
-    _clk(0),
-    _cs(cs, Pino::Mode::out),
+// HardWare-SPI constructor
+CoreMax72xx::CoreMax72xx(uint8_t cs, uint8_t ind, uint16_t cascadeSize, bool) :
+    _pins(cs),
     _index(ind),
     _cascadeSize(cascadeSize),
     _isHardwareSPI(true)
@@ -69,7 +64,7 @@ CoreMax72xx::CoreMax72xx(Pino cs, uint8_t ind, uint16_t cascadeSize) :
 // Initialize the chip
 void CoreMax72xx::_initialize()
 {
-    _cs.on();
+    _pins.latch();
 
     _spiTransfer(OP_DISPLAYTEST, 0);
     //scanlimit is set to max on startup
@@ -197,7 +192,7 @@ void CoreMax72xx::_spiTransfer(uint8_t opcode, uint8_t data) const
     _spidata[offset]   = data;
     
     //enable the line 
-    _cs.off();
+    _pins.enable();
 
     //Shift out the data
     if(_isHardwareSPI) {
@@ -208,12 +203,13 @@ void CoreMax72xx::_spiTransfer(uint8_t opcode, uint8_t data) const
         SPI.endTransaction();
     } else {
         for(uint8_t i = maxbytes; i > 0; i--) {
-            _mosi.shiftOut(_clk, _spidata[i-1]);
+            // Software SPI transfer
+            _pins.transfer(_spidata[i-1]);
         }
     }
 
     //latch the data onto the display
-    _cs.on();
+    _pins.latch();
 }
 
 

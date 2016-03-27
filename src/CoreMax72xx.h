@@ -1,6 +1,6 @@
 /*
  *
- * CoreMax72xx this is the class for direct interaction with a controller MAX72xx
+ * CoreMax72xx this is a class to direct interaction with a controller MAX72xx
  *
  *  @author   Valeriy V Dmitriev aka valmat <ufabiz@gmail.com>, http://valmat.ru/
  *  @licenses MIT https://opensource.org/licenses/MIT
@@ -10,34 +10,36 @@
 
 #pragma once
 
-#include <Pino.h>
+#include "Arduino.h"
 #include "RowCol.h"
 #include "RowColIterator.h"
 #include "BitInt.h"
+#include "DirectInteract.h"
+ 
 
 class CoreMax72xx {
 public:
 
-    // Software-SPI Constructor
+    // Software-SPI constructor
     // @param dataPin      pin on the Arduino where data gets shifted out (DIN)
     // @param clockPin     pin for the clock  (CLK)
     // @param csPin        pin for selecting the device   (CS -- chip select pin)
     // @param ind          index in the devises cascade, if the devise is placed in cascade
     // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
-    CoreMax72xx(Pino data, Pino clk, Pino cs, uint8_t ind, uint16_t cascadeSize);
+    CoreMax72xx(uint8_t dataPin, uint8_t clockPin, uint8_t csPin, uint8_t ind, uint16_t cascadeSize);
     
-    CoreMax72xx(Pino data, Pino clk, Pino cs) :
-        CoreMax72xx(data, clk, cs, 0, 1)
+    CoreMax72xx(uint8_t dataPin, uint8_t clockPin, uint8_t csPin) :
+        CoreMax72xx(dataPin, clockPin, csPin, 0, 1)
     {}
 
-    // HardWare-SPI Constructor
+    // HardWare-SPI constructor
     // @param csPin        pin for selecting the device   (CS -- chip select pin)
     // @param ind          index in the devises cascade, if the devise is placed in cascade
     // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
-    CoreMax72xx(Pino cs, uint8_t ind, uint16_t cascadeSize);
+    CoreMax72xx(uint8_t csPin, uint8_t ind, uint16_t cascadeSize, bool);
     
-    CoreMax72xx(Pino cs) :
-        CoreMax72xx(cs, 0, 1)
+    CoreMax72xx(uint8_t csPin) :
+        CoreMax72xx(csPin, 0, 1, true)
     {}
     
     // Empty constructor
@@ -153,15 +155,8 @@ private:
     // This array contains the statuses of all points of LED matrix
     buint8_t _status[_size];
     
-    // A pin on the Arduino where data gets shifted out (DIN).
-    // Data is shifted out of this pin
-    Pino _mosi{0};
-    
-    // The clock is signaled on this pin (CLK)
-    Pino _clk{0};
-    
-    // This one is driven LOW for chip selection (CS)
-    Pino _cs{0};
+    // Pins interactor
+    DirectInteract _pins;
 
     // If the matrix is placed in cascade, _index is a index in the cascade.
     uint8_t _index = 0;
