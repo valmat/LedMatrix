@@ -214,7 +214,7 @@ public:
 
 private:
 
-    // get device index in cascade
+    // set device index in cascade
     void index(uint16_t ind)
     {
         _index = ind;
@@ -242,7 +242,7 @@ private:
     // @param ind          index in the devises cascade, if the devise is placed in cascade
     // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
     LedMatrix(Pino cs, uint8_t ind, uint16_t cascadeSize, bool) :
-        core(cs, ind, cascadeSize),
+        core(cs, ind, cascadeSize, true),
         _index(ind)
     {}
 
