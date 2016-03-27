@@ -6,7 +6,7 @@ template<uint8_t cascadeSize>
 class randomMovement {
 public:
     // Constructor
-    randomMovement(MatrixCascade<cascadeSize> &cascade, Pino randPin) : 
+    randomMovement(MatrixCascade<cascadeSize> &cascade, uint8_t randPin) : 
         _cascade(cascade)
     {
         randomSeed(analogRead(randPin) + millis());

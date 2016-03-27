@@ -10,7 +10,6 @@
 
 #pragma once
 
-#include <Pino.h>
 #include "LedMatrix.h"
 #include "Traits.h"
 
@@ -23,7 +22,7 @@ public:
     // @param dataPin   pin on the Arduino where data gets shifted out
     // @param clockPin  pin for the clock
     // @param csPin     pin for selecting the device (chip select pin)
-    MatrixCascade(Pino data, Pino clk, Pino cs)
+    MatrixCascade(uint8_t data, uint8_t clk, uint8_t cs)
     {
         // Fill cascade on startup
         for(uint16_t i = 0; i < cascadeSize; i++) {
@@ -33,7 +32,7 @@ public:
 
     // HardWare-SPI Constructor
     // @param csPin        pin for selecting the device   (CS -- chip select pin)
-    MatrixCascade(Pino cs)
+    MatrixCascade(uint8_t cs)
     {
         // Fill cascade on startup
         for(uint16_t i = 0; i < cascadeSize; i++) {

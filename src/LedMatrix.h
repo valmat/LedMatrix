@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include <Pino.h>
+#include "Arduino.h"
 #include "RowCol.h"
 #include "RowColIterator.h"
 #include "CoreMax72xx.h"
@@ -34,13 +34,13 @@ public:
     // @param dataPin   pin on the Arduino where data gets shifted out (DIN)
     // @param clockPin  pin for the clock  (CLK)
     // @param csPin     pin for selecting the device   (CS - chip select pin)
-    LedMatrix(Pino data, Pino clk, Pino cs) :
+    LedMatrix(uint8_t data, uint8_t clk, uint8_t cs) :
         LedMatrix(data, clk, cs, 0, 1)
     {}
 
     // HardWare-SPI Constructor
     // @param csPin        pin for selecting the device   (CS -- chip select pin)
-    LedMatrix(Pino cs) :
+    LedMatrix(uint8_t cs) :
         LedMatrix(cs, 0, 1, true)
     {}
 
@@ -231,7 +231,7 @@ private:
     // @param csPin        pin for selecting the device   (CS -- chip select pin)
     // @param ind          index in the devises cascade, if the devise is placed in cascade
     // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
-    LedMatrix(Pino data, Pino clk, Pino cs, uint8_t ind, uint16_t cascadeSize) :
+    LedMatrix(uint8_t data, uint8_t clk, uint8_t cs, uint8_t ind, uint16_t cascadeSize) :
         core(data, clk, cs, ind, cascadeSize),
         _index(ind)
     {}
@@ -241,7 +241,7 @@ private:
     // @param csPin        pin for selecting the device   (CS -- chip select pin)
     // @param ind          index in the devises cascade, if the devise is placed in cascade
     // @param cascadeSize  count of devices in cascade, if the devise is placed in a cascade
-    LedMatrix(Pino cs, uint8_t ind, uint16_t cascadeSize, bool) :
+    LedMatrix(uint8_t cs, uint8_t ind, uint16_t cascadeSize, bool) :
         core(cs, ind, cascadeSize, true),
         _index(ind)
     {}
