@@ -52,13 +52,13 @@ LedMatrix matrix(10);
 // @param dataPin   pin on the Arduino where data gets shifted out (DIN)
 // @param clockPin  pin for the clock  (CLK)
 // @param csPin     pin for selecting the device   (CS - chip select pin)
-LedMatrix(Pino data, Pino clk, Pino cs);
+LedMatrix(uint8_t data, uint8_t clk, uint8_t cs);
 ```
 другой через аппаратный:
 ```c
 // HardWare-SPI Constructor
 // @param csPin pin for selecting the device   (CS -- chip select pin)
-LedMatrix(Pino cs);
+LedMatrix(uint8_t cs);
 ```
 Выбор используемого интерфейса SPI зависит от вызванного конструктора.
 
