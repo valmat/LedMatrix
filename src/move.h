@@ -1,6 +1,8 @@
 #ifndef _MOVE
 #define _MOVE
 
+#ifndef _GLIBCXX_TYPE_TRAITS
+
 namespace std
 {
     // std::remove_reference
@@ -52,6 +54,6 @@ namespace std
 
 }
 
-
+#endif // _GLIBCXX_TYPE_TRAITS
 
 #endif // _MOVE

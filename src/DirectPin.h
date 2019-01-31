@@ -20,10 +20,16 @@ class DirectPin
 public:
 
     // Constructor
-    DirectPin(uint8_t pinNom) :
-        _baseReg( portInputRegister( digitalPinToPort(pinNom) ) ),
-        _bitMask( digitalPinToBitMask(pinNom) )
-    {}
+    DirectPin(uint8_t pinNom) 
+    // :
+    //     _baseReg( portInputRegister( digitalPinToPort(pinNom) ) ),
+    //     _bitMask( (uint8_t)digitalPinToBitMask((uint8_t)pinNom) )
+    {
+        _baseReg = reinterpret_cast<volatile uint8_t *>(portInputRegister(
+                digitalPinToPort(pinNom)
+        ));
+        _bitMask = (uint8_t)digitalPinToBitMask((uint8_t)pinNom);
+    }
 
     // Сonstructor initializes the pins as a mode
     DirectPin(uint8_t pinNom, uint8_t mode) :
