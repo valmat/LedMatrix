@@ -1,8 +1,5 @@
 #include "LedMatrix.h"
 
-// #undef digitalPinToPort
-// #define digitalPinToBitMask(P) (uint8_t)( BIT(PIN_MAP[P].gpio_bit) )
-
 // pin 11 is connected to the DataIn
 // pin 13 is connected to the CLK
 // pin 10 is connected to LOAD (cs)
