@@ -68,7 +68,7 @@ void CoreMax72xx::_initialize()
 
     _spiTransfer(OP_DISPLAYTEST, 0);
     //scanlimit is set to max on startup
-    _setScanLimit(_limit - 1);
+    _setScanLimit(_limit - uint8_t(1));
     //decode is done in source
     _spiTransfer(OP_DECODEMODE, 0);
 
@@ -177,14 +177,14 @@ buint8_t CoreMax72xx::getCol(const Col &col) const
 void CoreMax72xx::_spiTransfer(uint8_t opcode, uint8_t data) const
 {
     //Create an array with the data to shift out
-    const uint8_t offset=_index * 2;
+    const uint8_t  offset   = _index * 2;
     const uint16_t maxbytes = _cascadeSize * 2;
 
     // The array for shifting the data to the devices
     uint8_t _spidata[maxbytes];
 
     for(uint8_t i = 0; i < maxbytes; i++) {
-        _spidata[i]=0;
+        _spidata[i] = 0;
     }
     
     //put our device data into the array
@@ -215,5 +215,5 @@ void CoreMax72xx::_spiTransfer(uint8_t opcode, uint8_t data) const
 
 void CoreMax72xx::_setScanLimit(uint8_t limit) const
 {
-    _spiTransfer(OP_SCANLIMIT, max(limit, _limit-1));
+    _spiTransfer(OP_SCANLIMIT, max(limit, _limit - uint8_t(1) ));
 }
