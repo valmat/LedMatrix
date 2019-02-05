@@ -24,7 +24,8 @@ template<uint16_t CascadeSize>
 class MatrixCascade;
 
  
-class LedMatrix : public CoreMax72xx {
+class LedMatrix : public CoreMax72xx
+{
     
     using core = CoreMax72xx;
 

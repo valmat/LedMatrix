@@ -215,5 +215,5 @@ void CoreMax72xx::_spiTransfer(uint8_t opcode, uint8_t data) const
 
 void CoreMax72xx::_setScanLimit(uint8_t limit) const
 {
-    _spiTransfer(OP_SCANLIMIT, max(limit, _limit - uint8_t(1) ));
+    _spiTransfer(OP_SCANLIMIT, max(limit, uint8_t(_limit - 1) ));
 }

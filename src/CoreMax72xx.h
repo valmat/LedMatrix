@@ -17,7 +17,8 @@
 #include "DirectInteract.h"
  
 
-class CoreMax72xx {
+class CoreMax72xx
+{
 public:
 
     // Software-SPI constructor
